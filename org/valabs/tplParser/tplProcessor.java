@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -13,7 +14,7 @@ import java.util.Iterator;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.8 2004/10/21 20:11:59 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.9 2004/10/22 05:42:11 boris Exp $
  */
 public class tplProcessor {
 
@@ -91,6 +92,25 @@ public class tplProcessor {
         javaWriter.println(s);
     }
 
+    private void writec(String s) {
+        javaWriter.print(s);
+    }
+
+    private void writeEx(String s) {
+        byte[] buffer = null;
+        s += "\n";
+        try {
+            buffer = s.getBytes("koi8-r");
+        } catch (UnsupportedEncodingException e) {
+            System.err.println("UnsupportedEncodingException");
+        }
+        try {
+            javaWriter.write(buffer);
+        } catch (IOException e) {
+            System.err.println("IOException");
+        }
+    }
+
     private void writeJavaFile(PrintStream javaWriter) {
         write("package " + packageName + ";\n");
         write("import org.valabs.odisp.common.Message;\n");
@@ -106,24 +126,24 @@ public class tplProcessor {
         write(" */");
 
         write("public final class " + messageName + " {");
-        write("  /** Строковое представление сообщения. */");
+        writeEx("  /** Строковое представление сообщения. */");
         write("  public static final String NAME = \"" + actionName + "\";\n");
 
         Iterator it = fields.keySet().iterator();
         while (it.hasNext()) {
             String key = (String) it.next();
-            write("  /** Индекс для поля " + key + ". */");
+            writeEx("  /** Индекс для поля " + key + ". */");
             write("  private static String idx" + key.toUpperCase() + " = \""
                     + key.toLowerCase() + "\";");
         }
 
         write("\n");
-        write("  /** Запрет на создание объекта. */");
+        writeEx("  /** Запрет на создание объекта. */");
         write("  private " + messageName + "() { }\n");
 
-        write("  /** Проверка сообщения на корректность.");
+        writeEx("  /** Проверка сообщения на корректность.");
         write("   *");
-        write("   * @param msg Сообщение");
+        writeEx("   * @param msg Сообщение");
         write("   */");
         write("  private static void checkMessage(final Message msg) {");
 
@@ -165,39 +185,37 @@ public class tplProcessor {
         write("    );");
         write("  }\n");
 
-        write("  /** Инициализация основных свойств сообщения.");
+        writeEx("  /** Инициализация основных свойств сообщения.");
         write("   *");
-        write("   * @param msg Сообщение.");
+        writeEx("   * @param msg Сообщение.");
 
         if (tagDEFDESTstrings == "") {
-            write("   * @param destination Точка назначения.");
+            writeEx("   * @param destination Точка назначения.");
         }
 
         if (tagDEFORIGINstrings == "") {
-            write("   * @param origin Точка отправления.");
+            writeEx("   * @param origin Точка отправления.");
         }
 
-        write("   * @param replyTo Идентификатор сообщения, на которое это является ответом.");
-        write("   * @return ссылка на инициализированное сообщение");
+        writeEx("   * @param replyTo Идентификатор сообщения, на которое это является ответом.");
+        writeEx("   * @return ссылка на инициализированное сообщение");
         write("   */");
 
-        String str = "  public static Message setup(final Message msg";
+        writec("  public static Message setup(final Message msg");
 
         if (tagDEFDESTstrings == "") {
-            str += ", final String destination";
+            writec(", final String destination");
         }
 
         if (tagDEFORIGINstrings == "") {
-            str += ", final String origin";
+            writec(", final String origin");
         }
 
         if (tagDEFREPLTOstrings == "") {
-            str += ", final int replyTo) {";
+            writec(", final int replyTo");
         }
 
-        write(str);
-
-        write("    msg.setAction(NAME);");
+        write(") {\n    msg.setAction(NAME);");
 
         if (tagDEFDESTstrings == "") {
             write("    msg.setDestination(destination);");
@@ -233,12 +251,12 @@ public class tplProcessor {
         while (fieldIterator.hasNext()) {
             String fieldName = (String) fieldIterator.next();
 
-            write("  /** Установить " + fieldName + ".");
+            writeEx("  /** Установить " + fieldName + ".");
             write(" " + ((FieldRecord) fields.get(fieldName)).getDesc());
             write("   *");
-            write("   * @param msg Сообщение над которым производится действо.");
-            write("   * @param newValue Новое значение для поля.");
-            write("   * @return ссылка на сообщение");
+            writeEx("   * @param msg Сообщение над которым производится действие.");
+            writeEx("   * @param newValue Новое значение для поля.");
+            writeEx("   * @return ссылка на сообщение");
             write("   */");
             write("  public static Message set" + fieldName
                     + "(final Message msg, final "
@@ -249,11 +267,11 @@ public class tplProcessor {
             write("    checkMessage(msg);");
             write("    return msg;");
             write("  }\n");
-            write("  /** Получить " + fieldName + ".");
-            write("   * " + ((FieldRecord) fields.get(fieldName)).getDesc());
+            writeEx("  /** Получить " + fieldName + ".");
+            write(" " + ((FieldRecord) fields.get(fieldName)).getDesc());
             write("   *");
-            write("   * @param msg Сообщение над которым производится действо.");
-            write("   * @return значение поля");
+            writeEx("   * @param msg Сообщение над которым производится действие.");
+            writeEx("   * @return значение поля");
             write("   */");
             write("  public static " + ((FieldRecord) fields.get(fieldName)).getType() + " get"
                     + fieldName + "(final Message msg) {");
@@ -262,18 +280,18 @@ public class tplProcessor {
             write("  }\n");
         }
         
-        write("  /** Является ли экземпляр сообщением этого типа.");
+        writeEx("  /** Является ли экземпляр сообщением этого типа.");
         write("   *");
-        write("   * @param msg Сообщение.");
-        write("   * @return true - если является, false - иначе.");
+        writeEx("   * @param msg Сообщение.");
+        writeEx("   * @return true - если является, false - иначе.");
         write("   */");
         write("  public static boolean equals(final Message msg) {");
         write("    return msg.getAction().equals(NAME);");
         write("  }\n");
-        write("  /** Копирование полей из одного сообщения в другое.");
+        writeEx("  /** Копирование полей из одного сообщения в другое.");
         write("  *");
-        write("  * @param dest Получатель.");
-        write("  * @param src Источник.");
+        writeEx("  * @param dest Получатель.");
+        writeEx("  * @param src Источник.");
         write("  */");
         write("  public static void copyFrom(final Message dest, final Message src) {");
         
@@ -284,16 +302,16 @@ public class tplProcessor {
         }
         write("  }\n");
         
-        write("  /** Генерирование уникального hash-кода сообщения.");
-        write("   * Всегда равен 0.");
-        write("   * @return hash-код сообщения.");
+        writeEx("  /** Генерирование уникального hash-кода сообщения.");
+        writeEx("   * Всегда равен 0.");
+        writeEx("   * @return hash-код сообщения.");
         write("   */");
         write("  public int hashCode() {");
         write("    return 0;");
         write("  }\n");
         
-        write("  /** Короткий способ заполнения всех полей сообщения сразу.");
-        write("   * @return ссылку на сообщение");
+        writeEx("  /** Короткий способ заполнения всех полей сообщения сразу.");
+        writeEx("   * @return ссылку на сообщение");
         
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
@@ -303,16 +321,15 @@ public class tplProcessor {
         
         write("  */");
         
-        str = "  public static Message initAll(final Message m";
+        writec("  public static Message initAll(final Message m");
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
             String fieldName = (String) fieldIterator.next();
-            str += (",\n                                final "
+            writec((",\n                                final "
                     + ((FieldRecord) fields.get(fieldName)).getType() + " " + fieldName
-                    .toLowerCase());
+                    .toLowerCase()));
         }
-        str += ") {";
-        write(str);
+        writec(") {");
         
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
