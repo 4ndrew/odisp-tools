@@ -103,7 +103,7 @@
         <h3>
           <a name="top"><xsl:value-of select="$title"/></a>
         </h3>
-        <p style="text-align: right">Based on work done for <a href="http://jakarta.apache.org/ant/">Ant</a>.</p>
+        <p style="text-align: right">Based on work done for <a href="http://jakarta.apache.org/ant/">Apache Ant</a>.</p>
         Total commits in this report: <xsl:value-of select="count(//entry)"/>.
         <!-- Timeline: <xsl:call-template name="timelineGen"/> -->
         <hr/>
@@ -122,11 +122,11 @@
   
   <xsl:template match="entry">
     <tr>
-      <td width="10%"><i><xsl:value-of select="date"/><xsl:text> </xsl:text><xsl:value-of select="time"/></i></td>
-      <td><xsl:value-of select="author"/></td>
+      <td><xsl:apply-templates select="date"/></td>
+      <td><b><xsl:value-of select="author"/></b></td>
     </tr>
     <tr>
-      <td/>
+      <td valign="top"><xsl:apply-templates select="time"/></td>
       <td><xsl:apply-templates select="msg"/></td>
     </tr>
     <tr>
@@ -140,7 +140,7 @@
   </xsl:template>
 
   <xsl:template match="date">
-    <i><xsl:value-of select="."/></i>
+    <nobr><i><xsl:value-of select="."/></i></nobr>
   </xsl:template>
 
   <xsl:template match="time">
