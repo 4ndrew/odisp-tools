@@ -14,7 +14,7 @@ import java.util.List;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.5 2004/10/20 13:26:18 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.6 2004/10/21 05:11:07 boris Exp $
  */
 public class tplProcessor {
 
@@ -153,7 +153,7 @@ public class tplProcessor {
     }
 
     if (tagLine.startsWith("AUTHOR")) {
-      tagAUTHORstrings += " * @author " + tagLine.substring(8) + "\n";
+      tagAUTHORstrings += " * @author " + tagLine.substring(7) + "\n";
     }
 
     if (tagLine.startsWith("DESC")) {
