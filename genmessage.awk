@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.10 2004/07/20 11:55:24 valeks Exp $
+# $Id: genmessage.awk,v 1.11 2004/08/17 11:37:12 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -272,6 +272,22 @@ END {
 	 "  public int hashCode() {\n" \
 	 "    return 0;\n" \
 	 "  }\n\n";
+  printf "  /** Короткий способ заполнения всех полей сообщения сразу.\n" \
+    "   * @return ссылку на сообщение\n";
+  for (key in fields_desc) {
+    printf "   * @param " key " " fields_desc[key] "\n";
+  }
+  printf "  */\n";
+  printf "  public static Message initAll(final Message m";
+  for (key in fields_type) {
+    printf ",\n                               final " fields_type[key] " " tolower(key);
+  }
+  printf ") {\n";
+  for (key in fields_type) {
+    printf "    set" key "(m, " tolower(key) ");\n";
+  }
+  printf "    return m;\n  }\n\n";
+
   if (verbatimCode != "") {
     printf verbatimCode;
   }
