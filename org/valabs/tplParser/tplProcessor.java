@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * TODO: insert comment there
+ * Ядро парсинга tpl файла
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.9 2004/10/22 05:42:11 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.10 2004/10/22 06:27:55 boris Exp $
  */
 public class tplProcessor {
 
@@ -55,9 +55,12 @@ public class tplProcessor {
     private HashMap fields;
 
     /**
+     * Конструктор обработчика tpl файла
      * 
      * @param tplName
+     *            имя tpl файла
      * @param javaName
+     *            имя соответствующего java файла
      */
     tplProcessor(String tplName, String javaName) {
         fields = new HashMap();
@@ -70,10 +73,14 @@ public class tplProcessor {
         }
     }
 
-    private void show(String s) {
-        System.out.println(s);
-    }
-
+    /**
+     * Запуск парсинга tpl файла
+     * 
+     * читаем файл построчно и отдаем каждую строку обработчику строки .tpl
+     * файла
+     * 
+     * @return true - все прошло удачно, false - есть исключения
+     */
     boolean go() {
         try {
             String line;
@@ -81,36 +88,60 @@ public class tplProcessor {
                 parseTagLine(line);
             }
         } catch (IOException e) {
-            System.err.println("IOException on reading TPL");
+            System.err.println("IOException: " + e.getMessage());
             return false;
         }
         writeJavaFile(javaWriter);
         return true;
     }
 
+    /**
+     * Запись с переводом строки
+     * 
+     * @param s
+     *            строка которую пишем
+     */
     private void write(String s) {
         javaWriter.println(s);
     }
 
+    /**
+     * Запись без перевода строки
+     * 
+     * @param s
+     *            строка которую пишем
+     */
     private void writec(String s) {
         javaWriter.print(s);
     }
 
+    /**
+     * Запись с переводом строки и принудительной перекодировкой в KOI8-R
+     * 
+     * @param s
+     *            строка которую пишем
+     */
     private void writeEx(String s) {
         byte[] buffer = null;
         s += "\n";
         try {
             buffer = s.getBytes("koi8-r");
         } catch (UnsupportedEncodingException e) {
-            System.err.println("UnsupportedEncodingException");
+            System.err.println("UnsupportedEncodingException: " + e.getMessage());
         }
         try {
             javaWriter.write(buffer);
         } catch (IOException e) {
-            System.err.println("IOException");
+            System.err.println("IOException: " + e.getMessage());
         }
     }
 
+    /**
+     * Генерация содержимого .java файла
+     * 
+     * @param javaWriter
+     *            имя .java файла
+     */
     private void writeJavaFile(PrintStream javaWriter) {
         write("package " + packageName + ";\n");
         write("import org.valabs.odisp.common.Message;\n");
@@ -134,7 +165,7 @@ public class tplProcessor {
             String key = (String) it.next();
             writeEx("  /** Индекс для поля " + key + ". */");
             write("  private static String idx" + key.toUpperCase() + " = \""
-                    + key.toLowerCase() + "\";");
+                + key.toLowerCase() + "\";");
         }
 
         write("\n");
@@ -153,8 +184,7 @@ public class tplProcessor {
             while (fieldIterator.hasNext()) {
                 String key = (String) fieldIterator.next();
                 write("      assert get" + key
-                        + "(msg) != null : \"Message field " + key
-                        + " is null.\";");
+                    + "(msg) != null : \"Message field " + key + " is null.\";");
             }
             write("    } catch (AssertionError e) {");
             write("      System.err.println(\"Message assertion :\" + e.toString());");
@@ -259,11 +289,11 @@ public class tplProcessor {
             writeEx("   * @return ссылка на сообщение");
             write("   */");
             write("  public static Message set" + fieldName
-                    + "(final Message msg, final "
-                    + ((FieldRecord) fields.get(fieldName)).getType()
-                    + " newValue) {");
+                + "(final Message msg, final "
+                + ((FieldRecord) fields.get(fieldName)).getType()
+                + " newValue) {");
             write("    msg.addField(idx" + fieldName.toUpperCase()
-                    + ", newValue);");
+                + ", newValue);");
             write("    checkMessage(msg);");
             write("    return msg;");
             write("  }\n");
@@ -273,13 +303,15 @@ public class tplProcessor {
             writeEx("   * @param msg Сообщение над которым производится действие.");
             writeEx("   * @return значение поля");
             write("   */");
-            write("  public static " + ((FieldRecord) fields.get(fieldName)).getType() + " get"
-                    + fieldName + "(final Message msg) {");
-            write("    return (" + ((FieldRecord) fields.get(fieldName)).getType()
-                    + ") msg.getField(idx" + fieldName.toUpperCase() + ");");
+            write("  public static "
+                + ((FieldRecord) fields.get(fieldName)).getType() + " get"
+                + fieldName + "(final Message msg) {");
+            write("    return ("
+                + ((FieldRecord) fields.get(fieldName)).getType()
+                + ") msg.getField(idx" + fieldName.toUpperCase() + ");");
             write("  }\n");
         }
-        
+
         writeEx("  /** Является ли экземпляр сообщением этого типа.");
         write("   *");
         writeEx("   * @param msg Сообщение.");
@@ -294,14 +326,14 @@ public class tplProcessor {
         writeEx("  * @param src Источник.");
         write("  */");
         write("  public static void copyFrom(final Message dest, final Message src) {");
-        
+
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
             String fieldName = (String) fieldIterator.next();
             write("    set" + fieldName + "(dest, get" + fieldName + "(src));");
         }
         write("  }\n");
-        
+
         writeEx("  /** Генерирование уникального hash-кода сообщения.");
         writeEx("   * Всегда равен 0.");
         writeEx("   * @return hash-код сообщения.");
@@ -309,56 +341,64 @@ public class tplProcessor {
         write("  public int hashCode() {");
         write("    return 0;");
         write("  }\n");
-        
+
         writeEx("  /** Короткий способ заполнения всех полей сообщения сразу.");
         writeEx("   * @return ссылку на сообщение");
-        
+
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
             String fieldName = (String) fieldIterator.next();
-            write("   * @param " + fieldName.toUpperCase() + " " + ((FieldRecord) fields.get(fieldName)).getDesc());
+            write("   * @param " + fieldName.toUpperCase() + " "
+                + ((FieldRecord) fields.get(fieldName)).getDesc());
         }
-        
+
         write("  */");
-        
+
         writec("  public static Message initAll(final Message m");
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
             String fieldName = (String) fieldIterator.next();
             writec((",\n                                final "
-                    + ((FieldRecord) fields.get(fieldName)).getType() + " " + fieldName
+                + ((FieldRecord) fields.get(fieldName)).getType() + " " + fieldName
                     .toLowerCase()));
         }
         writec(") {");
-        
+
         fieldIterator = fields.keySet().iterator();
         while (fieldIterator.hasNext()) {
             String fieldName = (String) fieldIterator.next();
-            write("    set" + fieldName + "(m, " + fieldName.toLowerCase() + ");");
+            write("    set" + fieldName + "(m, " + fieldName.toLowerCase()
+                + ");");
         }
-        
+
         write("    return m;\n  }\n");
-        
+
         write(tagNOTAGstrings);
-        
-        write("\n}");    
+
+        write("\n}");
     }
 
+    /**
+     * Обработчик строки .tpl файла
+     * 
+     * @param tagLine
+     *            строка .tpl файла
+     */
     private void parseTagLine(String tagLine) {
         if (tagLine.startsWith("NAME")) {
             String[] s = tagLine.split(" ");
             packageName = s[1];
             messageName = s[2];
             actionName = s[3];
-        }else
+        } else
 
         if (tagLine.startsWith("$")) {
             tagCVSidstrings = " * @version " + tagLine;
-        }else
+        } else
 
         if (tagLine.startsWith("IMPORT")) {
             tagIMPORTstrings += "import " + tagLine.split(" ")[1] + ";\n";
-        }else
+        } else
 
         if (tagLine.startsWith("AUTHOR")) {
             if (tagAUTHORstrings == "") {
@@ -366,11 +406,11 @@ public class tplProcessor {
             } else {
                 tagAUTHORstrings += "\n * @author " + tagLine.substring(7);
             }
-        }else
+        } else
 
         if (tagLine.startsWith("DESC")) {
             tagDESCstrings += tagLine.substring(5);
-        }else
+        } else
 
         if (tagLine.startsWith("FIELD")) {
             String[] tokens = tagLine.split(" ");
@@ -378,7 +418,7 @@ public class tplProcessor {
                 fields.put(tokens[1], new FieldRecord());
             }
             ((FieldRecord) fields.get(tokens[1])).setType(tokens[2]);
-        }else
+        } else
 
         if (tagLine.startsWith("FCHECK")) {
             String[] tokens = tagLine.split(" ");
@@ -387,7 +427,7 @@ public class tplProcessor {
             }
             ((FieldRecord) fields.get(tokens[1])).setCheck(tagLine
                     .substring(7 + tokens[1].length()));
-        }else
+        } else
 
         if (tagLine.startsWith("FDESC")) {
             String[] tokens = tagLine.split(" ");
@@ -396,42 +436,50 @@ public class tplProcessor {
             }
             ((FieldRecord) fields.get(tokens[1])).setDesc(tagLine
                     .substring(6 + tokens[1].length()));
-        }else
+        } else
 
         if (tagLine.startsWith("DEFORIGIN")) {
             tagDEFORIGINstrings = tagLine.split(" ")[1];
-        }else
+        } else
 
         if (tagLine.startsWith("DEFDEST")) {
             tagDEFDESTstrings = tagLine.split(" ")[1];
-        }else
+        } else
 
         if (tagLine.startsWith("DEFID")) {
             tagDEFIDstrings = tagLine.split(" ")[1];
-        }else
+        } else
 
         if (tagLine.startsWith("DEFROUTABLE")) {
             tagDEFROUTABLE = true;
-        }else
+        } else
 
         if (tagLine.startsWith("DEFREPLTO")) {
             tagDEFREPLTOstrings = tagLine.split(" ")[1];
-        }else
+        } else
 
         if (tagLine.startsWith("DEFOOB")) {
-            show("WARNING: Generating OOB message " + messageName);
+            System.out
+                    .println("WARNING: Generating OOB message " + messageName);
             tagDEFOOB = true;
-        }else
+        } else
 
         if (!tagLine.startsWith("#")) {
             //комментарии пропускаем
             //TODO may be it's good to skip empty lines
-            if(tagLine != ""){
+            if (tagLine != "") {
                 tagNOTAGstrings += tagLine + "\n";
             }
         }
     }
 
+    /**
+     * Класс содержащий параметры поля сообщения
+     * 
+     * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
+     * @author (C) 2004 НПП "Новел-ИЛ"
+     * @version $Id: tplProcessor.java,v 1.10 2004/10/22 06:27:55 boris Exp $
+     */
     class FieldRecord {
 
         private String type = "";
@@ -441,49 +489,61 @@ public class tplProcessor {
         private String desc = "";
 
         /**
-         * @return Returns the check.
+         * Получить функцию проверки поля сообщения
+         * 
+         * @return текст функции проверки поля сообщения
          */
         public String getCheck() {
             return check;
         }
 
         /**
+         * Установить функцию проверки поля сообщения
+         * 
          * @param check
-         *            The check to set.
+         *            текст функции проверки поля сообщения.
          */
         public void setCheck(String check) {
             this.check = check;
         }
 
         /**
-         * @return Returns the desc.
+         * Получить описание поля сообщения
+         * 
+         * @return описание поля сообщения.
          */
         public String getDesc() {
             return desc;
         }
 
         /**
+         * Установить описание поля сообщения
+         * 
          * @param desc
-         *            The desc to set.
+         *            описание поля сообщения.
          */
         public void setDesc(String desc) {
             if (this.desc == "") {
                 this.desc += "  *" + desc;
             } else {
-                this.desc += "\n  *" + desc ;
+                this.desc += "\n  *" + desc;
             }
         }
 
         /**
-         * @return Returns the type.
+         * Получить тип поля сообщения
+         * 
+         * @return тип поля сообщения.
          */
         public String getType() {
             return type;
         }
 
         /**
+         * Установить тип поля сообщения
+         * 
          * @param type
-         *            The type to set.
+         *            тип поля сообщения.
          */
         public void setType(String type) {
             this.type = type;
