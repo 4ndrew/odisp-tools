@@ -1,47 +1,79 @@
 #
-# $Id: genmessage.awk,v 1.3 2004/06/21 16:27:28 valeks Exp $
+# $Id: genmessage.awk,v 1.4 2004/06/22 10:07:15 dron Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
 #
 # NAME [пакет] [имя класса] [название ODISP action]
-# AUTHOR [автор (для тега @author)]
-# DESC [описание сообщения]
+# IMPORT [пакет] (*)
+# AUTHOR [автор (для тега @author)] (*)
+# DESC [описание сообщения] (*)
 # FIELD [имя поля (с заглавной буквы)] [тип поля]
-# FCHECK [имя поля] [выражение для проверки в checkMessage (должно возвращать boolean)]
-# FDESC [имя поля] [описание поля]
+# FCHECK [имя поля] [выражение для проверки в checkMessage (должно возвращать boolean)] (**)
+# FDESC [имя поля] [описание поля] (*)
+# DEFORIGIN [точка отправления по-умолчанию]
+# DEFDEST [точка назначения по-умолчанию]
+# DEFID [ReplyId сообщения по-умолчанию]
+# DEFROUTABLE [Routable по-умолчанию]
 # Версия для тега @version берется из CVS-тега Id.
+#
+# (*) Поддерживаются multiline comments, все поля комментариев, должны
+# начинаться с нового ключевого слова.
+# Например:
+# AUTHOR 1 строка
+# AUTHOR 2 строка
+# (**) Значение по-умолчанию get[имя поля](msg) != null
 #
 
 $1 ~ /^NAME/ {
   package = $2;
   name = $3;
   action = $4;
-  };
+};
 
 /^\$/ {
   version = $0;
-  };
+};
+
+$1 ~ /^IMPORT/ {
+  if (imports != "") {
+    imports = imports "\nimport " $2 ";"
+  } else {
+    imports = "import " $2 ";";
+  }
+};
   
 $1 ~ /^AUTHOR/ {
-  author = substr($0, 7);
-  };
+  if (author != "") {
+    author = author "\n * @author " substr($0, 8);
+  } else {
+    author = substr($0, 8);
+  }
+};
 
 $1 ~ /^DESC/ {
-  desc = substr($0, 6);
-  };
+  if (desc != "") {
+    desc = desc "\n * " substr($0, 6);
+  } else {
+    desc = substr($0, 6);
+  }
+};
 
 $1 ~ /^FIELD/ {
   fields_type[$2] = $3;
-  };
+};
 
 $1 ~ /^FCHECK/ {
   fields_check[$2] = substr($0, 9 + length($2));
-  };
+};
 
 $1 ~ /^FDESC/ {
-  fields_desc[$2] = substr($0, 7 + length($2));
-  };
+  if (fields_desc[$2] != "") {
+    fields_desc[$2] = fields_desc[$2] "\n   * " substr($0, 8 + length($2));
+  } else {
+    fields_desc[$2] = substr($0, 8 + length($2));
+  }
+};
 
 $1 ~ /^DEFORIGIN/ {
   deforigin = $2;
@@ -55,14 +87,20 @@ $1 ~ /^DEFID/ {
   defid = $2;
 };
 
-$1 ~ /DEFROUTABLE/ {
+$1 ~ /^DEFROUTABLE/ {
   defroutable = 1;
 }
 
 END {
+  gsub(/\\n/, "\n", desc);
   printf  "package " package ";\n\n" \
-          "import com.novel.odisp.common.Message;\n\n" \
-          "/** " desc "\n" \
+          "import com.novel.odisp.common.Message;\n\n";
+  
+  if (imports != "") {
+    printf imports "\n\n";
+  }
+  
+  printf  "/** " desc "\n" \
           " *\n" \
           " * @author " author "\n" \
           " * @author (C) 2004 НПП \"Новел-ИЛ\"\n" \
@@ -90,16 +128,22 @@ END {
           "    msg.setCorrect(\n";
 
   flag = 0;
-  for (key in fields_check) {
-    if (flag == 1)  {
-      printf "      && " fields_check[key] "\n";
+  checkstr = "";
+  for (key in fields_type) {
+    if (fields_check[key] != "") {
+      checkstr = fields_check[key];
     } else {
-      printf "      " fields_check[key] "\n"; 
+      checkstr = "get" key "(msg) != null"
+    }
+    if (flag == 1)  {
+      printf "      && " checkstr "\n";
+    } else {
+      printf "      " checkstr "\n"; 
       flag = 1;
     }
   }
   if (flag == 0) {
-    printf "true\n";
+    printf "      true\n";
   }
   printf  "    );\n" \
           "  }\n\n";
@@ -145,6 +189,7 @@ END {
       "  }\n\n";
 
   for (key in fields_type) {
+    gsub(/\\n/, "\n", fields_desc[key]);
     printf  "  /** Установить " key ".\n" \
             "   * " fields_desc[key] "\n" \
             "   * \n" \
