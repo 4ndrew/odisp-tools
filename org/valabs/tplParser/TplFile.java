@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 /** Класс полностью описывающий шаблон сообщения.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TplFile.java,v 1.4 2005/02/13 14:33:24 valeks Exp $
+ * @version $Id: TplFile.java,v 1.5 2005/02/23 00:14:29 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -157,6 +157,12 @@ class TplFile {
         fileName = fileName.replaceFirst("Message", "NotifyMessage");
         break;
     }
+  }
+  
+  /** Конструктор для создания шаблона сообщения на лету.
+   */
+  public TplFile() {
+    // делать вобщем-то и нечего ;)
   }
   
   public int getType() {
@@ -323,5 +329,60 @@ class TplFile {
   }
   public long lastModified() {
     return lastModified;
+  }
+  
+  public void setActionName(String actionName) {
+    this.actionName = actionName;
+  }
+  public void setAuthors(List authors) {
+    this.authors = authors;
+  }
+  public void setCvsId(String cvsId) {
+    this.cvsId = cvsId;
+  }
+  public void setDefaultDestination(String defaultDestination) {
+    this.defaultDestination = defaultDestination;
+  }
+  public void setDefaultOOB(boolean defaultOOB) {
+    this.defaultOOB = defaultOOB;
+  }
+  public void setDefaultOrigin(String defaultOrigin) {
+    this.defaultOrigin = defaultOrigin;
+  }
+  public void setDefaultReplyTo(String defaultReplyTo) {
+    this.defaultReplyTo = defaultReplyTo;
+  }
+  public void setDefaultRoutable(boolean defaultRoutable) {
+    this.defaultRoutable = defaultRoutable;
+  }
+  public void setDescription(List description) {
+    this.description = description;
+  }
+  public void setErrorMessage(TplFile errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
+  public void setImports(List imports) {
+    this.imports = imports;
+  }
+  public void setMessageName(String messageName) {
+    this.messageName = messageName;
+  }
+  public void setNotifyMessage(TplFile notifyMessage) {
+    this.notifyMessage = notifyMessage;
+  }
+  public void setPackageName(String packageName) {
+    this.packageName = packageName;
+  }
+  public void setReplyMessage(TplFile replyMessage) {
+    this.replyMessage = replyMessage;
+  }
+  public void setType(int type) {
+    this.type = type;
+  }
+  public void setVerbatim(List verbatim) {
+    this.verbatim = verbatim;
   }
 }
