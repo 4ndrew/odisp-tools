@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.5 2004/06/25 11:29:14 dron Exp $
+# $Id: genmessage.awk,v 1.6 2004/06/26 18:31:11 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -221,5 +221,15 @@ END {
          "  public static final boolean equals(final Message msg) {\n" \
          "    return msg.getAction().equals(NAME);\n" \
          "  }\n\n";
+  printf "/** Копирование полей из одного сообщения в другое.\n" \
+  		 "  *\n" \
+  		 "  * @param dest Получатель.\n" \
+  		 "  * @param src Источник. \n" \
+  		 "  */\n" \
+  		 "  public static final void copyFrom(final Message dest, final Message src) {\n";
+   for (key in fields_type) {
+     printf "    set" key "(dest, get" key"(src));\n";
+   }
+  printf "  }\n\n";
   printf "}\n";
-  };
+ };
