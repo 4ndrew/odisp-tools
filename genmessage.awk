@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.2 2004/06/21 13:09:43 dron Exp $
+# $Id: genmessage.awk,v 1.3 2004/06/21 16:27:28 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -42,6 +42,22 @@ $1 ~ /^FCHECK/ {
 $1 ~ /^FDESC/ {
   fields_desc[$2] = substr($0, 7 + length($2));
   };
+
+$1 ~ /^DEFORIGIN/ {
+  deforigin = $2;
+};
+
+$1 ~ /^DEFDEST/ {
+  defdest = $2;
+};
+
+$1 ~ /^DEFID/ {
+  defid = $2;
+};
+
+$1 ~ /DEFROUTABLE/ {
+  defroutable = 1;
+}
 
 END {
   printf  "package " package ";\n\n" \
@@ -96,15 +112,37 @@ END {
           "   * @param replyTo Идентификатор сообщения, " \
           "на которое это является ответом.\n" \
           "   */\n" \
-          "  public static void setup(Message msg, final String destination,\n" \
-          "                            final String origin, final int replyTo) {\n" \
-          "    msg.setAction(NAME);\n"\
-          "    msg.setDestination(destination);\n"\
-          "    msg.setOrigin(origin);\n"\
-          "    msg.setReplyTo(replyTo);\n"\
-          "    msg.setRoutable(false);\n"\
-          "    checkMessage(msg);\n"\
-          "  }\n\n";
+    "  public static void setup(Message msg";
+    if (defdest == "") {
+      printf  ", final String destination";
+    }
+    if (deforigin == "") {
+      printf ", final String origin";
+    }
+    if (defreplto == "") {
+      printf ", final int replyTo) {\n";
+    }
+    printf "    msg.setAction(NAME);\n";
+    if (defdest == "") {
+      printf "    msg.setDestination(destination);\n";
+    } else {
+      printf "    msg.setDestination(\"" defdest "\");\n";
+    }
+    if (deforigin == "") {
+      printf "    msg.setOrigin(origin);\n";
+    } else {
+      printf "    msg.setOrigin(\"" deforigin "\");\n";
+    }
+    if (defreplto == "") {
+      printf "    msg.setReplyTo(replyTo);\n";
+    } else {
+      printf "    msg.setReplyTo(" defreplyto ");\n";
+    }
+    if (defroutable == 0) {
+      printf "    msg.setRoutable(false);\n";
+    } 
+    printf "    checkMessage(msg);\n"\
+      "  }\n\n";
 
   for (key in fields_type) {
     printf  "  /** Установить " key ".\n" \
