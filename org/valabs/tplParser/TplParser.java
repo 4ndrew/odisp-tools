@@ -7,7 +7,7 @@ import java.io.IOException;
  * Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.17 2004/10/28 17:40:54 valeks Exp $
+ * @version $Id: TplParser.java,v 1.18 2004/11/07 13:50:54 dron Exp $
  * 
  * Пример шаблонов:
  * 
@@ -46,8 +46,15 @@ import java.io.IOException;
  */
 
 public class TplParser {
-
+  /** Используется для режима только удаления файлов java-файлов. */
   private static boolean cleanOnly = false;
+
+  /** Счётчик обработанных файлов. */
+  private int countProcessed = 0;
+  /** Счётчик пропущенных файлов из-за того, что он up-to-date. */
+  private int countSkipped = 0;
+  /** Счётчик ошибок. */
+  private int countError = 0;
 
   /**
    * Главный класс парсера
@@ -57,13 +64,73 @@ public class TplParser {
   public static void main(String[] args) {
     TplParser newTplParser = new TplParser();
     System.out.println("TPL parser started");
-    if (args.length > 0 && args[0] == "clean") {
+    newTplParser.resetCounters();
+    if (args.length > 0 && args[0].equals("clean")) {
       cleanOnly = true;
       System.out.println("Performing clean only");
     }
     File f = new File(".");
     newTplParser.listDir(f);
+    if (cleanOnly) {
+      System.out.println(
+        newTplParser.getProcessedCount()
+        + " parsed, "
+        + newTplParser.getParsedCount()
+        + " deleted, "
+        + newTplParser.getErrorsCount()
+        + " errors.");
+    } else {
+      System.out.println(
+        newTplParser.getProcessedCount()
+        + " parsed, "
+        + newTplParser.getParsedCount()
+        + " generated, "
+        + newTplParser.getSkippedCount()
+        + " skipped due up-to-date, "
+        + newTplParser.getErrorsCount()
+        + " errors.");
+    }
     System.out.println("TPL parser finished");
+  }
+
+  /** Обнуление счётчиков.
+   */
+  public void resetCounters() {
+    countProcessed = 0;
+    countSkipped = 0;
+    countError = 0;
+  }
+
+  /** Получение полного количества просмотренных файлов.
+   *
+   * @return Количество просмотренных файлов.
+   */
+  public int getProcessedCount() {
+    return countProcessed + countSkipped + countError;
+  }
+
+  /** Получение полного количества обработанных файлов.
+   *
+   * @return Количество обработанных файлов.
+   */
+  public int getParsedCount() {
+    return countProcessed;
+  }
+
+  /** Получение полного количества пропущенных файлов.
+   *
+   * @return Количество пропущенных файлов.
+   */  
+  public int getSkippedCount() {
+    return countSkipped;
+  }
+
+  /** Получение полного количества ошибок при работе с файлами.
+   *
+   * @return Количество ошибок.
+   */
+  public int getErrorsCount() {
+    return countError;
   }
 
   /**
@@ -101,20 +168,28 @@ public class TplParser {
    * @param tplFile имя файла
    */
   private void processFile(File tplFile) {
-    System.out.println("Parsing tpl: " + tplFile.getName());
-
     File javaFile = new File(tplFile.getPath().replaceAll(".tpl$", ".java"));
     try {
-      javaFile.delete();
       if (cleanOnly) {
-        System.out.println("Java file deleted " + javaFile.getPath());
+        javaFile.delete();
+        countProcessed++;
+        System.out.println("Java file deleted: " + javaFile.getPath());
       } else {
-        if (javaFile.createNewFile()) {
-          tplProcessor tplProc = new tplProcessor(tplFile.getPath(), javaFile
-              .getPath());
-          if (tplProc.go()) {
-            System.out.println("Java file created " + javaFile.getName());
+        if (javaFile.lastModified() <= tplFile.lastModified()) {
+          System.out.println("Parsing tpl: " + tplFile.getName());
+          countProcessed++;
+          javaFile.delete();
+          if (javaFile.createNewFile()) {
+            tplProcessor tplProc = new tplProcessor(tplFile.getPath(), javaFile
+                .getPath());
+            if (tplProc.go()) {
+              System.out.println("Java file created " + javaFile.getName());
+            }
+          } else {
+            countError++;
           }
+        } else {
+          countSkipped++;
         }
       }
     } catch (IOException e) {
