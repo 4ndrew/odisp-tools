@@ -7,47 +7,76 @@ import java.util.Iterator;
 
 /** Создание класса сообщения на языке Java.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_Java.java,v 1.1 2005/02/02 20:22:28 valeks Exp $
+ * @version $Id: MessageFile_Java.java,v 1.2 2005/02/03 12:40:26 valeks Exp $
  */
 class MessageFile_Java implements MessageFile {
-  private TplFile tplSource;
-  public MessageFile_Java(TplFile _tplSource) {
-    tplSource = _tplSource;
+  
+  private int countMain = 0;
+  private int countReply = 0;
+  private int countError = 0;
+  private int countNotify = 0;
+  
+  public String getExtension() {
+    return ".java";
   }
   
-  public void writeFile(OutputStream out) throws IOException {
-    writeJavaHeader(out);
+  public String toString() {
+    return "Java message output. Counters: " + countMain + " main, " + countReply + " replys, " + countError
+            + " error, " + countNotify + " notifys.";
+  }
+  
+  public void writeFile(TplFile tplSource, OutputStream out) throws IOException {
+    writeJavaHeader(tplSource, out);
 
-    writeClassJavadoc(out);
+    writeClassJavadoc(tplSource, out);
 
-    writeMessageConstants(out);
+    writeMessageConstants(tplSource, out);
 
-    writeCheckMessage(out);
+    writeCheckMessage(tplSource, out);
 
-    writeSetup(out);
+    writeSetup(tplSource, out);
 
     Iterator it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
       String fieldName = (String) it.next();
-      writeField(out, fieldName);
+      writeField(tplSource, out, fieldName);
     }
 
-    writeMisc(out);
+    writeMisc(tplSource, out);
 
-    writeInitAll(out);
+    writeInitAll(tplSource, out);
 
-    writeVerbatim(out);
+    writeVerbatim(tplSource, out);
     
-    writeJavaFooter(out);
+    writeJavaFooter(tplSource, out);
     
-    System.out.print(", Java file written");
+    switch (tplSource.getType()) {
+      case TplFile.TYPE_PLAIN:
+        System.out.print(", main");
+        countMain++;
+        break;
+      case TplFile.TYPE_ERROR:
+        System.out.print(", error");
+        countError++;
+        break;
+      case TplFile.TYPE_REPLY:
+        System.out.print(", reply");
+        countReply++;
+        break;
+      case TplFile.TYPE_NOTIFY:
+        System.out.print(", notify");
+        countNotify++;
+        break;
+    }
+
+    System.out.print("(java)");
   }
   
   /**
    * @param out
    * @throws IOException
    */
-  private void writeJavaFooter(OutputStream out) throws IOException {
+  private void writeJavaFooter(TplFile tplSource, OutputStream out) throws IOException {
     write(out, "\n} // " + tplSource.getMessageName() + " \n");
   }
 
@@ -55,7 +84,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeVerbatim(OutputStream out) throws IOException {
+  private void writeVerbatim(TplFile tplSource, OutputStream out) throws IOException {
     Iterator it;
     it = tplSource.getVerbatim().iterator();
     while (it.hasNext()) {
@@ -68,7 +97,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeInitAll(OutputStream out) throws IOException {
+  private void writeInitAll(TplFile tplSource, OutputStream out) throws IOException {
     Iterator it;
     write(out, "  /** Короткий способ заполнения всех полей сообщения сразу.\n");
     write(out, "   * @return ссылку на сообщение\n");
@@ -104,7 +133,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeMisc(OutputStream out) throws IOException {
+  private void writeMisc(TplFile tplSource, OutputStream out) throws IOException {
     Iterator it;
     write(out, "  /** Является ли экземпляр сообщением этого типа.\n");
     write(out, "   * @param msg Сообщение.\n");
@@ -140,31 +169,31 @@ class MessageFile_Java implements MessageFile {
    * @param fieldName
    * @throws IOException
    */
-  private void writeField(OutputStream out, String fieldName) throws IOException {
+  private void writeField(TplFile tplSource, OutputStream out, String fieldName) throws IOException {
     FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
-    write(out, "  /** Установить " + fieldName + ".\n");
+    write(out, "  /** Установить " + fr.getName() + ".\n");
     if (fr.getDesc().length() > 0)
       write(out, "   * " + fr.getDesc() + "\n");
     write(out, "   * @param msg Сообщение над которым производится действие.\n");
     write(out, "   * @param newValue Новое значение для поля.\n");
     write(out, "   * @return ссылка на сообщение\n");
     write(out, "   */\n\n");
-    write(out, "  public static Message set" + fieldName
+    write(out, "  public static Message set" + fr.getName()
       + "(final Message msg, final "
       + fr.getType() + " newValue) {\n");
-    write(out, "    msg.addField(idx" + fieldName.toUpperCase() + ", newValue);\n");
+    write(out, "    msg.addField(idx" + fr.getName().toUpperCase() + ", newValue);\n");
     write(out, "    checkMessage(msg);\n");
     write(out, "    return msg;\n");
     write(out, "  }\n");
-    write(out, "  /** Получить " + fieldName + ".\n");
+    write(out, "  /** Получить " + fr.getName() + ".\n");
     write(out, "   *" + fr.getDesc() + "\n");
     write(out, "   * @param msg Сообщение над которым производится действие.\n");
     write(out, "   * @return значение поля\n");
     write(out, "   */\n");
     write(out, "  public static " + fr.getType()
-      + " get" + fieldName + "(final Message msg) {\n");
+      + " get" + fr.getName() + "(final Message msg) {\n");
     write(out, "    return " + (fr.getType().equals("Object") ? "" : "(" + fr.getType() + ")")
-            + "msg.getField(idx" + fieldName.toUpperCase() + ");\n");
+            + "msg.getField(idx" + fr.getName().toUpperCase() + ");\n");
     write(out, "  }\n\n");
   }
 
@@ -172,7 +201,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeSetup(OutputStream out) throws IOException {
+  private void writeSetup(TplFile tplSource, OutputStream out) throws IOException {
     write(out, "  /** Инициализация основных свойств сообщения.\n");
     write(out, "   * @param msg Сообщение.\n");
 
@@ -240,7 +269,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeCheckMessage(OutputStream out) throws IOException {
+  private void writeCheckMessage(TplFile tplSource, OutputStream out) throws IOException {
     write(out, "  /** Проверка сообщения на корректность.\n");
     write(out, "   * @param msg Сообщение\n");
     write(out, "   */\n");
@@ -288,7 +317,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeMessageConstants(OutputStream out) throws IOException {
+  private void writeMessageConstants(TplFile tplSource, OutputStream out) throws IOException {
     write(out, "public final class " + tplSource.getMessageName() + " {\n");
     write(out, "  /** Строковое представление сообщения. */\n");
     write(out, "  public static final String NAME = \"" + tplSource.getActionName() + "\";\n");
@@ -308,7 +337,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeClassJavadoc(OutputStream out) throws IOException {
+  private void writeClassJavadoc(TplFile tplSource, OutputStream out) throws IOException {
     write(out, "/** ");
     Iterator it = tplSource.getDescription().iterator();    
     while (it.hasNext()) {
@@ -330,7 +359,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeJavaHeader(OutputStream out) throws IOException {
+  private void writeJavaHeader(TplFile tplSource, OutputStream out) throws IOException {
     write(out, "package " + tplSource.getPackageName() + ";\n\n");
     write(out, "import org.valabs.odisp.common.Message;\n");
     write(out, "import org.doomdark.uuid.UUID;\n");

@@ -13,7 +13,7 @@ import java.util.List;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.19 2005/02/02 20:22:28 valeks Exp $
+ * @version $Id: TplParser.java,v 1.20 2005/02/03 12:40:26 valeks Exp $
  */
 
 public class TplParser {
@@ -29,6 +29,8 @@ public class TplParser {
   private int countSkipped = 0;
   /** Счётчик ошибок. */
   private int countError = 0;
+  
+  private List writers = new ArrayList();
 
   /**
    * Главный класс парсера
@@ -52,6 +54,9 @@ public class TplParser {
   public TplParser(boolean _cleanOnly, List folders) {
     System.out.println("TPL parser started");
     cleanOnly = _cleanOnly;
+    if (doJava) {
+      writers.add(new MessageFile_Java());
+    }
     Iterator it = folders.iterator();
     while (it.hasNext()) {
       String folder = (String) it.next();
@@ -59,6 +64,11 @@ public class TplParser {
       processFolder(folder);
     }
     System.out.println(this);
+    it = writers.iterator();
+    while (it.hasNext()) {
+      MessageFile writer = (MessageFile) it.next();
+      System.out.println(writer.toString());
+    }
     System.out.println("TPL parser finished");
   }
 
@@ -76,12 +86,11 @@ public class TplParser {
       File tplFile = (File) it.next();
       try {
         TplFile source = new TplFile(tplFile);
-        if (doJava) {
-          createJava(source);
-        }
+        createOutput(source);
       } catch (Exception e) {
         countError++;
         System.out.println("Message generation error: " + e.toString());
+        e.printStackTrace();
       }
     }
   }
@@ -92,18 +101,46 @@ public class TplParser {
    * @throws IOException
    * @throws FileNotFoundException
    */
-  private void createJava(TplFile source) throws IOException, FileNotFoundException {
-    File javaFile = new File(source.getFileName().replaceAll(".tpl$", ".java"));
-    if (cleanOnly) {
-      javaFile.delete();
-      countProcessed++;
-      System.out.println("Java file deleted: " + javaFile.getPath());
-    } else if (javaFile.lastModified() <= source.lastModified()) {
-      countProcessed++;
-      new MessageFile_Java(source).writeFile(new FileOutputStream(javaFile));
-      System.out.println();
-    } else {
-      countSkipped++;
+  private void createOutput(TplFile source) throws IOException, FileNotFoundException {
+    Iterator it = writers.iterator();
+    while (it.hasNext()) {
+      MessageFile writer = (MessageFile) it.next();
+      String outputFileName = source.getFileName().replaceAll(".tpl$", writer.getExtension());
+      File javaFile = new File(outputFileName);
+      if (cleanOnly) {
+        javaFile.delete();
+        System.out.println();
+        System.out.println("File deleted: " + javaFile.getPath());
+        if (source.getErrorMessage() != null) {
+          new File(source.getErrorMessage().getFileName().replaceAll(".tpl$", writer.getExtension())).delete();
+          System.out.println("File deleted: " + source.getErrorMessage().getFileName().replaceAll(".tpl$", writer.getExtension()));
+        }
+        if (source.getReplyMessage() != null) {
+          new File(source.getReplyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())).delete();
+          System.out.println("File deleted: " + source.getReplyMessage().getFileName().replaceAll(".tpl$", writer.getExtension()));
+        }
+        if (source.getNotifyMessage() != null) {
+          new File(source.getNotifyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())).delete();
+          System.out.println("File deleted: " + source.getNotifyMessage().getFileName().replaceAll(".tpl$", writer.getExtension()));
+        }
+        countProcessed++;
+      } else if (javaFile.lastModified() <= source.lastModified()) {
+        countProcessed++;
+        writer.writeFile(source, new FileOutputStream(outputFileName));
+        if (source.getErrorMessage() != null) {
+          writer.writeFile(source.getErrorMessage(), new FileOutputStream(source.getErrorMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
+        }
+        if (source.getReplyMessage() != null) {
+          writer.writeFile(source.getReplyMessage(), new FileOutputStream(source.getReplyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
+        }
+        if (source.getNotifyMessage() != null) {
+          writer.writeFile(source.getNotifyMessage(), new FileOutputStream(source.getNotifyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
+        }
+        System.out.println();
+      } else {
+        System.out.println();
+        countSkipped++;
+      }
     }
   }
 
