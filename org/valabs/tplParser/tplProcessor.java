@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.4 2004/10/20 10:04:38 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.5 2004/10/20 13:26:18 boris Exp $
  */
 public class tplProcessor {
 
@@ -97,20 +98,39 @@ public class tplProcessor {
         "import org.valabs.odisp.common.Message;\n");
     
     if (tagIMPORTstrings != "") {
-      write(tagIMPORTstrings + "\n\n");
+      write(tagIMPORTstrings);
     }
     
     write( "/** " + tagDESCstrings + "\n" +
         	" *\n" +
         	tagAUTHORstrings +
         	tagCVSidstrings + "\n" +
-        	" */\n");
+        	" */");
     
     write("public final class " + messageName + " {\n" +
         	"  /** Строковое представление сообщения. */\n" +
-        	"  public static final String NAME = \"" + actionName + "\";\n\n");
+        	"  public static final String NAME = \"" + actionName + "\";\n");
     
-    write("");
+    Iterator it = tagFIELDstrings.iterator(); 
+    while (it.hasNext()) {
+        String element = (String) it.next();
+        String key = element.split(" ")[0];
+        write("  /** Индекс для поля "  + key + ". */\n" +
+        "  private static String idx" + key.toUpperCase() + " = \"" +
+        key.toLowerCase() + "\";");
+    }
+    
+    write("\n\n" +
+    "  /** Запрет на создание объекта. */\n" +
+    "  private " + messageName + "() { }\n");
+    
+    write("  /** Проверка сообщения на корректность.\n" +
+    "   *\n" +
+    "   * @param msg Сообщение\n" +
+    "   */\n" +
+    "  private static void checkMessage(final Message msg) {\n");
+    
+    
   }
 
   /**
