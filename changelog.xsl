@@ -149,7 +149,7 @@
 
   <xsl:template match="file">
     <tr>
-      <td><xsl:value-of select="name"/></td>
+      <td><a><xsl:attribute name="href"><xsl:value-of select="$cvsweb"/><xsl:value-of select="$module"/>/<xsl:value-of select="name"/></xsl:attribute><xsl:value-of select="name"/></a></td>
         <xsl:choose>
           <xsl:when test="string-length(prevrevision) &gt; 0 ">
             <td>
