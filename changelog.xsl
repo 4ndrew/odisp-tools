@@ -107,7 +107,19 @@
     </tr>
     <tr>
       <td valign="top"><xsl:apply-templates select="time"/></td>
-      <td><xsl:apply-templates select="msg"/></td>
+      <xsl:choose>
+        <xsl:when test="starts-with(msg//., 'HEADS UP')">
+          <td style="border-width:1px;border-style:solid;border-color:red;">
+            <h4>HEADS UP!</h4>
+            <xsl:apply-templates select="msg"/>
+          </td>
+        </xsl:when>
+        <xsl:otherwise>
+          <td>
+            <xsl:apply-templates select="msg"/>    
+          </td>
+        </xsl:otherwise>
+      </xsl:choose>
     </tr>
     <tr>
       <td/>
