@@ -60,7 +60,6 @@
   <xsl:param name="title"/>
   <xsl:param name="module"/>
   <xsl:param name="cvsweb"/>
-  <xsl:param name="timeline" select="node()"/>
 
   <xsl:output method="html" indent="yes" encoding="US-ASCII"
               doctype-public="-//W3C//DTD HTML 4.01//EN"
@@ -74,25 +73,6 @@
       <xsl:copy-of select="attribute::*[. != '']"/>
       <xsl:apply-templates/>
     </xsl:copy>
-  </xsl:template>
-  <xsl:template name="timelineGen">
-    <xsl:param name="timeline" select="0"/>
-    <xsl:param name="prevalue" select="-2"/>
-    [<xsl:value-of select="$timeline"/>]          
-    [<xsl:value-of select="$prevalue"/>]
-    [<xsl:value-of select="$timeline &gt; $prevalue"/>]
-    <xsl:if test="$timeline &gt; $prevalue">
-      <xsl:for-each select="//entry">
-        <xsl:sort select="date" data-type="text" order="ascending"/>
-        <xsl:if test="$timeline &lt; number(translate(date,'-',''))">
-          <xsl:value-of select="date"/>|
-          <xsl:call-template name="timelineGen">
-            <xsl:with-param name="prevalue" select="$timeline+1"/>
-            <xsl:with-param name="timeline" select="number(translate(date,'-',''))"/>
-          </xsl:call-template>
-        </xsl:if>
-      </xsl:for-each>
-    </xsl:if>
   </xsl:template>
   <xsl:template match="changelog">
     <html>
@@ -190,7 +170,7 @@
   <!-- Any elements within a msg are processed,
        so that we can preserve HTML tags. -->
   <xsl:template match="msg">
-    <xsl:apply-templates/>
+    <pre><xsl:apply-templates/></pre>
   </xsl:template>
   
 </xsl:stylesheet>
