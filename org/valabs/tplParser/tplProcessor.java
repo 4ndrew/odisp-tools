@@ -13,7 +13,7 @@ import java.util.Iterator;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.7 2004/10/21 13:32:08 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.8 2004/10/21 20:11:59 boris Exp $
  */
 public class tplProcessor {
 
@@ -114,7 +114,7 @@ public class tplProcessor {
             String key = (String) it.next();
             write("  /** Индекс для поля " + key + ". */");
             write("  private static String idx" + key.toUpperCase() + " = \""
-                + key.toLowerCase() + "\";");
+                    + key.toLowerCase() + "\";");
         }
 
         write("\n");
@@ -133,7 +133,8 @@ public class tplProcessor {
             while (fieldIterator.hasNext()) {
                 String key = (String) fieldIterator.next();
                 write("      assert get" + key
-                    + "(msg) != null : \"Message field " + key + " is null.\";");
+                        + "(msg) != null : \"Message field " + key
+                        + " is null.\";");
             }
             write("    } catch (AssertionError e) {");
             write("      System.err.println(\"Message assertion :\" + e.toString());");
@@ -167,130 +168,163 @@ public class tplProcessor {
         write("  /** Инициализация основных свойств сообщения.");
         write("   *");
         write("   * @param msg Сообщение.");
+
         if (tagDEFDESTstrings == "") {
             write("   * @param destination Точка назначения.");
         }
+
         if (tagDEFORIGINstrings == "") {
             write("   * @param origin Точка отправления.");
         }
+
         write("   * @param replyTo Идентификатор сообщения, на которое это является ответом.");
         write("   * @return ссылка на инициализированное сообщение");
         write("   */");
+
         String str = "  public static Message setup(final Message msg";
+
         if (tagDEFDESTstrings == "") {
             str += ", final String destination";
         }
+
         if (tagDEFORIGINstrings == "") {
             str += ", final String origin";
         }
+
         if (tagDEFREPLTOstrings == "") {
             str += ", final int replyTo) {";
         }
+
         write(str);
 
         write("    msg.setAction(NAME);");
+
         if (tagDEFDESTstrings == "") {
             write("    msg.setDestination(destination);");
         } else {
             write("    msg.setDestination(\"" + tagDEFDESTstrings + "\");");
         }
+
         if (tagDEFORIGINstrings == "") {
             write("    msg.setOrigin(origin);");
         } else {
             write("    msg.setOrigin(\"" + tagDEFORIGINstrings + "\");");
         }
+
         if (tagDEFREPLTOstrings == "") {
             write("    msg.setReplyTo(replyTo);");
         } else {
             write("    msg.setReplyTo(" + tagDEFREPLTOstrings + ");");
         }
+
         if (tagDEFROUTABLE) {
             write("    msg.setRoutable(false);");
         }
+
         if (tagDEFOOB) {
             write("    msg.setOOB(true);");
         }
+
         write("    checkMessage(msg);");
         write("    return msg;");
         write("  }\n");
-/*************************************************************************************************
-    gsub(/\\n/, "\n", fields_desc[key]);
-    printf  "  /** Установить " key ".\n" \
-            "   * " fields_desc[key] "\n" \
-            "   *\n" \
-            "   * @param msg Сообщение над которым производится действо.\n" \
-            "   * @param newValue Новое значение для поля.\n" \
-	    "   * @return ссылка на сообщение\n" \
-            "   */\n" \
-            "  public static Message set" key "(final Message msg, final " fields_type[key] " newValue) {\n" \
-            "    msg.addField(idx" toupper(key) ", newValue);\n" \
-            "    checkMessage(msg);\n" \
-            "    return msg;\n" \
-            "  }\n\n" \
-            "  /** Получить " key ".\n" \
-            "   * " fields_desc[key] "\n" \
-            "   *\n" \
-            "   * @param msg Сообщение над которым производится действо.\n" \
-	    "   * @return значение поля\n" \
-            "   */\n" \
-            "  public static " fields_type[key] " get" key "(final Message msg) {\n" \
-            "    return (" fields_type[key] ") msg.getField(idx" toupper(key) ");\n" \
-            "  }\n\n";
-  }
 
-  printf "  /** Является ли экземпляр сообщением этого типа.\n" \
-         "   *\n" \
-         "   * @param msg Сообщение.\n" \
-         "   * @return true - если является, false - иначе.\n" \
-         "   */\n" \
-         "  public static boolean equals(final Message msg) {\n" \
-         "    return msg.getAction().equals(NAME);\n" \
-         "  }\n\n";
-  printf "  /** Копирование полей из одного сообщения в другое.\n" \
-  		 "  *\n" \
-  		 "  * @param dest Получатель.\n" \
-  		 "  * @param src Источник.\n" \
-  		 "  */\n" \
-  		 "  public static void copyFrom(final Message dest, final Message src) {\n";
-   for (key in fields_type) {
-     printf "    set" key "(dest, get" key"(src));\n";
-   }
-  printf "  }\n\n";
-  printf "  /** Генерирование уникального hash-кода сообщения.\n" \
-         "   * Всегда равен 0.\n" \
-	 "   * @return hash-код сообщения.\n" \
-	 "   */\n" \
-	 "  public int hashCode() {\n" \
-	 "    return 0;\n" \
-	 "  }\n\n";
-  printf "  /** Короткий способ заполнения всех полей сообщения сразу.\n" \
-    "   * @return ссылку на сообщение\n";
-  for (key in fields_desc) {
-    printf "   * @param " tolower(key) " " fields_desc[key] "\n";
-  }
-  printf "  */\n";
-  printf "  public static Message initAll(final Message m";
-  
-  for (i = 0; i < paramc; i++) {
-    key = fields_order[i];
-    printf ",\n                               final " fields_type[key] " " tolower(key);
-  }
-  
-  printf ") {\n";
-  for (key in fields_type) {
-    printf "    set" key "(m, " tolower(key) ");\n";
-  }
-  printf "    return m;\n  }\n\n";
+        Iterator fieldIterator = fields.keySet().iterator();
+        while (fieldIterator.hasNext()) {
+            String fieldName = (String) fieldIterator.next();
 
-  if (verbatimCode != "") {
-    printf verbatimCode;
-  }
-  printf "\n\n}\n";
- };
-
- ********************************************************************************/
+            write("  /** Установить " + fieldName + ".");
+            write(" " + ((FieldRecord) fields.get(fieldName)).getDesc());
+            write("   *");
+            write("   * @param msg Сообщение над которым производится действо.");
+            write("   * @param newValue Новое значение для поля.");
+            write("   * @return ссылка на сообщение");
+            write("   */");
+            write("  public static Message set" + fieldName
+                    + "(final Message msg, final "
+                    + ((FieldRecord) fields.get(fieldName)).getType()
+                    + " newValue) {");
+            write("    msg.addField(idx" + fieldName.toUpperCase()
+                    + ", newValue);");
+            write("    checkMessage(msg);");
+            write("    return msg;");
+            write("  }\n");
+            write("  /** Получить " + fieldName + ".");
+            write("   * " + ((FieldRecord) fields.get(fieldName)).getDesc());
+            write("   *");
+            write("   * @param msg Сообщение над которым производится действо.");
+            write("   * @return значение поля");
+            write("   */");
+            write("  public static " + ((FieldRecord) fields.get(fieldName)).getType() + " get"
+                    + fieldName + "(final Message msg) {");
+            write("    return (" + ((FieldRecord) fields.get(fieldName)).getType()
+                    + ") msg.getField(idx" + fieldName.toUpperCase() + ");");
+            write("  }\n");
+        }
         
+        write("  /** Является ли экземпляр сообщением этого типа.");
+        write("   *");
+        write("   * @param msg Сообщение.");
+        write("   * @return true - если является, false - иначе.");
+        write("   */");
+        write("  public static boolean equals(final Message msg) {");
+        write("    return msg.getAction().equals(NAME);");
+        write("  }\n");
+        write("  /** Копирование полей из одного сообщения в другое.");
+        write("  *");
+        write("  * @param dest Получатель.");
+        write("  * @param src Источник.");
+        write("  */");
+        write("  public static void copyFrom(final Message dest, final Message src) {");
         
+        fieldIterator = fields.keySet().iterator();
+        while (fieldIterator.hasNext()) {
+            String fieldName = (String) fieldIterator.next();
+            write("    set" + fieldName + "(dest, get" + fieldName + "(src));");
+        }
+        write("  }\n");
+        
+        write("  /** Генерирование уникального hash-кода сообщения.");
+        write("   * Всегда равен 0.");
+        write("   * @return hash-код сообщения.");
+        write("   */");
+        write("  public int hashCode() {");
+        write("    return 0;");
+        write("  }\n");
+        
+        write("  /** Короткий способ заполнения всех полей сообщения сразу.");
+        write("   * @return ссылку на сообщение");
+        
+        fieldIterator = fields.keySet().iterator();
+        while (fieldIterator.hasNext()) {
+            String fieldName = (String) fieldIterator.next();
+            write("   * @param " + fieldName.toUpperCase() + " " + ((FieldRecord) fields.get(fieldName)).getDesc());
+        }
+        
+        write("  */");
+        
+        str = "  public static Message initAll(final Message m";
+        fieldIterator = fields.keySet().iterator();
+        while (fieldIterator.hasNext()) {
+            String fieldName = (String) fieldIterator.next();
+            str += (",\n                                final "
+                    + ((FieldRecord) fields.get(fieldName)).getType() + " " + fieldName
+                    .toLowerCase());
+        }
+        str += ") {";
+        write(str);
+        
+        fieldIterator = fields.keySet().iterator();
+        while (fieldIterator.hasNext()) {
+            String fieldName = (String) fieldIterator.next();
+            write("    set" + fieldName + "(m, " + fieldName.toLowerCase() + ");");
+        }
+        
+        write("    return m;\n  }\n");
+        
+        write(tagNOTAGstrings);
+        
+        write("\n}");    
     }
 
     private void parseTagLine(String tagLine) {
@@ -299,15 +333,15 @@ public class tplProcessor {
             packageName = s[1];
             messageName = s[2];
             actionName = s[3];
-        }
+        }else
 
         if (tagLine.startsWith("$")) {
             tagCVSidstrings = " * @version " + tagLine;
-        }
+        }else
 
         if (tagLine.startsWith("IMPORT")) {
             tagIMPORTstrings += "import " + tagLine.split(" ")[1] + ";\n";
-        }
+        }else
 
         if (tagLine.startsWith("AUTHOR")) {
             if (tagAUTHORstrings == "") {
@@ -315,11 +349,11 @@ public class tplProcessor {
             } else {
                 tagAUTHORstrings += "\n * @author " + tagLine.substring(7);
             }
-        }
+        }else
 
         if (tagLine.startsWith("DESC")) {
             tagDESCstrings += tagLine.substring(5);
-        }
+        }else
 
         if (tagLine.startsWith("FIELD")) {
             String[] tokens = tagLine.split(" ");
@@ -327,7 +361,7 @@ public class tplProcessor {
                 fields.put(tokens[1], new FieldRecord());
             }
             ((FieldRecord) fields.get(tokens[1])).setType(tokens[2]);
-        }
+        }else
 
         if (tagLine.startsWith("FCHECK")) {
             String[] tokens = tagLine.split(" ");
@@ -336,7 +370,7 @@ public class tplProcessor {
             }
             ((FieldRecord) fields.get(tokens[1])).setCheck(tagLine
                     .substring(7 + tokens[1].length()));
-        }
+        }else
 
         if (tagLine.startsWith("FDESC")) {
             String[] tokens = tagLine.split(" ");
@@ -345,37 +379,39 @@ public class tplProcessor {
             }
             ((FieldRecord) fields.get(tokens[1])).setDesc(tagLine
                     .substring(6 + tokens[1].length()));
-        }
+        }else
 
         if (tagLine.startsWith("DEFORIGIN")) {
             tagDEFORIGINstrings = tagLine.split(" ")[1];
-        }
+        }else
 
         if (tagLine.startsWith("DEFDEST")) {
             tagDEFDESTstrings = tagLine.split(" ")[1];
-        }
+        }else
 
         if (tagLine.startsWith("DEFID")) {
             tagDEFIDstrings = tagLine.split(" ")[1];
-        }
+        }else
 
         if (tagLine.startsWith("DEFROUTABLE")) {
             tagDEFROUTABLE = true;
-        }
+        }else
 
         if (tagLine.startsWith("DEFREPLTO")) {
             tagDEFREPLTOstrings = tagLine.split(" ")[1];
-        }
+        }else
 
         if (tagLine.startsWith("DEFOOB")) {
             show("WARNING: Generating OOB message " + messageName);
             tagDEFOOB = true;
-        }
+        }else
 
         if (!tagLine.startsWith("#")) {
             //комментарии пропускаем
             //TODO may be it's good to skip empty lines
-            tagNOTAGstrings += tagLine + "\n";
+            if(tagLine != ""){
+                tagNOTAGstrings += tagLine + "\n";
+            }
         }
     }
 
@@ -414,7 +450,11 @@ public class tplProcessor {
          *            The desc to set.
          */
         public void setDesc(String desc) {
-            this.desc += "  *" + desc + "\n";
+            if (this.desc == "") {
+                this.desc += "  *" + desc;
+            } else {
+                this.desc += "\n  *" + desc ;
+            }
         }
 
         /**
