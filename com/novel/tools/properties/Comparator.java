@@ -5,11 +5,12 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.Properties;
 
-/** TODO: insert comment there
+/** Сравнение файлов языковой поддержки на предмет полноты набора ключей
+ * перевода.
  * 
  * @author <a href="dron@novel-il.ru">Your_Realname</a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: Comparator.java,v 1.2 2004/09/16 16:02:46 dron Exp $
+ * @version $Id: Comparator.java,v 1.3 2004/11/01 11:04:19 dron Exp $
  */
 public class Comparator {
   public static void main(String[] args) {
