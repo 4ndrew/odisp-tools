@@ -1,0 +1,16 @@
+<!-- $Id: build.xml,v 1.1 2003/10/22 20:48:49 valeks Exp $ -->
+<project name="nms" default="all" basedir=".">
+    <property name="tools-src" location="./"/>
+    <path id="tools-src">
+	<pathelement location="${tools-src}/**.java"/>
+    </path>
+    <target name="tools">
+	<javac srcdir="${tools-src}" destdir="${build-dir}" debug="yes">
+                <classpath>
+                        <pathelement location="${build-dir}"/>
+                </classpath>
+        </javac>
+    </target>
+    <target name="doc"/>
+    <target name="all" depends="tools"/>
+</project>
