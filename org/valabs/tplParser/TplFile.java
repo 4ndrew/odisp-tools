@@ -5,14 +5,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 /** Класс полностью описывающий шаблон сообщения.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TplFile.java,v 1.2 2005/02/03 12:40:26 valeks Exp $
+ * @version $Id: TplFile.java,v 1.3 2005/02/12 22:30:20 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -77,6 +79,8 @@ class TplFile {
   private String cvsId;
   
   private Map fields = new HashMap();
+  
+  private List fieldOrder = new ArrayList();
   
   private String fileName;
   
@@ -249,6 +253,7 @@ class TplFile {
    */
   private FieldRecord getFieldRecordByName(String name) {
     if (!fields.containsKey(name)) {
+      fieldOrder.add(name);
       fields.put(name, new FieldRecord(name));
     }
     return (FieldRecord) fields.get(name);
@@ -282,7 +287,23 @@ class TplFile {
     return description;
   }
   public Map getFields() {
-    return fields;
+    Map result = new TreeMap(new Comparator() {
+      public int compare(Object arg0, Object arg1) {
+        if (!fieldOrder.contains(arg0) || !fieldOrder.contains(arg1)) {
+          return 0;
+        } else {
+          if (fieldOrder.indexOf(arg0) < fieldOrder.indexOf(arg1)) {
+            return -1;
+          } else if (arg0.equals(arg1)) {
+            return 0;
+          } else {
+            return 1;
+          }
+        }
+      }
+      });
+    result.putAll(fields);
+    return result;
   }
   public List getImports() {
     return imports;
