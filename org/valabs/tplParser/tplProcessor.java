@@ -7,15 +7,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Ядро парсинга tpl файла
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.11 2004/10/22 10:23:31 valeks Exp $
+ * @version $Id: tplProcessor.java,v 1.12 2004/10/24 22:54:55 boris Exp $
  */
 public class tplProcessor {
 
@@ -53,7 +52,9 @@ public class tplProcessor {
 
     private PrintStream javaWriter = null;
 
-    private HashMap fields;
+    private ArrayList fields;
+
+    private ArrayList fieldNames;
 
     /**
      * Конструктор обработчика tpl файла
@@ -64,7 +65,8 @@ public class tplProcessor {
      *            имя соответствующего java файла
      */
     tplProcessor(String tplName, String javaName) {
-        fields = new HashMap();
+        fields = new ArrayList();
+        fieldNames = new ArrayList();
         try {
             tplReader = new BufferedReader(new FileReader(tplName));
             javaWriter = new PrintStream(new FileOutputStream(javaName));
@@ -161,9 +163,8 @@ public class tplProcessor {
         writeEx("  /** Строковое представление сообщения. */");
         write("  public static final String NAME = \"" + actionName + "\";\n");
 
-        Iterator it = fields.keySet().iterator();
-        while (it.hasNext()) {
-            String key = (String) it.next();
+        for (int i =0; i < fieldNames.size(); i++) {
+            String key = (String)fieldNames.get(i);
             writeEx("  /** Индекс для поля " + key + ". */");
             write("  private static String idx" + key.toUpperCase() + " = \""
                 + key.toLowerCase() + "\";");
@@ -179,11 +180,10 @@ public class tplProcessor {
         write("   */");
         write("  private static void checkMessage(final Message msg) {");
 
-        if (fields.keySet().size() != 0) {
+        if (!fieldNames.isEmpty()) {
             write("    try {");
-            Iterator fieldIterator = fields.keySet().iterator();
-            while (fieldIterator.hasNext()) {
-                String key = (String) fieldIterator.next();
+            for (int i =0; i < fieldNames.size(); i++) {
+                String key = (String)fieldNames.get(i);
                 write("      assert get" + key
                     + "(msg) != null : \"Message field " + key + " is null.\";");
             }
@@ -192,12 +192,10 @@ public class tplProcessor {
             write("      e.printStackTrace();\n    }\n");
             write("    msg.setCorrect(");
 
-            fieldIterator = fields.keySet().iterator();
             int flag = 0;
-            while (fieldIterator.hasNext()) {
-                String fieldName = (String) fieldIterator.next();
-                String fieldCheck = ((FieldRecord) fields.get(fieldName))
-                        .getCheck();
+            for (int i =0; i < fieldNames.size(); i++) {
+                String fieldName = (String)fieldNames.get(i);
+                String fieldCheck = ((FieldRecord) fields.get(i)).getCheck();
 
                 if (fieldCheck.trim().length() == 0) {
                     fieldCheck = "get" + fieldName + "(msg) != null";
@@ -278,12 +276,11 @@ public class tplProcessor {
         write("    return msg;");
         write("  }\n");
 
-        Iterator fieldIterator = fields.keySet().iterator();
-        while (fieldIterator.hasNext()) {
-            String fieldName = (String) fieldIterator.next();
+        for (int i =0; i < fieldNames.size(); i++) {
+            String fieldName = (String) fieldNames.get(i);
 
             writeEx("  /** Установить " + fieldName + ".");
-            write(" " + ((FieldRecord) fields.get(fieldName)).getDesc());
+            write(" " + ((FieldRecord) fields.get(i)).getDesc());
             write("   *");
             writeEx("   * @param msg Сообщение над которым производится действие.");
             writeEx("   * @param newValue Новое значение для поля.");
@@ -291,7 +288,7 @@ public class tplProcessor {
             write("   */");
             write("  public static Message set" + fieldName
                 + "(final Message msg, final "
-                + ((FieldRecord) fields.get(fieldName)).getType()
+                + ((FieldRecord) fields.get(i)).getType()
                 + " newValue) {");
             write("    msg.addField(idx" + fieldName.toUpperCase()
                 + ", newValue);");
@@ -299,16 +296,16 @@ public class tplProcessor {
             write("    return msg;");
             write("  }\n");
             writeEx("  /** Получить " + fieldName + ".");
-            write(" " + ((FieldRecord) fields.get(fieldName)).getDesc());
+            write(" " + ((FieldRecord) fields.get(i)).getDesc());
             write("   *");
             writeEx("   * @param msg Сообщение над которым производится действие.");
             writeEx("   * @return значение поля");
             write("   */");
             write("  public static "
-                + ((FieldRecord) fields.get(fieldName)).getType() + " get"
+                + ((FieldRecord) fields.get(i)).getType() + " get"
                 + fieldName + "(final Message msg) {");
             write("    return ("
-                + ((FieldRecord) fields.get(fieldName)).getType()
+                + ((FieldRecord) fields.get(i)).getType()
                 + ") msg.getField(idx" + fieldName.toUpperCase() + ");");
             write("  }\n");
         }
@@ -328,9 +325,8 @@ public class tplProcessor {
         write("  */");
         write("  public static void copyFrom(final Message dest, final Message src) {");
 
-        fieldIterator = fields.keySet().iterator();
-        while (fieldIterator.hasNext()) {
-            String fieldName = (String) fieldIterator.next();
+        for (int i =0; i < fieldNames.size(); i++) {
+            String fieldName = (String) fieldNames.get(i);
             write("    set" + fieldName + "(dest, get" + fieldName + "(src));");
         }
         write("  }\n");
@@ -346,28 +342,25 @@ public class tplProcessor {
         writeEx("  /** Короткий способ заполнения всех полей сообщения сразу.");
         writeEx("   * @return ссылку на сообщение");
 
-        fieldIterator = fields.keySet().iterator();
-        while (fieldIterator.hasNext()) {
-            String fieldName = (String) fieldIterator.next();
+        for (int i =0; i < fieldNames.size(); i++) {
+            String fieldName = (String) fieldNames.get(i);
             write("   * @param " + fieldName.toUpperCase() + " "
-                + ((FieldRecord) fields.get(fieldName)).getDesc());
+                + ((FieldRecord) fields.get(i)).getDesc());
         }
 
         write("  */");
 
         writec("  public static Message initAll(final Message m");
-        fieldIterator = fields.keySet().iterator();
-        while (fieldIterator.hasNext()) {
-            String fieldName = (String) fieldIterator.next();
+        for (int i =0; i < fieldNames.size(); i++) {
+            String fieldName = (String) fieldNames.get(i);
             writec((",\n                                final "
-                + ((FieldRecord) fields.get(fieldName)).getType() + " " + fieldName
+                + ((FieldRecord) fields.get(i)).getType() + " " + fieldName
                     .toLowerCase()));
         }
-        writec(") {");
+        write(") {");
 
-        fieldIterator = fields.keySet().iterator();
-        while (fieldIterator.hasNext()) {
-            String fieldName = (String) fieldIterator.next();
+        for (int i =0; i < fieldNames.size(); i++) {
+            String fieldName = (String) fieldNames.get(i);
             write("    set" + fieldName + "(m, " + fieldName.toLowerCase()
                 + ");");
         }
@@ -415,28 +408,33 @@ public class tplProcessor {
 
         if (tagLine.startsWith("FIELD")) {
             String[] tokens = tagLine.split(" ");
-            if (!fields.containsKey(tokens[1])) {
-                fields.put(tokens[1], new FieldRecord());
+            if (!fieldNames.contains(tokens[1])) {
+                fieldNames.add(tokens[1]);
+                fields.add(fieldNames.indexOf(tokens[1]), new FieldRecord());
             }
-            ((FieldRecord) fields.get(tokens[1])).setType(tokens[2]);
+            ((FieldRecord) fields.get(fieldNames.indexOf(tokens[1]))).setType(tokens[2]);
         } else
 
         if (tagLine.startsWith("FCHECK")) {
             String[] tokens = tagLine.split(" ");
-            if (!fields.containsKey(tokens[1])) {
-                fields.put(tokens[1], new FieldRecord());
+            if (!fieldNames.contains(tokens[1])) {
+                fieldNames.add(tokens[1]);
+                fields.add(fieldNames.indexOf(tokens[1]), new FieldRecord());
             }
-            ((FieldRecord) fields.get(tokens[1])).setCheck(tagLine
-                    .substring(7 + tokens[1].length()));
+            ((FieldRecord) fields.get(fieldNames.indexOf(tokens[1]))).setCheck(
+                    tagLine.substring(7 + tokens[1].length())
+                    );
         } else
 
         if (tagLine.startsWith("FDESC")) {
             String[] tokens = tagLine.split(" ");
-            if (!fields.containsKey(tokens[1])) {
-                fields.put(tokens[1], new FieldRecord());
+            if (!fieldNames.contains(tokens[1])) {
+                fieldNames.add(tokens[1]);
+                fields.add(fieldNames.indexOf(tokens[1]), new FieldRecord());
             }
-            ((FieldRecord) fields.get(tokens[1])).setDesc(tagLine
-                    .substring(6 + tokens[1].length()));
+            ((FieldRecord) fields.get(fieldNames.indexOf(tokens[1]))).setDesc(
+                    tagLine.substring(6 + tokens[1].length())
+                    );
         } else
 
         if (tagLine.startsWith("DEFORIGIN")) {
@@ -479,7 +477,7 @@ public class tplProcessor {
      * 
      * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
      * @author (C) 2004 НПП "Новел-ИЛ"
-     * @version $Id: tplProcessor.java,v 1.11 2004/10/22 10:23:31 valeks Exp $
+     * @version $Id: tplProcessor.java,v 1.12 2004/10/24 22:54:55 boris Exp $
      */
     class FieldRecord {
 
