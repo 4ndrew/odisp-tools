@@ -1,13 +1,12 @@
 package com.novel.tools.log;
 
-import java.text.SimpleDateFormat;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 /** Форматирование сообщения в одну строку
  * @author <a href="mailto:valeks@novel-il.ru">Valentin A. Alekseev</a>
- * @version $Id: OneLineFormatter.java,v 1.4 2004/07/05 14:37:56 dron Exp $
+ * @version $Id: OneLineFormatter.java,v 1.5 2004/07/12 06:38:48 valeks Exp $
  */
 public class OneLineFormatter extends Formatter {
   static final int SEVERE = 1000;
@@ -23,7 +22,6 @@ public class OneLineFormatter extends Formatter {
    * @param record запись для анализа
    * @return отформатированная строка
    */
-  private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
   private static int recordidx = 0;
   public final String format(final LogRecord record) {
     String result = "";
