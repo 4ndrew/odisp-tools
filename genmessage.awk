@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.15 2004/09/07 21:40:50 dron Exp $
+# $Id: genmessage.awk,v 1.16 2004/09/09 10:11:48 dron Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -34,6 +34,7 @@ $1 ~ /^NAME/ {
   package = $2;
   name = $3;
   action = $4;
+  paramc = 0;
 };
 
 /^\$/ {
@@ -66,6 +67,8 @@ $1 ~ /^DESC/ {
 
 $1 ~ /^FIELD/ {
   fields_type[$2] = $3;
+  fields_order[paramc] = $2;
+  paramc++;
 };
 
 $1 ~ /^FCHECK/ {
@@ -294,9 +297,12 @@ END {
   }
   printf "  */\n";
   printf "  public static Message initAll(final Message m";
-  for (key in fields_type) {
+  
+  for (i = 0; i < paramc; i++) {
+    key = fields_order[i];
     printf ",\n                               final " fields_type[key] " " tolower(key);
   }
+  
   printf ") {\n";
   for (key in fields_type) {
     printf "    set" key "(m, " tolower(key) ");\n";
