@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
- * @author Волковыский Борис В.
+ * @author <a href="boris@novel-il.ru">Волковыский Борис В.</a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.2 2004/10/18 11:15:50 boris Exp $
+ * @version $Id: TplParser.java,v 1.3 2004/10/18 13:37:15 boris Exp $
  *
  * Пример шаблонов:
  *
@@ -39,24 +39,10 @@ import java.io.PrintStream;
  * 			 Выключается повторным VERBATIM. Может встречаться несколько раз, 
  * 			 но результат будет выведен только в конце сообщения.
  */
+
 public class TplParser {
   
-  String tagNAMEstrings = "";
-  String tagIMPORTstrings = "";
-  String tagAUTHORstrings = "";
-  String tagDESCstrings = "";
-  String tagFIELDstrings = "";
-  String tagFCHECKstrings = "";
-  String tagFDESCstrings = "";
-  String tagDEFORIGINstrings = "";
-  String tagDEFDESTstrings = "";
-  String tagDEFIDstrings = "";
-  String tagDEFROUTABLEstrings = "";
-  String tagDEFOOBstrings = "";
-  String tagNOTAGstrings = "";
-  String tagCVSidstrings = "";
-  
-	/**
+  /**
 	 * 
 	 * @param args
 	 */
@@ -105,194 +91,13 @@ public class TplParser {
 		try {
 			javaFile.delete();
 			if (javaFile.createNewFile()){
-				parseTpl(tplFile.getPath(), javaFile.getPath());
+				tplProcessor tplProc = new tplProcessor(tplFile.getPath(), javaFile.getPath());
+				if (tplProc.go()){
+				  System.out.println("File " + tplFile.getPath() + " parsed java file created");
+				}
 			}
 		} catch (IOException e) {
 			System.err.println("IOException");
 		}	
 	}
-	
-	/**
-	 * 
-	 * @param tplName
-	 * @param javaName
-	 */
-	private void parseTpl(String tplName, String javaName){
-	  BufferedReader tplReader = null; 
-	  PrintStream javaWriter = null;
-	  
-	  try {
-      tplReader = new BufferedReader(new FileReader(tplName));
-      javaWriter = new PrintStream(new FileOutputStream(javaName));
-    } catch (FileNotFoundException e) {
-      System.err.println("File not found: "+e.getMessage());
-      return;
-    }
-
-    try {
-      String line;
-      while ((line = tplReader.readLine()) != null){
-        parseTagLine(line);
-      }
-    } catch (IOException e) {
-      System.err.println("IOException on reading TPL");
-    }
-    writeJavaFile(javaWriter);
-	}
-
-  /**
-   * @param javaWriter
-   */
-	private void writeJavaFile(PrintStream javaWriter) {
-    javaWriter.println("java file created");
-    System.out.println(tagAUTHORstrings);
-  }
-
-  /**
-   * @param line
-   */
-  private void parseTagLine(String tagLine) {
-    tagNAME(tagLine);
-    tagIMPORT(tagLine);
-    tagAUTHOR(tagLine);
-    tagDESC(tagLine);
-    tagFIELD(tagLine);
-    tagFCHECK(tagLine);
-    tagFDESC(tagLine);
-    tagDEFORIGIN(tagLine);
-    tagDEFDEST(tagLine);
-    tagDEFID(tagLine);
-    tagDEFROUTABLE(tagLine);
-    tagDEFOOB(tagLine);
-    tagNOTAG(tagLine);
-    tagCVSid(tagLine);
-    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagNAME(String tagLine) {
-    if (tagLine.startsWith("NAME")){
-      tagNAMEstrings += tagLine + "\n";
-    }    
-  }
-  
-  /**
-   * @param tagLine
-   */
-  private void tagCVSid(String tagLine) {
-    if (tagLine.startsWith("$")){
-      tagCVSidstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagNOTAG(String tagLine) {
-    if (!tagLine.startsWith("#")){//комментарии пропускаем
-      tagNOTAGstrings += tagLine + "\n";
-    }
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagDEFOOB(String tagLine) {
-    if (tagLine.startsWith("DEFOOB")){
-      tagDEFOOBstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagDEFROUTABLE(String tagLine) {
-    if (tagLine.startsWith("DEFROUTABLE")){
-      tagDEFROUTABLEstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagDEFID(String tagLine) {
-    if (tagLine.startsWith("DEFID")){
-      tagDEFIDstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagDEFDEST(String tagLine) {
-    if (tagLine.startsWith("DEFDEST")){
-      tagDEFDESTstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagDEFORIGIN(String tagLine) {
-    if (tagLine.startsWith("DEFORIGIN")){
-      tagDEFORIGINstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagFDESC(String tagLine) {
-    if (tagLine.startsWith("FDESC")){
-      tagFDESCstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagFCHECK(String tagLine) {
-    if (tagLine.startsWith("FCHECK")){
-      tagFCHECKstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagFIELD(String tagLine) {
-    if (tagLine.startsWith("FIELD")){
-      tagFIELDstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagDESC(String tagLine) {
-    if (tagLine.startsWith("DESC")){
-      tagDESCstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagAUTHOR(String tagLine) {
-    if (tagLine.startsWith("AUTHOR")){
-      tagAUTHORstrings += tagLine + "\n";
-    }    
-  }
-
-  /**
-   * @param tagLine
-   */
-  private void tagIMPORT(String tagLine) {
-    if (tagLine.startsWith("IMPORT")){
-      tagIMPORTstrings += tagLine + "\n";
-    }    
-  }
-
 }
