@@ -1,3 +1,4 @@
+package org.valabs.tplParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.io.IOException;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.8 2004/10/22 06:27:55 boris Exp $
+ * @version $Id: TplParser.java,v 1.9 2004/10/22 10:23:31 valeks Exp $
  * 
  * Пример шаблонов:
  * 

@@ -1,3 +1,4 @@
+package org.valabs.tplParser;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +15,7 @@ import java.util.Iterator;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.10 2004/10/22 06:27:55 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.11 2004/10/22 10:23:31 valeks Exp $
  */
 public class tplProcessor {
 
@@ -478,7 +479,7 @@ public class tplProcessor {
      * 
      * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
      * @author (C) 2004 НПП "Новел-ИЛ"
-     * @version $Id: tplProcessor.java,v 1.10 2004/10/22 06:27:55 boris Exp $
+     * @version $Id: tplProcessor.java,v 1.11 2004/10/22 10:23:31 valeks Exp $
      */
     class FieldRecord {
 
