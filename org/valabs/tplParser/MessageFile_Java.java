@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 /** Создание класса сообщения на языке Java.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_Java.java,v 1.2 2005/02/03 12:40:26 valeks Exp $
+ * @version $Id: MessageFile_Java.java,v 1.3 2005/02/12 17:24:23 valeks Exp $
  */
 class MessageFile_Java implements MessageFile {
   
@@ -279,11 +279,14 @@ class MessageFile_Java implements MessageFile {
       write(out, "    try {\n");
       Iterator it = tplSource.getFields().keySet().iterator();
       while (it.hasNext()) {
-        String key = (String) it.next();
-        // XXX: не учитывается FCHECK
-        write(out, "      assert get" + key + "(msg) != null : \"Message field " + key + " is null.\";\n");
+        String fieldName = (String) it.next();
+        String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
+
+        if (fieldCheck.trim().length() == 0) {
+          fieldCheck = "get" + fieldName + "(msg) != null";
+        }
+        write(out, "      assert " + fieldCheck + " : \"Message has invalid field '" + fieldName + "'\";\n");
       }
-      
       write(out, "    } catch (AssertionError e) {\n");
       write(out, "      System.err.println(\"Message assertion :\" + e.toString());\n");
       write(out, "      e.printStackTrace();\n    }\n");
