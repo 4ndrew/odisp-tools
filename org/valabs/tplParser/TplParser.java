@@ -8,7 +8,7 @@ import java.io.IOException;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.14 2004/10/25 10:36:51 boris Exp $
+ * @version $Id: TplParser.java,v 1.15 2004/10/26 09:26:03 dron Exp $
  * 
  * Пример шаблонов:
  * 
@@ -50,83 +50,82 @@ import java.io.IOException;
 
 public class TplParser {
 
-    private static boolean cleanOnly = false;
+  private static boolean cleanOnly = false;
 
-    /**
-     * Главный класс парсера
-     * 
-     * @param args
-     *            параметры вызова
-     */
-    public static void main(String[] args) {
-        TplParser newTplParser = new TplParser();
-        System.out.println("TPL parser started");
-        if (args.length > 0 && args[0] == "clean") {
-            cleanOnly = true;
-            System.out.println("Performing clean only");
+  /**
+   * Главный класс парсера
+   * 
+   * @param args
+   *            параметры вызова
+   */
+  public static void main(String[] args) {
+    TplParser newTplParser = new TplParser();
+    System.out.println("TPL parser started");
+    if (args.length > 0 && args[0] == "clean") {
+      cleanOnly = true;
+      System.out.println("Performing clean only");
+    }
+    File f = new File(".");
+    newTplParser.listDir(f);
+    System.out.println("TPL parser finished");
+  }
+
+  /**
+   * Рекурсивный поиск файлов по директориям
+   * 
+   * @param f
+   *            указатель на директорию где искать
+   */
+  private void listDir(File f) {
+    File fileList[] = f.listFiles();
+    for (int i = 0; i < fileList.length; i++) {
+      if (fileList[i].isDirectory()) {
+        listDir(fileList[i]);
+      } else {
+        if (isFileMach(fileList[i].getName())) {
+          processFile(fileList[i]);
         }
-        File f = new File(".");
-        newTplParser.listDir(f);
-        System.out.println("TPL parser finished");
+      }
     }
+  }
 
-    /**
-     * Рекурсивный поиск файлов по директориям
-     * 
-     * @param f
-     *            указатель на директорию где искать
-     */
-    private void listDir(File f) {
-        File fileList[] = f.listFiles();
-        for (int i = 0; i < fileList.length; i++) {
-            if (fileList[i].isDirectory()) {
-                listDir(fileList[i]);
-            } else {
-                if (isFileMach(fileList[i].getName())) {
-                    processFile(fileList[i]);
-                }
-            }
+  /**
+   * Проверка соответсвия найденного файла нашим критериям
+   * 
+   * @param fileName
+   *            имя файла
+   * 
+   * @return возвращает true если файл подходит false если не подходит
+   */
+  private boolean isFileMach(String fileName) {
+    return fileName.endsWith(".tpl");
+  }
+
+  /**
+   * Обработка tpl файла и создание соответствующего файла .java
+   * 
+   * @param tplFile
+   *            имя файла
+   */
+  private void processFile(File tplFile) {
+    System.out.println("Parsing tpl: " + tplFile.getName());
+
+    File javaFile = new File(tplFile.getPath().replaceAll(".tpl$", ".java"));
+    try {
+      javaFile.delete();
+      if (cleanOnly) {
+        System.out.println("Java file deleted " + javaFile.getPath());
+      } else {
+        if (javaFile.createNewFile()) {
+          tplProcessor tplProc = new tplProcessor(tplFile.getPath(), javaFile
+              .getPath());
+          if (tplProc.go()) {
+            System.out.println("Java file created " + javaFile.getName());
+          }
         }
+      }
+    } catch (IOException e) {
+      System.err.println("IOException: " + e.getMessage());
     }
-
-    /**
-     * Проверка соответсвия найденного файла нашим критериям
-     * 
-     * @param fileName
-     *            имя файла
-     * 
-     * @return возвращает true если файл подходит false если не подходит
-     */
-    private boolean isFileMach(String fileName) {
-        return fileName.endsWith(".tpl");
-    }
-
-    /**
-     * Обработка tpl файла и создание соответствующего файла .java
-     * 
-     * @param tplFile
-     *            имя файла
-     */
-    private void processFile(File tplFile) {
-        System.out.println("Parsing tpl: " + tplFile.getName());
-
-        File javaFile = new File(tplFile.getPath().replaceAll(".tpl$", ".java"));
-        try {
-            javaFile.delete();
-            if (cleanOnly) {
-                System.out.println("Java file deleted " + javaFile.getPath());
-            } else {
-                if (javaFile.createNewFile()) {
-                    tplProcessor tplProc = new tplProcessor(tplFile.getPath(),
-                        javaFile.getPath());
-                    if (tplProc.go()) {
-                        System.out.println("Java file created "
-                            + javaFile.getName());
-                    }
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("IOException: " + e.getMessage());
-        }
-    }
+  }
 }
