@@ -13,7 +13,7 @@ import java.util.List;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.20 2005/02/03 12:40:26 valeks Exp $
+ * @version $Id: TplParser.java,v 1.21 2005/03/10 12:09:37 valeks Exp $
  */
 
 public class TplParser {
@@ -52,7 +52,7 @@ public class TplParser {
   }
   
   public TplParser(boolean _cleanOnly, List folders) {
-    System.out.println("TPL parser started");
+    System.out.println("TPL parser started. Working folder is: " + new File(".").getAbsolutePath());
     cleanOnly = _cleanOnly;
     if (doJava) {
       writers.add(new MessageFile_Java());
