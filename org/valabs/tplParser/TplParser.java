@@ -7,8 +7,7 @@ import java.io.IOException;
  * Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
- * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.16 2004/10/26 13:49:55 boris Exp $
+ * @version $Id: TplParser.java,v 1.17 2004/10/28 17:40:54 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -24,9 +23,7 @@ import java.io.IOException;
  * по-умолчанию]
  * 
  * DEFDEST [точка назначения по-умолчанию]
- * 
- * DEFID [ReplyId сообщения по-умолчанию]
- * 
+ *
  * DEFROUTABLE [Routable по-умолчанию]
  * 
  * DEFREPLTO [номер сообщения на которое производится ответ по умолчанию]

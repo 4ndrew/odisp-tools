@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * Ядро парсинга tpl файла
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
- * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.16 2004/10/26 13:49:54 boris Exp $
+ * @author <a href="valeks@novel-il.ru">Алексеев Валентин А. </a>
+ * @version $Id: tplProcessor.java,v 1.17 2004/10/28 17:40:54 valeks Exp $
  */
 public class tplProcessor {
 
@@ -22,8 +22,6 @@ public class tplProcessor {
   private String messageName = "";
 
   private String actionName = "";
-
-  private String tagNAMEstrings = "";
 
   private String tagIMPORTstrings = "";
 
@@ -34,8 +32,6 @@ public class tplProcessor {
   private String tagDEFORIGINstrings = "";
 
   private String tagDEFDESTstrings = "";
-
-  private String tagDEFIDstrings = "";
 
   private boolean tagDEFROUTABLE = false;
 
@@ -90,7 +86,7 @@ public class tplProcessor {
       System.err.println("IOException: " + e.getMessage());
       return false;
     }
-    writeJavaFile(javaWriter);
+    writeJavaFile();
     return true;
   }
 
@@ -114,10 +110,8 @@ public class tplProcessor {
 
   /**
    * Генерация содержимого .java файла
-   * 
-   * @param javaWriter имя .java файла
    */
-  private void writeJavaFile(PrintStream javaWriter) {
+  private void writeJavaFile() {
     write("package " + packageName + ";\n");
     write("import org.valabs.odisp.common.Message;\n");
 
@@ -198,6 +192,7 @@ public class tplProcessor {
       write("   * @param origin Точка отправления.");
     }
 
+    if (tagDEFREPLTOstrings != "") 
     write("   * @param replyTo Идентификатор сообщения, на которое это является ответом.");
     write("   * @return ссылка на инициализированное сообщение");
     write("   */");
@@ -285,19 +280,20 @@ public class tplProcessor {
     write("  public static boolean equals(final Message msg) {");
     write("    return msg.getAction().equals(NAME);");
     write("  }\n");
-    write("  /** Копирование полей из одного сообщения в другое.");
-    write("  *");
-    write("  * @param dest Получатель.");
-    write("  * @param src Источник.");
-    write("  */");
-    write("  public static void copyFrom(final Message dest, final Message src) {");
+    if (fieldNames.size() > 0) {
+      write("  /** Копирование полей из одного сообщения в другое.");
+      write("  *");
+      write("  * @param dest Получатель.");
+      write("  * @param src Источник.");
+      write("  */");
+      write("  public static void copyFrom(final Message dest, final Message src) {");
 
-    for (int i = 0; i < fieldNames.size(); i++) {
-      String fieldName = (String) fieldNames.get(i);
-      write("    set" + fieldName + "(dest, get" + fieldName + "(src));");
+      for (int i = 0; i < fieldNames.size(); i++) {
+        String fieldName = (String) fieldNames.get(i);
+        write("    set" + fieldName + "(dest, get" + fieldName + "(src));");
+      }
+      write("  }\n");
     }
-    write("  }\n");
-
     write("  /** Генерирование уникального hash-кода сообщения.");
     write("   * Всегда равен 0.");
     write("   * @return hash-код сообщения.");
@@ -393,8 +389,6 @@ public class tplProcessor {
       tagDEFORIGINstrings = tagLine.split(" ")[1];
     } else if (tagLine.startsWith("DEFDEST")) {
       tagDEFDESTstrings = tagLine.split(" ")[1];
-    } else if (tagLine.startsWith("DEFID")) {
-      tagDEFIDstrings = tagLine.split(" ")[1];
     } else if (tagLine.startsWith("DEFROUTABLE")) {
       tagDEFROUTABLE = true;
     } else if (tagLine.startsWith("DEFREPLTO")) {
@@ -418,7 +412,7 @@ public class tplProcessor {
    * 
    * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
    * @author (C) 2004 НПП "Новел-ИЛ"
-   * @version $Id: tplProcessor.java,v 1.16 2004/10/26 13:49:54 boris Exp $
+   * @version $Id: tplProcessor.java,v 1.17 2004/10/28 17:40:54 valeks Exp $
    */
   class FieldRecord {
 
