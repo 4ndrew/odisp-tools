@@ -11,7 +11,7 @@ import java.io.PrintStream;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.2 2004/10/18 13:45:49 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.3 2004/10/18 14:03:51 boris Exp $
  */
 public class tplProcessor {
 
@@ -84,11 +84,11 @@ public class tplProcessor {
     }
 
     if (tagLine.startsWith("$")){
-      tagCVSidstrings = tagLine;
+      tagCVSidstrings = " * @version " + tagLine + "\n";
     }    
 
     if (tagLine.startsWith("IMPORT")){
-      tagIMPORTstrings += tagLine.split(" ")[1];
+      tagIMPORTstrings +="imports " + tagLine.split(" ")[1] + "\n";
     }    
 
     if (tagLine.startsWith("AUTHOR")){
