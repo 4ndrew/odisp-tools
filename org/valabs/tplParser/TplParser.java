@@ -1,14 +1,10 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintStream;
 
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="boris@novel-il.ru">Волковыский Борис В.</a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.4 2004/10/20 10:03:51 boris Exp $
+ * @version $Id: TplParser.java,v 1.5 2004/10/20 10:05:59 boris Exp $
  *
  * Пример шаблонов:
  *
