@@ -9,7 +9,7 @@ import java.io.PrintStream;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author Волковыский Борис В.
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.1 2004/10/18 11:11:05 boris Exp $
+ * @version $Id: TplParser.java,v 1.2 2004/10/18 11:15:50 boris Exp $
  *
  * Пример шаблонов:
  *
@@ -172,6 +172,15 @@ public class TplParser {
   /**
    * @param tagLine
    */
+  private void tagNAME(String tagLine) {
+    if (tagLine.startsWith("NAME")){
+      tagNAMEstrings += tagLine + "\n";
+    }    
+  }
+  
+  /**
+   * @param tagLine
+   */
   private void tagCVSid(String tagLine) {
     if (tagLine.startsWith("$")){
       tagCVSidstrings += tagLine + "\n";
@@ -286,12 +295,4 @@ public class TplParser {
     }    
   }
 
-  /**
-   * @param tagLine
-   */
-  private void tagNAME(String tagLine) {
-    if (tagLine.startsWith("NAME")){
-      tagNAMEstrings += tagLine + "\n";
-    }    
-  }
 }
