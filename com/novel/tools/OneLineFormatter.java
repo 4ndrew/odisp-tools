@@ -3,12 +3,12 @@ package com.novel.tools.log;
 import java.util.logging.*;
 import java.util.Locale;
 import java.util.Date;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /** Форматирование сообщения в одну строку
 * @author Валентин А. Алексеев
 * @author НПП "Новел-ИЛ"
-* @version $Id: OneLineFormatter.java,v 1.1 2003/10/22 20:49:38 valeks Exp $
+* @version $Id: OneLineFormatter.java,v 1.2 2003/10/22 21:45:54 valeks Exp $
 */
 public class OneLineFormatter extends Formatter {
     /** Выполнить форматирование записи. Выходная строка в виде:
@@ -16,9 +16,10 @@ public class OneLineFormatter extends Formatter {
     * @param record запись для анализа
     * @return отформатированная строка
     */
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     public String format(LogRecord record){
 	String result = "";
-	result+=DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(new Date(record.getMillis()))+" ";
+	result+=sdf.format(new Date(record.getMillis()))+" ";
 	result+=record.getLevel()+"\t";
 	result+=record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".")+1)+".";
 	result+=record.getSourceMethodName()+": ";
