@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.14 2004/09/02 08:49:50 dron Exp $
+# $Id: genmessage.awk,v 1.15 2004/09/07 21:40:50 dron Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -150,7 +150,14 @@ END {
           "   * @param msg Сообщение\n" \
           "   */\n" \
 	  "  private static void checkMessage(final Message msg) {\n";
-  if (length(fields_type) != 0) {
+
+  # old awk interpreter not support arrays as length() argument
+  arrlen = 0;
+  for (key in fields_type) {
+    arrlen++;
+  }
+  
+  if (arrlen != 0) {
     print "    try {";
     for (key in fields_type) {
       if (fields_checkstr[key] == "") {
