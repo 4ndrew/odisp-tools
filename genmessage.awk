@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.4 2004/06/22 10:07:15 dron Exp $
+# $Id: genmessage.awk,v 1.5 2004/06/25 11:29:14 dron Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -156,7 +156,7 @@ END {
           "   * @param replyTo Идентификатор сообщения, " \
           "на которое это является ответом.\n" \
           "   */\n" \
-    "  public static void setup(Message msg";
+    "  public static Message setup(Message msg";
     if (defdest == "") {
       printf  ", final String destination";
     }
@@ -186,6 +186,7 @@ END {
       printf "    msg.setRoutable(false);\n";
     } 
     printf "    checkMessage(msg);\n"\
+      "    return msg;\n" \
       "  }\n\n";
 
   for (key in fields_type) {
@@ -196,9 +197,10 @@ END {
             "   * @param msg Сообщение над которым производится действо.\n" \
             "   * @param newValue Новое значение для поля.\n" \
             "   */\n" \
-            "  public static final void set" key "(Message msg, " fields_type[key] " newValue) {\n" \
+            "  public static final Message set" key "(Message msg, " fields_type[key] " newValue) {\n" \
             "    msg.addField(" toupper(key) "_IDX, newValue);\n" \
             "    checkMessage(msg);\n" \
+            "    return msg;\n" \
             "  }\n\n" \
             "  /** Получить " key ".\n" \
             "   * " fields_desc[key] "\n" \
