@@ -1,0 +1,21 @@
+<!-- $Id: build.xml,v 1.5 2004/10/22 10:20:13 valeks Exp $ -->
+<project name="tplParser" default="all">
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+  <target name="pre-build-make-folder">
+    <mkdir dir="build"/>
+  </target>
+  <target name="tplParser-build" depends="pre-build-make-folder">
+    <javac srcdir="org" destdir="build"/>
+  </target>
+  <target name="tplParser-jar" depends="tplParser-build">
+    <jar basedir="build" destfile="tplParser.jar">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="org.valabs.tplParser.TplParser"/>
+      </manifest>
+    </jar>
+  </target>
+  <target name="all" depends="clean, tplParser-jar"/>
+</project>
