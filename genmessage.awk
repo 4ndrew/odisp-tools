@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.1 2004/06/21 12:44:20 dron Exp $
+# $Id: genmessage.awk,v 1.2 2004/06/21 13:09:43 dron Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -50,7 +50,7 @@ END {
           " *\n" \
           " * @author " author "\n" \
           " * @author (C) 2004 НПП \"Новел-ИЛ\"\n" \
-          " * version " version " \n" \
+          " * @version " version " \n" \
           " */\n" \
           "public class " name " {\n" \
           "  /** Строковое представление сообщения */\n" \
@@ -81,6 +81,9 @@ END {
       printf "      " fields_check[key] "\n"; 
       flag = 1;
     }
+  }
+  if (flag == 0) {
+    printf "true\n";
   }
   printf  "    );\n" \
           "  }\n\n";
