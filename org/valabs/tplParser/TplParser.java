@@ -8,7 +8,7 @@ import java.io.IOException;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.10 2004/10/22 11:17:27 boris Exp $
+ * @version $Id: TplParser.java,v 1.11 2004/10/22 11:35:15 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -50,7 +50,7 @@ import java.io.IOException;
 
 public class TplParser {
 
-    private boolean cleanOnly = false;
+    private static boolean cleanOnly = false;
 
     /**
      * Главный класс парсера
@@ -61,7 +61,7 @@ public class TplParser {
     public static void main(String[] args) {
         TplParser newTplParser = new TplParser();
         System.out.println("TPL parser started");
-        if (args[1] == "clean") {
+        if (args.length > 0 && args[0] == "clean") {
             cleanOnly = true;
             System.out.println("Performing clean only");
         }
