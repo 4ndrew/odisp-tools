@@ -1,13 +1,12 @@
 package com.novel.tools.log;
 
-import java.util.logging.*;
-import java.util.Locale;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 
 /** Форматирование сообщения в одну строку
  * @author <a href="mailto:valeks@novel-il.ru">Valentin A. Alekseev</a>
- * @version $Id: OneLineFormatter.java,v 1.2 2004/02/17 10:57:01 valeks Exp $
+ * @version $Id: OneLineFormatter.java,v 1.3 2004/02/27 10:58:11 valeks Exp $
  */
 public class OneLineFormatter extends Formatter {
   /** Выполнить форматирование записи. Выходная строка в виде:
