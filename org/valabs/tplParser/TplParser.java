@@ -1,4 +1,3 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,7 +8,7 @@ import java.io.PrintStream;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="boris@novel-il.ru">Волковыский Борис В.</a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.3 2004/10/18 13:37:15 boris Exp $
+ * @version $Id: TplParser.java,v 1.4 2004/10/20 10:03:51 boris Exp $
  *
  * Пример шаблонов:
  *
