@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.11 2004/08/17 11:37:12 valeks Exp $
+# $Id: genmessage.awk,v 1.12 2004/08/23 07:42:40 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -114,7 +114,7 @@ $1 ~ /^VERBATIM/ {
 END {
   gsub(/\\n/, "\n", desc);
   printf  "package " package ";\n\n" \
-          "import com.novel.odisp.common.Message;\n\n";
+          "import org.valabs.odisp.common.Message;\n\n";
   
   if (imports != "") {
     printf imports "\n\n";
