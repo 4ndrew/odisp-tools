@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 /** Класс полностью описывающий шаблон сообщения.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TplFile.java,v 1.3 2005/02/12 22:30:20 valeks Exp $
+ * @version $Id: TplFile.java,v 1.4 2005/02/13 14:33:24 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -137,6 +137,7 @@ class TplFile {
     cvsId = new String(parent.cvsId);
     fields.putAll(parent.fields);
     fileName = new String(parent.fileName);
+    fieldOrder.addAll(parent.fieldOrder);
     lastModified = parent.lastModified;
     type = _type;
     switch (type) {
