@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author <a href="valeks@novel-il.ru">Алексеев Валентин А. </a>
- * @version $Id: tplProcessor.java,v 1.19 2004/11/05 14:11:29 valeks Exp $
+ * @version $Id: tplProcessor.java,v 1.20 2005/01/26 12:42:43 dron Exp $
  */
 public class tplProcessor {
 
@@ -139,7 +139,7 @@ public class tplProcessor {
 
     write("\n");
     write("  /** Запрет на создание объекта. */");
-    write("  private " + messageName + "() { }\n");
+    write("  private " + messageName + "() { /* Single-model. Не позволяется создавать объект. */ }\n");
 
     write("  /** Проверка сообщения на корректность.");
     write("   *");
@@ -418,7 +418,7 @@ public class tplProcessor {
    * 
    * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
    * @author (C) 2004 НПП "Новел-ИЛ"
-   * @version $Id: tplProcessor.java,v 1.19 2004/11/05 14:11:29 valeks Exp $
+   * @version $Id: tplProcessor.java,v 1.20 2005/01/26 12:42:43 dron Exp $
    */
   class FieldRecord {
 
