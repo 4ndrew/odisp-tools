@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: tplProcessor.java,v 1.12 2004/10/24 22:54:55 boris Exp $
+ * @version $Id: tplProcessor.java,v 1.13 2004/10/25 10:19:15 boris Exp $
  */
 public class tplProcessor {
 
@@ -59,10 +59,8 @@ public class tplProcessor {
     /**
      * Конструктор обработчика tpl файла
      * 
-     * @param tplName
-     *            имя tpl файла
-     * @param javaName
-     *            имя соответствующего java файла
+     * @param tplName имя tpl файла
+     * @param javaName имя соответствующего java файла
      */
     tplProcessor(String tplName, String javaName) {
         fields = new ArrayList();
@@ -101,8 +99,7 @@ public class tplProcessor {
     /**
      * Запись с переводом строки
      * 
-     * @param s
-     *            строка которую пишем
+     * @param s строка которую пишем
      */
     private void write(String s) {
         javaWriter.println(s);
@@ -111,8 +108,7 @@ public class tplProcessor {
     /**
      * Запись без перевода строки
      * 
-     * @param s
-     *            строка которую пишем
+     * @param s строка которую пишем
      */
     private void writec(String s) {
         javaWriter.print(s);
@@ -121,8 +117,7 @@ public class tplProcessor {
     /**
      * Запись с переводом строки и принудительной перекодировкой в KOI8-R
      * 
-     * @param s
-     *            строка которую пишем
+     * @param s строка которую пишем
      */
     private void writeEx(String s) {
         byte[] buffer = null;
@@ -142,8 +137,7 @@ public class tplProcessor {
     /**
      * Генерация содержимого .java файла
      * 
-     * @param javaWriter
-     *            имя .java файла
+     * @param javaWriter имя .java файла
      */
     private void writeJavaFile(PrintStream javaWriter) {
         write("package " + packageName + ";\n");
@@ -375,8 +369,7 @@ public class tplProcessor {
     /**
      * Обработчик строки .tpl файла
      * 
-     * @param tagLine
-     *            строка .tpl файла
+     * @param tagLine строка .tpl файла
      */
     private void parseTagLine(String tagLine) {
         if (tagLine.startsWith("NAME")) {
@@ -477,7 +470,7 @@ public class tplProcessor {
      * 
      * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
      * @author (C) 2004 НПП "Новел-ИЛ"
-     * @version $Id: tplProcessor.java,v 1.12 2004/10/24 22:54:55 boris Exp $
+     * @version $Id: tplProcessor.java,v 1.13 2004/10/25 10:19:15 boris Exp $
      */
     class FieldRecord {
 
@@ -499,8 +492,7 @@ public class tplProcessor {
         /**
          * Установить функцию проверки поля сообщения
          * 
-         * @param check
-         *            текст функции проверки поля сообщения.
+         * @param check текст функции проверки поля сообщения.
          */
         public void setCheck(String check) {
             this.check = check;
@@ -518,8 +510,7 @@ public class tplProcessor {
         /**
          * Установить описание поля сообщения
          * 
-         * @param desc
-         *            описание поля сообщения.
+         * @param desc описание поля сообщения.
          */
         public void setDesc(String desc) {
             if (this.desc == "") {
@@ -541,8 +532,7 @@ public class tplProcessor {
         /**
          * Установить тип поля сообщения
          * 
-         * @param type
-         *            тип поля сообщения.
+         * @param type тип поля сообщения.
          */
         public void setType(String type) {
             this.type = type;

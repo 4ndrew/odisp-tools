@@ -8,7 +8,7 @@ import java.io.IOException;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.12 2004/10/22 11:46:43 boris Exp $
+ * @version $Id: TplParser.java,v 1.13 2004/10/25 10:19:15 boris Exp $
  * 
  * Пример шаблонов:
  * 
@@ -55,8 +55,7 @@ public class TplParser {
     /**
      * Главный класс парсера
      * 
-     * @param args
-     *            параметры вызова
+     * @param args параметры вызова
      */
     public static void main(String[] args) {
         TplParser newTplParser = new TplParser();
@@ -73,8 +72,7 @@ public class TplParser {
     /**
      * Рекурсивный поиск файлов по директориям
      * 
-     * @param f
-     *            указатель на директорию где искать
+     * @param f указатель на директорию где искать
      */
     private void listDir(File f) {
         File fileList[] = f.listFiles();
@@ -92,8 +90,7 @@ public class TplParser {
     /**
      * Проверка соответсвия найденного файла нашим критериям
      * 
-     * @param fileName
-     *            имя файла
+     * @param fileName имя файла
      * 
      * @return возвращает true если файл подходит false если не подходит
      */
@@ -104,8 +101,7 @@ public class TplParser {
     /**
      * Обработка tpl файла и создание соответствующего файла .java
      * 
-     * @param tplFile
-     *            имя файла
+     * @param tplFile имя файла
      */
     private void processFile(File tplFile) {
         System.out.println("Parsing tpl: " + tplFile.getName());
