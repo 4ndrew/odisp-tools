@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.9 2004/07/12 12:31:01 valeks Exp $
+# $Id: genmessage.awk,v 1.10 2004/07/20 11:55:24 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -124,55 +124,54 @@ END {
           " *\n" \
           " * @author " author "\n" \
           " * @author (C) 2004 НПП \"Новел-ИЛ\"\n" \
-          " * @version " version " \n" \
+          " * @version " version "\n" \
           " */\n" \
-          "public class " name " {\n" \
-          "  /** Строковое представление сообщения */\n" \
+          "public final class " name " {\n" \
+          "  /** Строковое представление сообщения. */\n" \
           "  public static final String NAME = \"" action "\";\n\n";
 
   for (key in fields_type) {
-    printf  "  /** Индекс для поля " key "*/\n" \
-            "  public static final String " toupper(key) "_IDX = \"" \
+    printf  "  /** Индекс для поля " key ". */\n" \
+            "  private static String idx" toupper(key) " = \"" \
             tolower(key) "\";\n";
   }
 
   printf  "\n\n" \
-          "  /** Запрет на создание объекта */\n" \
-          "  private " name "() {}\n\n";
+          "  /** Запрет на создание объекта. */\n" \
+          "  private " name "() { }\n\n";
 
   printf  "  /** Проверка сообщения на корректность.\n" \
           "   *\n" \
           "   * @param msg Сообщение\n" \
           "   */\n" \
-           "  private static void checkMessage(final Message msg) {\n";
-  print "    try {\n";
-  for (key in fields_type) {
-    if (fields_checkstr[key] == "") {
-      print "    assert get" key "(msg) != null : \"Message field " key " is null.\";\n";
+	  "  private static void checkMessage(final Message msg) {\n";
+  if (length(fields_type) != 0) {
+    print "    try {";
+    for (key in fields_type) {
+      if (fields_checkstr[key] == "") {
+        print "      assert get" key "(msg) != null : \"Message field " key " is null.\";";
+      }
     }
-  }
-  print "    } catch (AssertionError e) {\n" \
-        "      System.err.println(\"Message assertion :\" + e.toString());\n"\
-        "      e.printStackTrace();\n    }\n";
-  print   "    msg.setCorrect(\n";
- 
-  flag = 0;
-  checkstr = "";
-  for (key in fields_type) {
-    if (fields_check[key] != "") {
-      checkstr = fields_check[key];
-    } else {
-      checkstr = "get" key "(msg) != null"
+    print "    } catch (AssertionError e) {\n" \
+          "      System.err.println(\"Message assertion :\" + e.toString());\n"\
+          "      e.printStackTrace();\n    }\n";
+    print   "    msg.setCorrect(";
+    checkstr = "";
+    for (key in fields_type) {
+      if (fields_check[key] != "") {
+        checkstr = fields_check[key];
+      } else {
+        checkstr = "get" key "(msg) != null"
+      }
+      if (flag == 1)  {
+        printf "      && " checkstr "\n";
+      } else {
+        printf "      " checkstr "\n"; 
+        flag = 1;
+      }
     }
-    if (flag == 1)  {
-      printf "      && " checkstr "\n";
-    } else {
-      printf "      " checkstr "\n"; 
-      flag = 1;
-    }
-  }
-  if (flag == 0) {
-    printf "      true\n";
+  } else {
+    print "    msg.setCorrect(\n      true";
   }
   printf  "    );\n" \
           "  }\n\n";
@@ -188,8 +187,9 @@ END {
   }
   printf  "   * @param replyTo Идентификатор сообщения, " \
           "на которое это является ответом.\n" \
+	  "   * @return ссылка на инициализированное сообщение\n" \
           "   */\n" \
-    "  public static Message setup(Message msg";
+    "  public static Message setup(final Message msg";
     if (defdest == "") {
       printf  ", final String destination";
     }
@@ -226,22 +226,24 @@ END {
     gsub(/\\n/, "\n", fields_desc[key]);
     printf  "  /** Установить " key ".\n" \
             "   * " fields_desc[key] "\n" \
-            "   * \n" \
+            "   *\n" \
             "   * @param msg Сообщение над которым производится действо.\n" \
             "   * @param newValue Новое значение для поля.\n" \
+	    "   * @return ссылка на сообщение\n" \
             "   */\n" \
-            "  public static final Message set" key "(Message msg, " fields_type[key] " newValue) {\n" \
-            "    msg.addField(" toupper(key) "_IDX, newValue);\n" \
+            "  public static Message set" key "(final Message msg, final " fields_type[key] " newValue) {\n" \
+            "    msg.addField(idx" toupper(key) ", newValue);\n" \
             "    checkMessage(msg);\n" \
             "    return msg;\n" \
             "  }\n\n" \
             "  /** Получить " key ".\n" \
             "   * " fields_desc[key] "\n" \
-            "   * \n" \
+            "   *\n" \
             "   * @param msg Сообщение над которым производится действо.\n" \
+	    "   * @return значение поля\n" \
             "   */\n" \
-            "  public static final " fields_type[key] " get" key "(Message msg) {\n" \
-            "    return (" fields_type[key] ") msg.getField(" toupper(key) "_IDX);\n" \
+            "  public static " fields_type[key] " get" key "(final Message msg) {\n" \
+            "    return (" fields_type[key] ") msg.getField(idx" toupper(key) ");\n" \
             "  }\n\n";
   }
 
@@ -250,19 +252,26 @@ END {
          "   * @param msg Сообщение.\n" \
          "   * @return true - если является, false - иначе.\n" \
          "   */\n" \
-         "  public static final boolean equals(final Message msg) {\n" \
+         "  public static boolean equals(final Message msg) {\n" \
          "    return msg.getAction().equals(NAME);\n" \
          "  }\n\n";
-  printf "/** Копирование полей из одного сообщения в другое.\n" \
+  printf "  /** Копирование полей из одного сообщения в другое.\n" \
   		 "  *\n" \
   		 "  * @param dest Получатель.\n" \
-  		 "  * @param src Источник. \n" \
+  		 "  * @param src Источник.\n" \
   		 "  */\n" \
-  		 "  public static final void copyFrom(final Message dest, final Message src) {\n";
+  		 "  public static void copyFrom(final Message dest, final Message src) {\n";
    for (key in fields_type) {
      printf "    set" key "(dest, get" key"(src));\n";
    }
   printf "  }\n\n";
+  printf "  /** Генерирование уникального hash-кода сообщения.\n" \
+         "   * Всегда равен 0.\n" \
+	 "   * @return hash-код сообщения.\n" \
+	 "   */\n" \
+	 "  public int hashCode() {\n" \
+	 "    return 0;\n" \
+	 "  }\n\n";
   if (verbatimCode != "") {
     printf verbatimCode;
   }
