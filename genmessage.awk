@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.6 2004/06/26 18:31:11 valeks Exp $
+# $Id: genmessage.awk,v 1.7 2004/06/26 22:26:42 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -15,6 +15,7 @@
 # DEFDEST [точка назначения по-умолчанию]
 # DEFID [ReplyId сообщения по-умолчанию]
 # DEFROUTABLE [Routable по-умолчанию]
+# VERBATIM (***)
 # Версия для тега @version берется из CVS-тега Id.
 #
 # (*) Поддерживаются multiline comments, все поля комментариев, должны
@@ -23,6 +24,9 @@
 # AUTHOR 1 строка
 # AUTHOR 2 строка
 # (**) Значение по-умолчанию get[имя поля](msg) != null
+# (***) VERBATIM включает режим переноса текста в результирующее сообщение. Выключается
+#       повторным VERBATIM. Может встречаться несколько раз, но результат будет выведен
+#       только в конце сообщения.
 #
 
 $1 ~ /^NAME/ {
@@ -89,6 +93,22 @@ $1 ~ /^DEFID/ {
 
 $1 ~ /^DEFROUTABLE/ {
   defroutable = 1;
+}
+
+$1 ~ /^VERBATIM/ {
+  if (verbatim == 1) {
+    verbatim = 0;
+  } else {
+    verbatim = 1;
+  }
+}
+
+{
+  if (verbatim != 0) {
+    if ($1 != "VERBATIM") {
+      verbatimCode = verbatimCode "\n" $0;
+    }
+  }
 }
 
 END {
@@ -231,5 +251,8 @@ END {
      printf "    set" key "(dest, get" key"(src));\n";
    }
   printf "  }\n\n";
-  printf "}\n";
+  if (verbatimCode != "") {
+    printf verbatimCode;
+  }
+  printf "\n\n}\n";
  };
