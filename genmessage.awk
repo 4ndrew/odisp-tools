@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.12 2004/08/23 07:42:40 valeks Exp $
+# $Id: genmessage.awk,v 1.13 2004/08/30 10:07:12 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -15,6 +15,7 @@
 # DEFDEST [точка назначения по-умолчанию]
 # DEFID [ReplyId сообщения по-умолчанию]
 # DEFROUTABLE [Routable по-умолчанию]
+# DEFOOB [OOB по-умолчанию]
 # VERBATIM (***)
 # Версия для тега @version берется из CVS-тега Id.
 #
@@ -93,6 +94,11 @@ $1 ~ /^DEFID/ {
 
 $1 ~ /^DEFROUTABLE/ {
   defroutable = 1;
+}
+
+$1 ~ /^DEFOOB/ {
+  printf "WARNING: Generating OOB message " name " \n" > "/dev/fd/2";
+  defoob = 1;
 }
 
 $1 ~ /^VERBATIM/ {
@@ -217,7 +223,10 @@ END {
     }
     if (defroutable == 0) {
       printf "    msg.setRoutable(false);\n";
-    } 
+    }
+    if (defoob == 1) {
+      printf "    msg.setOOB(true);\n";
+    }
     printf "    checkMessage(msg);\n"\
       "    return msg;\n" \
       "  }\n\n";
