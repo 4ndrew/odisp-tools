@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author <a href="valeks@novel-il.ru">Алексеев Валентин А. </a>
- * @version $Id: tplProcessor.java,v 1.20 2005/01/26 12:42:43 dron Exp $
+ * @version $Id: tplProcessor.java,v 1.21 2005/01/28 13:24:44 dron Exp $
  */
 public class tplProcessor {
 
@@ -247,7 +247,8 @@ public class tplProcessor {
       String fieldName = (String) fieldNames.get(i);
 
       write("  /** Установить " + fieldName + ".");
-      write(" " + ((FieldRecord) fields.get(i)).getDesc());
+      if (((FieldRecord) fields.get(i)).getDesc().length() > 0)
+        write("   *" + ((FieldRecord) fields.get(i)).getDesc());
       write("   *");
       write("   * @param msg Сообщение над которым производится действие.");
       write("   * @param newValue Новое значение для поля.");
@@ -261,7 +262,7 @@ public class tplProcessor {
       write("    return msg;");
       write("  }\n");
       write("  /** Получить " + fieldName + ".");
-      write(" " + ((FieldRecord) fields.get(i)).getDesc());
+      write("   *" + ((FieldRecord) fields.get(i)).getDesc());
       write("   *");
       write("   * @param msg Сообщение над которым производится действие.");
       write("   * @return значение поля");
@@ -310,7 +311,7 @@ public class tplProcessor {
 
     for (int i = 0; i < fieldNames.size(); i++) {
       String fieldName = (String) fieldNames.get(i);
-      write("   * @param " + fieldName.toUpperCase() + " "
+      write("   * @param " + fieldName.toLowerCase() + " "
         + ((FieldRecord) fields.get(i)).getDesc());
     }
 
@@ -320,8 +321,7 @@ public class tplProcessor {
     for (int i = 0; i < fieldNames.size(); i++) {
       String fieldName = (String) fieldNames.get(i);
       writec((",\n                                final "
-        + ((FieldRecord) fields.get(i)).getType() + " " + fieldName
-          .toLowerCase()));
+        + ((FieldRecord) fields.get(i)).getType() + " " + fieldName.toLowerCase()));
     }
     write(") {");
 
@@ -418,7 +418,7 @@ public class tplProcessor {
    * 
    * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
    * @author (C) 2004 НПП "Новел-ИЛ"
-   * @version $Id: tplProcessor.java,v 1.20 2005/01/26 12:42:43 dron Exp $
+   * @version $Id: tplProcessor.java,v 1.21 2005/01/28 13:24:44 dron Exp $
    */
   class FieldRecord {
 
@@ -470,11 +470,7 @@ public class tplProcessor {
      * @param desc описание поля сообщения.
      */
     public void setDesc(String desc) {
-      if (this.desc == "") {
-        this.desc += "  *" + desc;
-      } else {
-        this.desc += "\n  *" + desc;
-      }
+      this.desc = desc;
     }
 
     /**
