@@ -142,7 +142,7 @@
           <xsl:when test="string-length(prevrevision) &gt; 0 ">
             <td>
             <a><xsl:attribute name="href">
-              <xsl:value-of select="$cvsweb"/><xsl:value-of select="$module" />/<xsl:value-of select="name" />?rev=<xsl:value-of select="prevrevision" />&amp;content-type=text/x-cvsweb-markup</xsl:attribute>
+              <xsl:value-of select="$cvsweb"/><xsl:value-of select="$module" />/<xsl:value-of select="name" />?rev=<xsl:value-of select="prevrevision" />&amp;content-type=text/vnd.viewcvs-markup</xsl:attribute>
               <xsl:value-of select="prevrevision"/>
           </a> 
         </td>
@@ -151,13 +151,13 @@
         </td>
       <td>
 
-          <a><xsl:attribute name="href"><xsl:value-of select="$cvsweb"/><xsl:value-of select="$module" />/<xsl:value-of select="name" />?rev=<xsl:value-of select="revision" />&amp;content-type=text/x-cvsweb-markup</xsl:attribute>
+          <a><xsl:attribute name="href"><xsl:value-of select="$cvsweb"/><xsl:value-of select="$module" />/<xsl:value-of select="name" />?rev=<xsl:value-of select="revision" />&amp;content-type=text/vnd.viewcvs-markup</xsl:attribute>
           <xsl:value-of select="revision"/></a>
         </td>
           </xsl:when>
           <xsl:otherwise>
       <td>
-<a><xsl:attribute name="href"><xsl:value-of select="$cvsweb"/><xsl:value-of select="$module" />/<xsl:value-of select="name" />?rev=<xsl:value-of select="revision" />&amp;content-type=text/x-cvsweb-markup</xsl:attribute>
+<a><xsl:attribute name="href"><xsl:value-of select="$cvsweb"/><xsl:value-of select="$module" />/<xsl:value-of select="name" />?rev=<xsl:value-of select="revision" />&amp;content-type=text/vnd.viewcvs-markup</xsl:attribute>
           <xsl:value-of select="revision"/></a>
         </td>
         <td/>
