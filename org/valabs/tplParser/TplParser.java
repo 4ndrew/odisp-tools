@@ -8,7 +8,7 @@ import java.io.IOException;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (С) 2004 НПП "Новел-ИЛ"
- * @version $Id: TplParser.java,v 1.11 2004/10/22 11:35:15 valeks Exp $
+ * @version $Id: TplParser.java,v 1.12 2004/10/22 11:46:43 boris Exp $
  * 
  * Пример шаблонов:
  * 
@@ -108,7 +108,7 @@ public class TplParser {
      *            имя файла
      */
     private void processFile(File tplFile) {
-        System.out.println("Parsing tpl: " + tplFile.getPath());
+        System.out.println("Parsing tpl: " + tplFile.getName());
 
         File javaFile = new File(tplFile.getPath().replaceAll(".tpl$", ".java"));
         try {
@@ -121,7 +121,7 @@ public class TplParser {
                         javaFile.getPath());
                     if (tplProc.go()) {
                         System.out.println("Java file created "
-                            + javaFile.getPath());
+                            + javaFile.getName());
                     }
                 }
             }
