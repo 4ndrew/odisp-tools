@@ -6,31 +6,47 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 /** Форматирование сообщения в одну строку
-* @author Валентин А. Алексеев
-* @author НПП "Новел-ИЛ"
-* @version $Id: OneLineFormatter.java,v 1.1 2003/11/20 13:10:48 valeks Exp $
-*/
+ * @author <a href="mailto:valeks@novel-il.ru">Valentin A. Alekseev</a>
+ * @version $Id: OneLineFormatter.java,v 1.2 2004/02/17 10:57:01 valeks Exp $
+ */
 public class OneLineFormatter extends Formatter {
-    /** Выполнить форматирование записи. Выходная строка в виде:
-    * HH:MM:SS LOGLEVEL CLASSNAME.METHOD: MESSAGE. PARAMETERS+
-    * @param record запись для анализа
-    * @return отформатированная строка
-    */
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-    public String format(LogRecord record){
-	String result = "";
-	result+=sdf.format(new Date(record.getMillis()))+" ";
-	result+=record.getLevel()+"\t";
-	result+=record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".")+1)+".";
-	result+=record.getSourceMethodName()+": ";
-	result+=record.getMessage()+".";
-	if(record.getParameters() != null &&record.getParameters().length > 0){
-	    Object[] params = record.getParameters();
-	    for(int i = 0; i < params.length-1; i++)
-		result+=params[i].toString()+", ";
-	    result+=params[params.length].toString();
-	}
-	result+="\n";
-	return result;
+  /** Выполнить форматирование записи. Выходная строка в виде:
+   * HH:MM:SS LOGLEVEL CLASSNAME.METHOD: MESSAGE. PARAMETERS+
+   * @param record запись для анализа
+   * @return отформатированная строка
+   */
+  private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+  private static int recordidx = 0;
+  public final String format(final LogRecord record){
+    String result = "";
+    //    result+=sdf.format(new Date(record.getMillis()))+" ";
+    recordidx++;
+    result+=logLevelToOneChar(record.getLevel().intValue()) + ":" + recordidx + " ";
+    result+=record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".")+1)+".";
+    result+=record.getSourceMethodName()+": ";
+    result+=record.getMessage()+".";
+    if(record.getParameters() != null &&record.getParameters().length > 0){
+      Object[] params = record.getParameters();
+      for(int i = 0; i < params.length-1; i++)
+	result+=params[i].toString()+", ";
+      result+=params[params.length].toString();
     }
+    result+="\n";
+    return result;
+  }
+
+  private final String logLevelToOneChar(int logLevel) {
+    switch (logLevel) {
+    case Integer.MAX_VALUE: return "-";
+    case 1000: return "!";
+    case 900: return "w";
+    case 800: return "i";
+    case 700: return "a";
+    case 500: return "f";
+    case 400: return "F";
+    case 300: return "d";
+    case Integer.MIN_VALUE: return "a";
+    default: return "~";
+    }
+  }
 }
