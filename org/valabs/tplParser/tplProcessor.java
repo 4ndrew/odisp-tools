@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author <a href="valeks@novel-il.ru">Алексеев Валентин А. </a>
- * @version $Id: tplProcessor.java,v 1.18 2004/10/28 19:24:58 valeks Exp $
+ * @version $Id: tplProcessor.java,v 1.19 2004/11/05 14:11:29 valeks Exp $
  */
 public class tplProcessor {
 
@@ -114,6 +114,7 @@ public class tplProcessor {
   private void writeJavaFile() {
     write("package " + packageName + ";\n");
     write("import org.valabs.odisp.common.Message;\n");
+    write("import org.doomdark.uuid.UUID;\n");
 
     if (tagIMPORTstrings != "") {
       write(tagIMPORTstrings);
@@ -208,7 +209,7 @@ public class tplProcessor {
     }
 
     if (tagDEFREPLTOstrings == "") {
-      writec(",\n                              final int replyTo");
+      writec(",\n                              final UUID replyTo");
     }
 
     write(") {\n    msg.setAction(NAME);");
@@ -417,7 +418,7 @@ public class tplProcessor {
    * 
    * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
    * @author (C) 2004 НПП "Новел-ИЛ"
-   * @version $Id: tplProcessor.java,v 1.18 2004/10/28 19:24:58 valeks Exp $
+   * @version $Id: tplProcessor.java,v 1.19 2004/11/05 14:11:29 valeks Exp $
    */
   class FieldRecord {
 
