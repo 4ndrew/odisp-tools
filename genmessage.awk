@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.13 2004/08/30 10:07:12 valeks Exp $
+# $Id: genmessage.awk,v 1.14 2004/09/02 08:49:50 dron Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -129,7 +129,6 @@ END {
   printf  "/** " desc "\n" \
           " *\n" \
           " * @author " author "\n" \
-          " * @author (C) 2004 НПП \"Новел-ИЛ\"\n" \
           " * @version " version "\n" \
           " */\n" \
           "public final class " name " {\n" \
