@@ -1,5 +1,6 @@
-<!-- $Id: build.xml,v 1.1 2003/10/22 20:48:49 valeks Exp $ -->
+<!-- $Id: build.xml,v 1.2 2003/10/22 22:54:02 valeks Exp $ -->
 <project name="nms" default="all" basedir=".">
+    <property file="../build.properties"/>
     <property name="tools-src" location="./"/>
     <path id="tools-src">
 	<pathelement location="${tools-src}/**.java"/>
@@ -11,6 +12,10 @@
                 </classpath>
         </javac>
     </target>
+    <target name="tools-jar" depends="tools">
+        <jar destfile="${release-dir}/tools.jar" basedir="${build-dir}/" includes="com/novel/tools/**"/>
+    </target>
     <target name="doc"/>
+    <target name="jar" depends="tools-jar"/>
     <target name="all" depends="tools"/>
 </project>
