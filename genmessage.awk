@@ -1,5 +1,5 @@
 #
-# $Id: genmessage.awk,v 1.7 2004/06/26 22:26:42 valeks Exp $
+# $Id: genmessage.awk,v 1.8 2004/07/04 00:02:21 valeks Exp $
 #
 # Утилита для генерации классов сообщений ODISP на основе шаблонов.
 # Пример шаблонов:
@@ -144,9 +144,18 @@ END {
           "   *\n" \
           "   * @param msg Сообщение\n" \
           "   */\n" \
-          "  private static void checkMessage(final Message msg) {\n" \
-          "    msg.setCorrect(\n";
-
+           "  private static void checkMessage(final Message msg) {\n";
+  print "    try {\n";
+  for (key in fields_type) {
+    if (fields_checkstr[key] == "") {
+      print "    assert get" key "(msg) != null : \"Message field " key " is null.\";\n";
+    }
+  }
+  print "    } catch (AssertionError e) {\n" \
+        "      System.err.println(\"Message assertion :\" + e.toString());\n"\
+        "      e.printStackTrace();\n    }\n";
+  print   "    msg.setCorrect(\n";
+ 
   flag = 0;
   checkstr = "";
   for (key in fields_type) {
