@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author <a href="valeks@novel-il.ru">Алексеев Валентин А. </a>
- * @version $Id: tplProcessor.java,v 1.17 2004/10/28 17:40:54 valeks Exp $
+ * @version $Id: tplProcessor.java,v 1.18 2004/10/28 19:24:58 valeks Exp $
  */
 public class tplProcessor {
 
@@ -267,8 +267,10 @@ public class tplProcessor {
       write("   */");
       write("  public static " + ((FieldRecord) fields.get(i)).getType()
         + " get" + fieldName + "(final Message msg) {");
-      write("    return (" + ((FieldRecord) fields.get(i)).getType()
-        + ") msg.getField(idx" + fieldName.toUpperCase() + ");");
+      write("    return "
+          + (((FieldRecord) fields.get(i)).getType().equals("Object") ? ""
+              : "(" + ((FieldRecord) fields.get(i)).getType() + ")")
+          + "msg.getField(idx" + fieldName.toUpperCase() + ");");
       write("  }\n");
     }
 
@@ -360,6 +362,9 @@ public class tplProcessor {
         tagAUTHORstrings += "\n * @author " + tagLine.substring(7);
       }
     } else if (tagLine.startsWith("DESC")) {
+      if (tagDESCstrings != "") {
+        tagDESCstrings += "\n * ";
+      }
       tagDESCstrings += tagLine.substring(5);
     } else if (tagLine.startsWith("FIELD")) {
       String[] tokens = tagLine.split(" ");
@@ -412,7 +417,7 @@ public class tplProcessor {
    * 
    * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
    * @author (C) 2004 НПП "Новел-ИЛ"
-   * @version $Id: tplProcessor.java,v 1.17 2004/10/28 17:40:54 valeks Exp $
+   * @version $Id: tplProcessor.java,v 1.18 2004/10/28 19:24:58 valeks Exp $
    */
   class FieldRecord {
 
