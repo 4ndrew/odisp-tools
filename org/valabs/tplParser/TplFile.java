@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 /** Класс полностью описывающий шаблон сообщения.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TplFile.java,v 1.5 2005/02/23 00:14:29 valeks Exp $
+ * @version $Id: TplFile.java,v 1.6 2005/04/27 09:25:40 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -118,7 +118,7 @@ class TplFile {
   }
   
   /** Создание класса по указанному родителю. */
-  public TplFile(TplFile parent, int _type) {
+  public TplFile(final TplFile parent, final int _type) {
     packageName = new String(parent.packageName);
     messageName = new String(parent.messageName);
     actionName = new String(parent.actionName);
@@ -171,9 +171,9 @@ class TplFile {
   /** Обработчик строки .tpl файла
    * @param tagLine строка .tpl файла
    */
-  private void parseTagLine(String tagLine) {
+  private void parseTagLine(final String tagLine) {
     if (tagLine.startsWith("NAME")) {
-      String[] s = tagLine.split(" ");
+      final String[] s = tagLine.split(" ");
       packageName = s[1];
       messageName = s[2];
       actionName = s[3];
@@ -188,13 +188,13 @@ class TplFile {
     } else if (tagLine.startsWith("DESC")) {
       description.add(tagLine.substring(5));
     } else if (tagLine.startsWith("FIELD")) {
-      String[] tokens = tagLine.split(" ");
+      final String[] tokens = tagLine.split(" ");
       getFieldRecordByName(tokens[1]).setType(new String(tokens[2]));
     } else if (tagLine.startsWith("FCHECK")) {
-      String[] tokens = tagLine.split(" ");
+      final String[] tokens = tagLine.split(" ");
       getFieldRecordByName(tokens[1]).setCheck(tagLine.substring(8 + tokens[1].length()));
     } else if (tagLine.startsWith("FDESC")) {
-      String[] tokens = tagLine.split(" ");
+      final String[] tokens = tagLine.split(" ");
       getFieldRecordByName(tokens[1]).setDesc(tagLine.substring(7 + tokens[1].length()));
     } else if (tagLine.startsWith("DEFORIGIN")) {
       defaultOrigin = tagLine.split(" ")[1];
@@ -258,7 +258,7 @@ class TplFile {
   /** Получение записи о поле по имени.
    * @param name имя поля
    */
-  private FieldRecord getFieldRecordByName(String name) {
+  private FieldRecord getFieldRecordByName(final String name) {
     if (!fields.containsKey(name)) {
       fieldOrder.add(name);
       fields.put(name, new FieldRecord(name));
@@ -294,11 +294,9 @@ class TplFile {
     return description;
   }
   public Map getFields() {
-    Map result = new TreeMap(new Comparator() {
+    final Map result = new TreeMap(new Comparator() {
       public int compare(Object arg0, Object arg1) {
-        if (!fieldOrder.contains(arg0) || !fieldOrder.contains(arg1)) {
-          return 0;
-        } else {
+        if (fieldOrder.contains(arg0) || fieldOrder.contains(arg1)) {
           if (fieldOrder.indexOf(arg0) < fieldOrder.indexOf(arg1)) {
             return -1;
           } else if (arg0.equals(arg1)) {
@@ -306,6 +304,8 @@ class TplFile {
           } else {
             return 1;
           }
+        } else {
+          return 0;
         }
       }
       });
@@ -331,58 +331,58 @@ class TplFile {
     return lastModified;
   }
   
-  public void setActionName(String actionName) {
+  public void setActionName(final String actionName) {
     this.actionName = actionName;
   }
-  public void setAuthors(List authors) {
+  public void setAuthors(final List authors) {
     this.authors = authors;
   }
-  public void setCvsId(String cvsId) {
+  public void setCvsId(final String cvsId) {
     this.cvsId = cvsId;
   }
-  public void setDefaultDestination(String defaultDestination) {
+  public void setDefaultDestination(final String defaultDestination) {
     this.defaultDestination = defaultDestination;
   }
-  public void setDefaultOOB(boolean defaultOOB) {
+  public void setDefaultOOB(final boolean defaultOOB) {
     this.defaultOOB = defaultOOB;
   }
-  public void setDefaultOrigin(String defaultOrigin) {
+  public void setDefaultOrigin(final String defaultOrigin) {
     this.defaultOrigin = defaultOrigin;
   }
-  public void setDefaultReplyTo(String defaultReplyTo) {
+  public void setDefaultReplyTo(final String defaultReplyTo) {
     this.defaultReplyTo = defaultReplyTo;
   }
-  public void setDefaultRoutable(boolean defaultRoutable) {
+  public void setDefaultRoutable(final boolean defaultRoutable) {
     this.defaultRoutable = defaultRoutable;
   }
-  public void setDescription(List description) {
+  public void setDescription(final List description) {
     this.description = description;
   }
-  public void setErrorMessage(TplFile errorMessage) {
+  public void setErrorMessage(final TplFile errorMessage) {
     this.errorMessage = errorMessage;
   }
-  public void setFileName(String fileName) {
+  public void setFileName(final String fileName) {
     this.fileName = fileName;
   }
-  public void setImports(List imports) {
+  public void setImports(final List imports) {
     this.imports = imports;
   }
-  public void setMessageName(String messageName) {
+  public void setMessageName(final String messageName) {
     this.messageName = messageName;
   }
-  public void setNotifyMessage(TplFile notifyMessage) {
+  public void setNotifyMessage(final TplFile notifyMessage) {
     this.notifyMessage = notifyMessage;
   }
-  public void setPackageName(String packageName) {
+  public void setPackageName(final String packageName) {
     this.packageName = packageName;
   }
-  public void setReplyMessage(TplFile replyMessage) {
+  public void setReplyMessage(final TplFile replyMessage) {
     this.replyMessage = replyMessage;
   }
-  public void setType(int type) {
+  public void setType(final int type) {
     this.type = type;
   }
-  public void setVerbatim(List verbatim) {
+  public void setVerbatim(final List verbatim) {
     this.verbatim = verbatim;
   }
 }

@@ -6,7 +6,7 @@ import java.util.logging.LogRecord;
 
 /** Форматирование сообщения в одну строку
  * @author <a href="mailto:valeks@novel-il.ru">Valentin A. Alekseev</a>
- * @version $Id: OneLineFormatter.java,v 1.5 2004/07/12 06:38:48 valeks Exp $
+ * @version $Id: OneLineFormatter.java,v 1.6 2005/04/27 09:25:40 valeks Exp $
  */
 public class OneLineFormatter extends Formatter {
   static final int SEVERE = 1000;
@@ -35,7 +35,7 @@ public class OneLineFormatter extends Formatter {
     result += record.getMessage() + ".";
     if (record.getParameters() != null 
       && record.getParameters().length > 0) {
-      Object[] params = record.getParameters();
+      final Object[] params = record.getParameters();
       for (int i = 0; i < params.length - 1; i++) {
         result += params[i].toString() + ", ";
       }
@@ -50,18 +50,20 @@ public class OneLineFormatter extends Formatter {
     return result;
   }
 
-  private final String logLevelToOneChar(int logLevel) {
+  private final String logLevelToOneChar(final int logLevel) {
+  	String result;
     switch (logLevel) {
-      case Integer.MAX_VALUE: return "-";
-      case SEVERE: return "!";
-      case WARNING: return "W";
-      case CONFIG: return "C";
-      case INFO: return "I";
-      case FINE: return "f";
-      case FINER: return "F";
-      case FINEST: return "d";
-      case Integer.MIN_VALUE: return "a";
-      default: return "~";
+      case Integer.MAX_VALUE: result ="-"; break;
+      case SEVERE: result ="!"; break;
+      case WARNING: result ="W"; break;
+      case CONFIG: result ="C"; break;
+      case INFO: result ="I"; break;
+      case FINE: result ="f"; break;
+      case FINER: result ="F"; break;
+      case FINEST: result ="d"; break;
+      case Integer.MIN_VALUE: result ="a"; break;
+      default: result = "~";
     }
+    return result;
   }
 }

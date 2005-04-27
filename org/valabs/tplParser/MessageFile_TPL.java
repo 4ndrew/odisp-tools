@@ -9,14 +9,14 @@ import java.util.List;
 /** Создание TPL файла по заданной структуре.
  * Набросок для tplclipse.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_TPL.java,v 1.1 2005/02/23 00:15:10 valeks Exp $
+ * @version $Id: MessageFile_TPL.java,v 1.2 2005/04/27 09:25:39 valeks Exp $
  */
 class MessageFile_TPL implements MessageFile {
   public String getExtension() {
     return ".tpl";
   }
 
-  public void writeFile(TplFile tplSource, OutputStream out) throws IOException {
+  public void writeFile(final TplFile tplSource, final OutputStream out) throws IOException {
     if (tplSource.getCvsId() != null) {
       write(out, tplSource.getCvsId() + "\n");
     }
@@ -37,15 +37,15 @@ class MessageFile_TPL implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writePrefixedList(String prefix, List toPrint, OutputStream out) throws IOException {
-    Iterator it = toPrint.iterator();
+  private void writePrefixedList(final String prefix, final List toPrint, final OutputStream out) throws IOException {
+    final Iterator it = toPrint.iterator();
     while (it.hasNext()) {
-      String ath = (String) it.next();
+      final String ath = (String) it.next();
       write(out, prefix + " " + ath + "\n");
     }
   }
 
-  private void write(OutputStream out, String str) throws IOException {
+  private void write(final OutputStream out, final String str) throws IOException {
     out.write(str.getBytes());
   }
 }

@@ -3,11 +3,12 @@ package org.valabs.tplParser;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.Locale;
 
 
 /** Создание класса сообщения на языке Java.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_Java.java,v 1.3 2005/02/12 17:24:23 valeks Exp $
+ * @version $Id: MessageFile_Java.java,v 1.4 2005/04/27 09:25:40 valeks Exp $
  */
 class MessageFile_Java implements MessageFile {
   
@@ -25,7 +26,7 @@ class MessageFile_Java implements MessageFile {
             + " error, " + countNotify + " notifys.";
   }
   
-  public void writeFile(TplFile tplSource, OutputStream out) throws IOException {
+  public void writeFile(final TplFile tplSource, final OutputStream out) throws IOException {
     writeJavaHeader(tplSource, out);
 
     writeClassJavadoc(tplSource, out);
@@ -36,9 +37,9 @@ class MessageFile_Java implements MessageFile {
 
     writeSetup(tplSource, out);
 
-    Iterator it = tplSource.getFields().keySet().iterator();
+    final Iterator it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
-      String fieldName = (String) it.next();
+      final String fieldName = (String) it.next();
       writeField(tplSource, out, fieldName);
     }
 
@@ -67,6 +68,8 @@ class MessageFile_Java implements MessageFile {
         System.out.print(", notify");
         countNotify++;
         break;
+      default:
+      	throw new IOException("Unknown message type used");
     }
 
     System.out.print("(java)");
@@ -76,7 +79,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeJavaFooter(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeJavaFooter(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "\n} // " + tplSource.getMessageName() + " \n");
   }
 
@@ -84,11 +87,10 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeVerbatim(TplFile tplSource, OutputStream out) throws IOException {
-    Iterator it;
-    it = tplSource.getVerbatim().iterator();
+  private void writeVerbatim(final TplFile tplSource, final OutputStream out) throws IOException {
+    final Iterator it = tplSource.getVerbatim().iterator();
     while (it.hasNext()) {
-      String element = (String) it.next();
+      final String element = (String) it.next();
       write(out, element + "\n");
     }
   }
@@ -97,15 +99,15 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeInitAll(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeInitAll(final TplFile tplSource, final OutputStream out) throws IOException {
     Iterator it;
     write(out, "  /** Короткий способ заполнения всех полей сообщения сразу.\n");
     write(out, "   * @return ссылку на сообщение\n");
     
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
-      String fieldName = (String) it.next();
-      write(out, "   * @param " + fieldName.toLowerCase() + " "
+      final String fieldName = (String) it.next();
+      write(out, "   * @param " + fieldName.toLowerCase(Locale.ENGLISH) + " "
         + ((FieldRecord) tplSource.getFields().get(fieldName)).getDesc() + "\n");
     }
 
@@ -114,16 +116,16 @@ class MessageFile_Java implements MessageFile {
     write(out, "  public static Message initAll(final Message m");
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
-      String fieldName = (String) it.next();
+      final String fieldName = (String) it.next();
       write(out, (",\n                                final "
-        + ((FieldRecord) tplSource.getFields().get(fieldName)).getType() + " " + fieldName.toLowerCase()));
+        + ((FieldRecord) tplSource.getFields().get(fieldName)).getType() + " " + fieldName.toLowerCase(Locale.ENGLISH)));
     }
     write(out, ") {\n");
 
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
-      String fieldName = (String) it.next();
-      write(out, "    set" + fieldName + "(m, " + fieldName.toLowerCase() + ");\n");
+      final String fieldName = (String) it.next();
+      write(out, "    set" + fieldName + "(m, " + fieldName.toLowerCase(Locale.ENGLISH) + ");\n");
     }
 
     write(out, "    return m;\n  }\n");
@@ -150,7 +152,7 @@ class MessageFile_Java implements MessageFile {
       write(out, "  public static void copyFrom(final Message dest, final Message src) {\n");
       it = tplSource.getFields().keySet().iterator();
       while (it.hasNext()) {
-        String fieldName = (String) it.next();
+        final String fieldName = (String) it.next();
         write(out, "    set" + fieldName + "(dest, get" + fieldName + "(src));\n");
       }
       write(out, "  }\n");
@@ -169,11 +171,12 @@ class MessageFile_Java implements MessageFile {
    * @param fieldName
    * @throws IOException
    */
-  private void writeField(TplFile tplSource, OutputStream out, String fieldName) throws IOException {
-    FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
+  private void writeField(final TplFile tplSource, final OutputStream out, final String fieldName) throws IOException {
+    final FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
     write(out, "  /** Установить " + fr.getName() + ".\n");
-    if (fr.getDesc().length() > 0)
-      write(out, "   * " + fr.getDesc() + "\n");
+    if (fr.getDesc().length() > 0) {
+    	write(out, "   * " + fr.getDesc() + "\n");
+    }
     write(out, "   * @param msg Сообщение над которым производится действие.\n");
     write(out, "   * @param newValue Новое значение для поля.\n");
     write(out, "   * @return ссылка на сообщение\n");
@@ -201,7 +204,7 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeSetup(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeSetup(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "  /** Инициализация основных свойств сообщения.\n");
     write(out, "   * @param msg Сообщение.\n");
 
@@ -269,48 +272,47 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeCheckMessage(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeCheckMessage(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "  /** Проверка сообщения на корректность.\n");
     write(out, "   * @param msg Сообщение\n");
     write(out, "   */\n");
     write(out, "  private static void checkMessage(final Message msg) {\n");
 
-    if (!tplSource.getFields().isEmpty()) {
-      write(out, "    try {\n");
-      Iterator it = tplSource.getFields().keySet().iterator();
-      while (it.hasNext()) {
-        String fieldName = (String) it.next();
-        String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
-
-        if (fieldCheck.trim().length() == 0) {
-          fieldCheck = "get" + fieldName + "(msg) != null";
-        }
-        write(out, "      assert " + fieldCheck + " : \"Message has invalid field '" + fieldName + "'\";\n");
-      }
-      write(out, "    } catch (AssertionError e) {\n");
-      write(out, "      System.err.println(\"Message assertion :\" + e.toString());\n");
-      write(out, "      e.printStackTrace();\n    }\n");
-      write(out, "    msg.setCorrect(\n");
-
-      int flag = 0;
-      it = tplSource.getFields().keySet().iterator();
-      while (it.hasNext()) {
-        String fieldName = (String) it.next();
-        String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
-
-        if (fieldCheck.trim().length() == 0) {
-          fieldCheck = "get" + fieldName + "(msg) != null";
-        }
-        if (flag == 1) {
-          write(out, "      && " + fieldCheck + "\n");
-        } else {
-          write(out, "      " + fieldCheck + "\n");
-          flag = 1;
-        }
-      }
-
-    } else {
+    if (tplSource.getFields().isEmpty()) {
       write(out, "    msg.setCorrect(\n      true\n");
+    } else {
+        write(out, "    try {\n");
+        Iterator it = tplSource.getFields().keySet().iterator();
+        while (it.hasNext()) {
+          String fieldName = (String) it.next();
+          String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
+
+          if (fieldCheck.trim().length() == 0) {
+            fieldCheck = "get" + fieldName + "(msg) != null";
+          }
+          write(out, "      assert " + fieldCheck + " : \"Message has invalid field '" + fieldName + "'\";\n");
+        }
+        write(out, "    } catch (AssertionError e) {\n");
+        write(out, "      System.err.println(\"Message assertion :\" + e.toString());\n");
+        write(out, "      e.printStackTrace();\n    }\n");
+        write(out, "    msg.setCorrect(\n");
+
+        int flag = 0;
+        it = tplSource.getFields().keySet().iterator();
+        while (it.hasNext()) {
+          String fieldName = (String) it.next();
+          String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
+
+          if (fieldCheck.trim().length() == 0) {
+            fieldCheck = "get" + fieldName + "(msg) != null";
+          }
+          if (flag == 1) {
+            write(out, "      && " + fieldCheck + "\n");
+          } else {
+            write(out, "      " + fieldCheck + "\n");
+            flag = 1;
+          }
+        }
     }
     write(out, "    );\n");
     write(out, "  }\n");
@@ -320,16 +322,16 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeMessageConstants(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeMessageConstants(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "public final class " + tplSource.getMessageName() + " {\n");
     write(out, "  /** Строковое представление сообщения. */\n");
     write(out, "  public static final String NAME = \"" + tplSource.getActionName() + "\";\n");
 
-    Iterator it = tplSource.getFields().keySet().iterator();
+    final Iterator it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
-      String key = (String) it.next();
+      final String key = (String) it.next();
       write(out, "  /** Индекс для поля " + key + ". */\n");
-      write(out, "  private static String idx" + key.toUpperCase() + " = \"" + key.toLowerCase() + "\";\n");      
+      write(out, "  private static String idx" + key.toUpperCase(Locale.ENGLISH) + " = \"" + key.toLowerCase(Locale.ENGLISH) + "\";\n");      
     }
     write(out, "\n");
     write(out, "  /** Запрет на создание объекта. */\n");
@@ -340,17 +342,17 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeClassJavadoc(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeClassJavadoc(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "/** ");
     Iterator it = tplSource.getDescription().iterator();    
     while (it.hasNext()) {
-      String element = (String) it.next();
+      final String element = (String) it.next();
       write(out, element);
       write(out, "\n * ");
     }
     it = tplSource.getAuthors().iterator();    
     while (it.hasNext()) {
-      String element = (String) it.next();
+      final String element = (String) it.next();
       write(out, "@author " + element);
       write(out, "\n * ");
     }
@@ -362,22 +364,22 @@ class MessageFile_Java implements MessageFile {
    * @param out
    * @throws IOException
    */
-  private void writeJavaHeader(TplFile tplSource, OutputStream out) throws IOException {
+  private void writeJavaHeader(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "package " + tplSource.getPackageName() + ";\n\n");
     write(out, "import org.valabs.odisp.common.Message;\n");
     write(out, "import org.doomdark.uuid.UUID;\n");
 
     if (tplSource.getImports().size() > 0) {
-      Iterator it = tplSource.getImports().iterator();
+      final Iterator it = tplSource.getImports().iterator();
       while (it.hasNext()) {
-        String element = (String) it.next();
+        final String element = (String) it.next();
         write(out, "import " + element + ";\n");
       }
     }
     write(out, "\n");
   }
 
-  private void write(OutputStream out, String line) throws IOException {
+  private void write(final OutputStream out, final String line) throws IOException {
     out.write(line.getBytes());
   }
 }

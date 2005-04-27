@@ -13,12 +13,12 @@ import java.util.List;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.21 2005/03/10 12:09:37 valeks Exp $
+ * @version $Id: TplParser.java,v 1.22 2005/04/27 09:25:39 valeks Exp $
  */
 
 public class TplParser {
   /** Используется для режима только удаления файлов java-файлов. */
-  private boolean cleanOnly = false;
+  private final boolean cleanOnly;
   
   /** Создавать ли вывод на языке Java. */
   private boolean doJava = true;
@@ -39,7 +39,7 @@ public class TplParser {
    */
   public static void main(String[] args) {
     boolean cleanOnly = false;
-    List folders = new ArrayList(Arrays.asList(args));
+    final List folders = new ArrayList(Arrays.asList(args));
     if (args.length > 0 && args[0].equals("-clean")) {
       cleanOnly = true;
       folders.remove(0);
@@ -75,15 +75,15 @@ public class TplParser {
   /**
    * 
    */
-  private void processFolder(String folder) {
-    File f = new File(folder);
+  private void processFolder(final String folder) {
+    final File f = new File(folder);
     if (!f.exists()) {
       System.out.println("Folder does not exists: " + folder);
     }
-    List tpls = listDir(f);
-    Iterator it = tpls.iterator();
+    final List tpls = listDir(f);
+    final Iterator it = tpls.iterator();
     while (it.hasNext()) {
-      File tplFile = (File) it.next();
+      final File tplFile = (File) it.next();
       try {
         TplFile source = new TplFile(tplFile);
         createOutput(source);
@@ -101,12 +101,12 @@ public class TplParser {
    * @throws IOException
    * @throws FileNotFoundException
    */
-  private void createOutput(TplFile source) throws IOException, FileNotFoundException {
-    Iterator it = writers.iterator();
+  private void createOutput(final TplFile source) throws IOException, FileNotFoundException {
+    final Iterator it = writers.iterator();
     while (it.hasNext()) {
-      MessageFile writer = (MessageFile) it.next();
-      String outputFileName = source.getFileName().replaceAll(".tpl$", writer.getExtension());
-      File javaFile = new File(outputFileName);
+      final MessageFile writer = (MessageFile) it.next();
+      final String outputFileName = source.getFileName().replaceAll(".tpl$", writer.getExtension());
+      final File javaFile = new File(outputFileName);
       if (cleanOnly) {
         javaFile.delete();
         System.out.println();
@@ -148,13 +148,13 @@ public class TplParser {
    * @param newTplParser
    */
   public String toString() {
+  	String result = (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
+    + " generated, " + countSkipped + " skipped due up-to-date, " + countError + " errors."; 
     if (cleanOnly) {
-      return (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
+      result = (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
               + " deleted, " + countError + " errors.";
-    } else {
-      return (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
-              + " generated, " + countSkipped + " skipped due up-to-date, " + countError + " errors.";
     }
+    return result;
   }
 
   /**
@@ -162,10 +162,10 @@ public class TplParser {
    * 
    * @param f указатель на директорию где искать
    */
-  private List listDir(File f) {
-    List result = new ArrayList();
-    File fileList[] = f.listFiles(new FileFilter() {
-      public boolean accept(File f) {
+  private List listDir(final File f) {
+    final List result = new ArrayList();
+    final File fileList[] = f.listFiles(new FileFilter() {
+      public boolean accept(final File f) {
         return f.isDirectory() || f.getName().endsWith(".tpl");
       }
     });

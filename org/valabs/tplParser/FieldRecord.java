@@ -6,7 +6,7 @@ package org.valabs.tplParser;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: FieldRecord.java,v 1.2 2005/02/03 12:40:26 valeks Exp $
+ * @version $Id: FieldRecord.java,v 1.3 2005/04/27 09:25:40 valeks Exp $
  */
 class FieldRecord {
 
@@ -25,7 +25,8 @@ class FieldRecord {
    */
   private String desc = "";
   
-  private String name = "";
+  /** Имя поля. */
+  private final String name;
 
   public FieldRecord(String _name) {
     name = _name;
@@ -49,7 +50,7 @@ class FieldRecord {
    * 
    * @param check текст функции проверки поля сообщения.
    */
-  public void setCheck(String check) {
+  public void setCheck(final String check) {
     this.check = check;
   }
 
@@ -67,7 +68,7 @@ class FieldRecord {
    * 
    * @param desc описание поля сообщения.
    */
-  public void setDesc(String desc) {
+  public void setDesc(final String desc) {
     this.desc = desc;
   }
 
@@ -85,7 +86,7 @@ class FieldRecord {
    * 
    * @param type тип поля сообщения.
    */
-  public void setType(String type) {
+  public void setType(final String type) {
     this.type = type;
   }
   
