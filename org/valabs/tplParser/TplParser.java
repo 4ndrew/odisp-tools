@@ -13,7 +13,7 @@ import java.util.List;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.22 2005/04/27 09:25:39 valeks Exp $
+ * @version $Id: TplParser.java,v 1.23 2005/06/10 14:04:49 valeks Exp $
  */
 
 public class TplParser {
@@ -126,14 +126,18 @@ public class TplParser {
         countProcessed++;
       } else if (javaFile.lastModified() <= source.lastModified()) {
         countProcessed++;
-        writer.writeFile(source, new FileOutputStream(outputFileName));
+        writer.writeFile(source, new FileOutputStream(source.getFileName()));
+        System.out.println("main goes to " + source.getFileName());
         if (source.getErrorMessage() != null) {
+            System.out.println("error goes to " + source.getErrorMessage().getFileName());
           writer.writeFile(source.getErrorMessage(), new FileOutputStream(source.getErrorMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
         }
         if (source.getReplyMessage() != null) {
+        	System.out.println("reply goes to " + source.getReplyMessage().getFileName());
           writer.writeFile(source.getReplyMessage(), new FileOutputStream(source.getReplyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
         }
         if (source.getNotifyMessage() != null) {
+        	System.out.println("notify goes to " + source.getNotifyMessage().getFileName());
           writer.writeFile(source.getNotifyMessage(), new FileOutputStream(source.getNotifyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
         }
         System.out.println();
