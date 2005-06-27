@@ -1,14 +1,26 @@
-<!-- $Id: build.xml,v 1.5 2004/10/22 10:20:13 valeks Exp $ -->
+<!-- ====================================================================== 
+	 Tools build system.
+	  
+	 $Id: build.xml,v 1.6 2005/06/27 11:28:41 dron Exp $
+     ====================================================================== -->
 <project name="tplParser" default="all">
+  
+  <!-- Cleaning up output location. -->
   <target name="clean">
     <delete dir="build"/>
   </target>
+    
+  <!-- Prepare for build: create output folders -->
   <target name="pre-build-make-folder">
     <mkdir dir="build"/>
   </target>
+    
+  <!-- Build all java sources. -->
   <target name="tplParser-build" depends="pre-build-make-folder">
     <javac srcdir="org" destdir="build"/>
   </target>
+  
+  <!-- Generate release JAR package. -->
   <target name="tplParser-jar" depends="tplParser-build">
     <jar basedir="build" destfile="tplParser.jar">
       <manifest>
@@ -17,5 +29,7 @@
       </manifest>
     </jar>
   </target>
-  <target name="all" depends="clean, tplParser-jar"/>
+    
+  <!-- Default target: build jar file. -->
+  <target name="all" depends="tplParser-jar"/>
 </project>
