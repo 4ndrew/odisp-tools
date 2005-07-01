@@ -13,7 +13,7 @@ import java.util.List;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.24 2005/06/10 14:17:48 valeks Exp $
+ * @version $Id: TplParser.java,v 1.25 2005/07/01 09:17:29 valeks Exp $
  */
 
 public class TplParser {
@@ -22,6 +22,8 @@ public class TplParser {
   
   /** Создавать ли вывод на языке Java. */
   private boolean doJava = true;
+  /** Создавать ли документацию на языке HTML. */
+  private boolean doHTML = false;
 
   /** Счётчик обработанных файлов. */
   private int countProcessed = 0;
@@ -56,6 +58,10 @@ public class TplParser {
     cleanOnly = _cleanOnly;
     if (doJava) {
       writers.add(new MessageFile_Java());
+    }
+    
+    if (doHTML) {
+    	writers.add(new MessageFile_HTML());
     }
     Iterator it = folders.iterator();
     while (it.hasNext()) {
