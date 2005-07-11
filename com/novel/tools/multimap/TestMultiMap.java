@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 /** Набор тестов для MultiMap.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TestMultiMap.java,v 1.1 2005/07/11 15:29:50 valeks Exp $
+ * @version $Id: TestMultiMap.java,v 1.2 2005/07/11 16:08:30 valeks Exp $
  */
 public class TestMultiMap extends TestCase {
 
@@ -49,5 +49,12 @@ public class TestMultiMap extends TestCase {
 		assertFalse(it.hasNext());
 		mm.addRow().c("Vasily").c("Pupkin").c("vpupkin").c(new Integer(345)).c(new Boolean(false));
 		assertEquals(mm.size(), 3);		
+	}
+	
+	public void testToString() {
+		MultiMap mm = new MultiMap(4);
+		mm.addRow().c("Valentin").c("Alekseev").c("valeks").c(new Integer(123));
+		mm.addRow().c("Andrew").c("Porohin").c("dron").c(new Integer(234));
+		assertEquals(mm.toString(), "{[Valentin, Alekseev, valeks, 123], [Andrew, Porohin, dron, 234]}");
 	}
 }
