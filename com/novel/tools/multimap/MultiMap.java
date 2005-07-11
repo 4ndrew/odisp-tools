@@ -11,25 +11,24 @@ import java.util.List;
  * Однако их должно быть не меньше, чем количество ключевых столбцов, которое
  * задаётся при инстанцировании класса.</p>
  * 
- * <p>Каждая строка таблицы - список состоящий из произвольных элементов.
- * Для удобства работы определён класс MultiMapElement, который имеет сокращённое именование
- * наиболее часто используемых методов.</p>
+ * <p>Каждая строка таблицы - экземпляркласс MultiMapElement, который расширяет класс ArrayList
+ * добавляя методы с более короткими названиями и рассчитаными на стандартные операции со строками.</p>
  * @see java.util.Map  
  * @see com.novel.tools.multimap.MultiMapElement
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MultiMap.java,v 1.1 2005/07/11 15:29:50 valeks Exp $
+ * @version $Id: MultiMap.java,v 1.2 2005/07/11 16:07:15 valeks Exp $
  */
 public class MultiMap {
-	/** Хранилище для элементов. */
+	/** Хранилище для строк. */
 	private List contents = new ArrayList();
 	/** Количество ключевых столбцов. */
-	private int columns;
+	private int keyColumnCount;
 	
 	/** Создание таблицы с заданным кол-вом ключевых столбцов.
-	 * @param _columns кол-во ключевых столбцов
+	 * @param _keyColumnCount кол-во ключевых столбцов
 	 */
-	public MultiMap(int _columns) {
-		columns = _columns;
+	public MultiMap(int _keyColumnCount) {
+		keyColumnCount = _keyColumnCount;
 	}
 	
 	/** Получение строки таблицы по ключу из заданного ключевого столбца.
@@ -40,7 +39,7 @@ public class MultiMap {
 	 *  заданное при создание кол-во ключевых столбцов.
 	 */
 	public MultiMapElement get(int column, final Object key) {
-		assert column < columns : "Key column index exceeds stored ones.";
+		assert column < keyColumnCount : "Key column index exceeds stored ones.";
 		MultiMapElement result = null;
 		Iterator it = contents.iterator();
 		while (it.hasNext()) {
@@ -76,15 +75,28 @@ public class MultiMap {
 	 * чем заданное количество ключевых столбцов
 	 */
 	public void put(MultiMapElement element) {
-		assert element.size() >= columns : "Column count less than expected."; 
+		assert element.size() >= keyColumnCount : "Column count less than expected."; 
 		contents.add(element);
 	}
 	
-	/** Добавление новой строки в таблицу и возврат её для редактирования. */
+	/** Добавление новой строки в таблицу и возврат её для редактирования.
+	 * Количество столбцов изначально устанавливается равным количеству ключевых столбцов.
+	 * @return новая строка после добавления в таблицу
+	 */
 	public MultiMapElement addRow() {
-		MultiMapElement mme = new MultiMapElement(columns);
+		MultiMapElement mme = new MultiMapElement(keyColumnCount);
 		put(mme);
 		return mme;
+	}
+	
+	public String toString() {
+		String result = "{";
+		Iterator it = iterator();
+		while (it.hasNext()) {
+			MultiMapElement element = (MultiMapElement) it.next();
+			result += element.toString() + (it.hasNext() ? ", " : "");
+		}
+		return result + "}";
 	}
 	
 	/** Количество строк в таблице.
@@ -92,6 +104,13 @@ public class MultiMap {
 	 */
 	public int size() {
 		return contents.size();
+	}
+	
+	/** Количество ключевых элементов таблицы.
+	 * @return количество ключевых элементов в строках таблицы
+	 */
+	public int getKeyColumnCount() {
+		return keyColumnCount;
 	}
 	
 	/** Внутрений метод для доступа к содержимому таблицы напрямую */
@@ -116,22 +135,29 @@ public class MultiMap {
 	
 	/** Внутренний класс для поддержки итератора. */
 	private class MMIterator implements Iterator {
+		/** Итерируемая таблица. */
 		private MultiMap mm;
+		/** Текущий индекс. */
 		private int idx = 0;
+		/** Предыдущий индекс. */
 		private int lastIdx = 0;
+		/** Создание итератора для заданной таблицы. */
 		MMIterator(MultiMap _mm) {
 			mm = _mm;
 		}
 		
+		/** Проверка на существование следующего элемента. */
 		public boolean hasNext() {
 			return idx < mm.size();
 		}
 
+		/** Выдача следующей строки. */
 		public Object next() {
 			lastIdx = idx;
 			return (Object) mm.row(idx++);
 		}
 
+		/** Удаление текущей строки. */
 		public void remove() {
 			mm.remove(lastIdx);
 		}
