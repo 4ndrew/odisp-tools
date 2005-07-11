@@ -1,11 +1,12 @@
 package com.novel.tools.multimap;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /** Элемент таблицы MultiMap. 
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MultiMapElement.java,v 1.1 2005/07/11 15:29:50 valeks Exp $
+ * @version $Id: MultiMapElement.java,v 1.2 2005/07/11 16:08:15 valeks Exp $
  */
 public class MultiMapElement extends ArrayList {
 	/** Конструктор по-умолчанию. */
@@ -23,7 +24,7 @@ public class MultiMapElement extends ArrayList {
 	/** Создание строки на основе списка значений.
 	 * @param elements список значений
 	 */
-	public MultiMapElement(List elements) {
+	public MultiMapElement(Collection elements) {
 		addAll(elements);
 	}
 	
@@ -39,7 +40,7 @@ public class MultiMapElement extends ArrayList {
 	/** Задание значение на указанном столбце.
 	 * @param column номер столбца
 	 * @param value значение на столбце
-	 * @see java.util.List#add(int, java.lang.Object)
+	 * @see List#add(int, java.lang.Object)
 	 * @return ссылка на изменённый элемент
 	 */
 	public MultiMapElement c(int column, Object value) {
@@ -49,11 +50,30 @@ public class MultiMapElement extends ArrayList {
 	
 	/** Задание значение на следующем по порядку столбце.
 	 * @param value значение на столбце
-	 * @see java.util.List#add(java.lang.Object)
+	 * @see List#add(java.lang.Object)
 	 * @return ссылка на изменённый элемент
 	 */
 	public MultiMapElement c(Object value) {
 		add(value);
+		return this;
+	}
+	
+	/** Добавление элементов из массива.
+	 * @param values массив значений
+	 */
+	public MultiMapElement c(Object[] values) {
+		for (int i = 0; i < values.length; i++) {
+			add(values[i]);
+		}
+		return this;
+	}
+
+	/** Добавление элементов из массива.
+	 * @param values массив значений
+	 * @see List#addAll(java.util.Collection)
+	 */
+	public MultiMapElement c(Collection values) {
+		addAll(values);
 		return this;
 	}
 }
