@@ -17,7 +17,7 @@ import java.util.List;
  * 
  * @author <a href="dron@novel-il.ru">Андрей А. Порохин</a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: ObjectSorter.java,v 1.1 2004/06/11 13:26:40 dron Exp $
+ * @version $Id: ObjectSorter.java,v 1.2 2005/07/22 15:04:32 dron Exp $
  */
 public class ObjectSorter {
   
@@ -53,15 +53,6 @@ public class ObjectSorter {
         return i;
     }
     return -1;
-  }
-  
-  
-  /** Метод намбер 1
-   */
-  public static List sortObjects_1(List objs) {
-    List list = new ArrayList();
-    
-    return list;
   }
   
   public static List sortObjects_2(List objs) {
