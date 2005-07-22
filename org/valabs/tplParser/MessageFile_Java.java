@@ -8,7 +8,7 @@ import java.util.Locale;
 
 /** Создание класса сообщения на языке Java.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_Java.java,v 1.4 2005/04/27 09:25:40 valeks Exp $
+ * @version $Id: MessageFile_Java.java,v 1.5 2005/07/22 14:53:22 valeks Exp $
  */
 class MessageFile_Java implements MessageFile {
   
@@ -103,6 +103,7 @@ class MessageFile_Java implements MessageFile {
     Iterator it;
     write(out, "  /** Короткий способ заполнения всех полей сообщения сразу.\n");
     write(out, "   * @return ссылку на сообщение\n");
+    write(out, "   * @param m сообщение для настройки\n");
     
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
