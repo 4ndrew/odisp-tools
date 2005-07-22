@@ -6,7 +6,7 @@ import java.util.List;
 
 /** Элемент таблицы MultiMap. 
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MultiMapElement.java,v 1.2 2005/07/11 16:08:15 valeks Exp $
+ * @version $Id: MultiMapElement.java,v 1.3 2005/07/22 15:34:33 valeks Exp $
  */
 public class MultiMapElement extends ArrayList {
 	/** Конструктор по-умолчанию. */
@@ -60,6 +60,7 @@ public class MultiMapElement extends ArrayList {
 	
 	/** Добавление элементов из массива.
 	 * @param values массив значений
+	 * @return ссылка на текущую строку
 	 */
 	public MultiMapElement c(Object[] values) {
 		for (int i = 0; i < values.length; i++) {
@@ -71,6 +72,7 @@ public class MultiMapElement extends ArrayList {
 	/** Добавление элементов из массива.
 	 * @param values массив значений
 	 * @see List#addAll(java.util.Collection)
+	 * @return ссылка на текущую строку
 	 */
 	public MultiMapElement c(Collection values) {
 		addAll(values);

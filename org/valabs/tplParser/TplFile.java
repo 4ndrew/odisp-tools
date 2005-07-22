@@ -14,7 +14,7 @@ import java.util.TreeMap;
 
 /** Класс полностью описывающий шаблон сообщения.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TplFile.java,v 1.6 2005/04/27 09:25:40 valeks Exp $
+ * @version $Id: TplFile.java,v 1.7 2005/07/22 15:34:55 valeks Exp $
  * 
  * Пример шаблонов:
  * 
@@ -117,7 +117,10 @@ class TplFile {
     System.out.print("TPL parsed: " + fileName);
   }
   
-  /** Создание класса по указанному родителю. */
+  /** Создание класса по указанному родителю. 
+   * @param parent родительское сообщение
+   * @param _type тип сообщения, которое создаётся
+   */
   public TplFile(final TplFile parent, final int _type) {
     packageName = new String(parent.packageName);
     messageName = new String(parent.messageName);

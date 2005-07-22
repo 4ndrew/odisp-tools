@@ -16,7 +16,7 @@ import java.util.List;
  * @see java.util.Map  
  * @see com.novel.tools.multimap.MultiMapElement
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MultiMap.java,v 1.2 2005/07/11 16:07:15 valeks Exp $
+ * @version $Id: MultiMap.java,v 1.3 2005/07/22 15:34:33 valeks Exp $
  */
 public class MultiMap {
 	/** Хранилище для строк. */
@@ -113,7 +113,9 @@ public class MultiMap {
 		return keyColumnCount;
 	}
 	
-	/** Внутрений метод для доступа к содержимому таблицы напрямую */
+	/** Внутрений метод для доступа к содержимому таблицы напрямую.
+	 * @return содержимое таблицы
+	 */
 	List getContents() {
 		return contents;
 	}
@@ -141,17 +143,23 @@ public class MultiMap {
 		private int idx = 0;
 		/** Предыдущий индекс. */
 		private int lastIdx = 0;
-		/** Создание итератора для заданной таблицы. */
+		/** Создание итератора для заданной таблицы.
+		 * @param _mm таблица для которой создаётся итератор
+		 */
 		MMIterator(MultiMap _mm) {
 			mm = _mm;
 		}
 		
-		/** Проверка на существование следующего элемента. */
+		/** Проверка на существование следующего элемента.
+		 * @return признак существования следующего элемента
+		 */
 		public boolean hasNext() {
 			return idx < mm.size();
 		}
 
-		/** Выдача следующей строки. */
+		/** Выдача следующей строки.
+		 * @return следующая строка в таблице
+		 */
 		public Object next() {
 			lastIdx = idx;
 			return (Object) mm.row(idx++);

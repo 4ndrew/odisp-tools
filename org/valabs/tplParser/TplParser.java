@@ -13,7 +13,7 @@ import java.util.List;
 /** Утилита для генерации классов сообщений ODISP на основе шаблонов.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
- * @version $Id: TplParser.java,v 1.25 2005/07/01 09:17:29 valeks Exp $
+ * @version $Id: TplParser.java,v 1.26 2005/07/22 15:34:55 valeks Exp $
  */
 
 public class TplParser {
@@ -151,7 +151,7 @@ public class TplParser {
   }
 
   /**
-   * @param newTplParser
+   * @return статистика работы парсера
    */
   public String toString() {
   	String result = (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
@@ -166,11 +166,11 @@ public class TplParser {
   /**
    * Рекурсивный поиск файлов по директориям
    * 
-   * @param f указатель на директорию где искать
+   * @param dirToCheck указатель на директорию где искать
    */
-  private List listDir(final File f) {
+  private List listDir(final File dirToCheck) {
     final List result = new ArrayList();
-    final File fileList[] = f.listFiles(new FileFilter() {
+    final File fileList[] = dirToCheck.listFiles(new FileFilter() {
       public boolean accept(final File f) {
         return f.isDirectory() || f.getName().endsWith(".tpl");
       }

@@ -10,7 +10,7 @@ import com.novel.tools.filter.FilteringMap;
 
 /** Тесты для фильтрующего словаря.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TestFilteringMap.java,v 1.1 2005/04/27 14:01:34 valeks Exp $
+ * @version $Id: TestFilteringMap.java,v 1.2 2005/07/22 15:34:33 valeks Exp $
  */
 public class TestFilteringMap extends TestCase {
 	private Map backend = new HashMap();
@@ -71,14 +71,4 @@ public class TestFilteringMap extends TestCase {
 		assertFalse(m.containsKey("0"));
 		backend.remove("0");
 	}
-
-	public void testKeySet() {
-	}
-
-	public void testValues() {
-	}
-
-	public void testEntrySet() {
-	}
-
 }
