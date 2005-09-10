@@ -1,7 +1,7 @@
 <!-- ====================================================================== 
 	 Tools build system.
 	  
-	 $Id: build.xml,v 1.6 2005/06/27 11:28:41 dron Exp $
+	 $Id: build.xml,v 1.7 2005/09/10 13:24:19 dron Exp $
      ====================================================================== -->
 <project name="tplParser" default="all">
   
@@ -16,20 +16,33 @@
   </target>
     
   <!-- Build all java sources. -->
-  <target name="tplParser-build" depends="pre-build-make-folder">
+  <target name="build-tplParser" depends="pre-build-make-folder">
     <javac srcdir="org" destdir="build"/>
   </target>
   
   <!-- Generate release JAR package. -->
-  <target name="tplParser-jar" depends="tplParser-build">
-    <jar basedir="build" destfile="tplParser.jar">
+  <target name="jar-tplParser" depends="build-tplParser">
+    <jar basedir="build" destfile="tplParser.jar" includes="org/**/*class" excludes="**/*html">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="org.valabs.tplParser.TplParser"/>
       </manifest>
     </jar>
   </target>
+  
+  <!-- Build all java sources. -->
+  <target name="build-novel-tools" depends="pre-build-make-folder">
+    <javac srcdir="com" destdir="build" source="1.4"/>
+  </target>
+    
+  <target name="jar-novel-tools" depends="build-novel-tools">
+    <jar basedir="build" destfile="novel-tools.jar" includes="com/**/*class" excludes="**/*html">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+    </jar>
+  </target>
     
   <!-- Default target: build jar file. -->
-  <target name="all" depends="tplParser-jar"/>
+  <target name="all" depends="jar-tplParser, jar-novel-tools"/>
 </project>
