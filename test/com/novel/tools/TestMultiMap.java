@@ -1,12 +1,15 @@
-package com.novel.tools.multimap;
+package test.com.novel.tools;
 
 import java.util.Iterator;
+
+import com.novel.tools.multimap.MultiMap;
+import com.novel.tools.multimap.MultiMapElement;
 
 import junit.framework.TestCase;
 
 /** Набор тестов для MultiMap.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TestMultiMap.java,v 1.2 2005/07/11 16:08:30 valeks Exp $
+ * @version $Id: TestMultiMap.java,v 1.1 2005/09/10 13:20:07 dron Exp $
  */
 public class TestMultiMap extends TestCase {
 

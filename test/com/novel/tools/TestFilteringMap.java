@@ -1,4 +1,4 @@
-package test.com.novel.nms.common.filter;
+package test.com.novel.tools;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import com.novel.tools.filter.FilteringMap;
 
 /** Тесты для фильтрующего словаря.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TestFilteringMap.java,v 1.2 2005/07/22 15:34:33 valeks Exp $
+ * @version $Id: TestFilteringMap.java,v 1.1 2005/09/10 13:20:07 dron Exp $
  */
 public class TestFilteringMap extends TestCase {
 	private Map backend = new HashMap();

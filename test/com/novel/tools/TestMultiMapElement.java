@@ -1,13 +1,15 @@
-package com.novel.tools.multimap;
+package test.com.novel.tools;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.novel.tools.multimap.MultiMapElement;
 
 import junit.framework.TestCase;
 
 /** Набор тестов для проверки класса описывающего строку таблицы.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TestMultiMapElement.java,v 1.1 2005/07/11 16:08:54 valeks Exp $
+ * @version $Id: TestMultiMapElement.java,v 1.1 2005/09/10 13:20:07 dron Exp $
  */
 public class TestMultiMapElement extends TestCase {
 	public void testMultiMapElementList() {
