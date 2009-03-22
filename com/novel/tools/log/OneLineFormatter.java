@@ -1,26 +1,10 @@
-/* ODISP -- Message Oriented Middleware
- * Copyright (C) 2003-2005 Valentin A. Alekseev
- * Copyright (C) 2003-2005 Andrew A. Porohin 
- * 
- * ODISP is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 2.1 of the License.
- * 
- * ODISP is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.novel.tools.log;
 
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-/** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+/** Форматирование сообщения в одну строку
  * @author <a href="mailto:valeks@novel-il.ru">Valentin A. Alekseev</a>
  * @version $Id: OneLineFormatter.java,v 1.6 2005/04/27 09:25:40 valeks Exp $
  */
@@ -33,10 +17,10 @@ public class OneLineFormatter extends Formatter {
   static final int FINER = 400;
   static final int FINEST = 300;
 
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫:
+  /** Выполнить форматирование записи. Выходная строка в виде:
    * HH:MM:SS LOGLEVEL CLASSNAME.METHOD: MESSAGE. PARAMETERS+
-   * @param record О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫
-   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+   * @param record запись для анализа
+   * @return отформатированная строка
    */
   private static int recordidx = 0;
   public final String format(final LogRecord record) {

@@ -1,19 +1,3 @@
-/* ODISP -- Message Oriented Middleware
- * Copyright (C) 2003-2005 Valentin A. Alekseev
- * Copyright (C) 2003-2005 Andrew A. Porohin 
- * 
- * ODISP is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 2.1 of the License.
- * 
- * ODISP is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.valabs.tplParser;
 
 import java.io.BufferedReader;
@@ -31,49 +15,49 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
-/** О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
- * @author <a href="mailto:valeks@valabs.spb.ru">О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫.</a>
+/** Класс полностью описывающий шаблон сообщения.
+ * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @version $Id: TplFile.java,v 1.9 2006/02/26 14:26:01 dron Exp $
  * 
- * О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫:
+ * Пример шаблонов:
  * 
- * NAME [О©╫О©╫О©╫О©╫О©╫] [О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫] [О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ ODISP action] 
+ * NAME [пакет] [имя класса] [название ODISP action] 
  * 
- * IMPORT [О©╫О©╫О©╫О©╫О©╫] (*)
+ * IMPORT [пакет] (*)
  * 
- * AUTHOR [О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ (a)author)] (*)
+ * AUTHOR [автор (для тега (a)author)] (*)
  * 
- * DESC [О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫] (*) 
+ * DESC [описание сообщения] (*) 
  * 
- * FIELD [О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ (О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫)] [О©╫О©╫О©╫ О©╫О©╫О©╫О©╫]
+ * FIELD [имя поля (с заглавной буквы)] [тип поля]
  * 
- * FCHECK [О©╫О©╫О©╫ О©╫О©╫О©╫О©╫] [О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ boolean checkMessage()] (**)
+ * FCHECK [имя поля] [выражение для проверки в boolean checkMessage()] (**)
  * 
- * FDESC [О©╫О©╫О©╫ О©╫О©╫О©╫О©╫] [О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫] (*) 
+ * FDESC [имя поля] [описание поля] (*) 
  * 
- * DEFORIGIN [О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫]
+ * DEFORIGIN [точка отправления по-умолчанию]
  * 
- * DEFDEST [О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫]
+ * DEFDEST [точка назначения по-умолчанию]
  *
- * DEFROUTABLE [Routable О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫]
+ * DEFROUTABLE [Routable по-умолчанию]
  * 
- * DEFREPLTO [О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫]
+ * DEFREPLTO [номер сообщения на которое производится ответ по умолчанию]
  * 
- * DEFOOB [OOB О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫]
+ * DEFOOB [OOB по-умолчанию]
  * 
  * VERBATIM (***)
  * 
- * О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ (a)version О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ CVS-О©╫О©╫О©╫О©╫ Id.
+ * Версия для тега (a)version берется из CVS-тега Id.
  * 
- * (*) О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ multiline comments, О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫
- * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫: AUTHOR 1 О©╫О©╫О©╫О©╫О©╫О©╫ AUTHOR 2
- * О©╫О©╫О©╫О©╫О©╫О©╫
+ * (*) Поддерживаются multiline comments, все поля комментариев, должны
+ * начинаться с нового ключевого слова. Например: AUTHOR 1 строка AUTHOR 2
+ * строка
  * 
- * (**) О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ get[О©╫О©╫О©╫ О©╫О©╫О©╫О©╫](msg) != null
+ * (**) Значение по-умолчанию get[имя поля](msg) != null
  * 
- * (***) VERBATIM О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
- * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ VERBATIM. О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫, О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
- * О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+ * (***) VERBATIM включает режим переноса текста в результирующее сообщение.
+ * Выключается повторным VERBATIM. Может встречаться несколько раз, но результат
+ * будет выведен только в конце сообщения.
  */
 public class TplFile {
   private String packageName;
@@ -126,9 +110,9 @@ public class TplFile {
   
   private TplFile notifyMessage;
 
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫.
-   * @param toParse О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫
-   * @throws IOException О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+  /** Инициализация класса и разбор указанного файла.
+   * @param toParse файл для разбора
+   * @throws IOException в случае возникновения ошибок при работе с файлом
    */
   public TplFile(File toParse) throws IOException {
     fileName = toParse.getPath();
@@ -157,9 +141,9 @@ public class TplFile {
     readTpl(tplReader);    
   }
   
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫. 
-   * @param parent О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
-   * @param _type О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫cО©╫О©╫О©╫
+  /** Создание класса по указанному родителю. 
+   * @param parent родительское сообщение
+   * @param _type тип сообщения, которое создаётся
    */
   public TplFile(final TplFile parent, final int _type) {
     packageName = new String(parent.packageName);
@@ -176,7 +160,7 @@ public class TplFile {
     }
     defaultRoutable = parent.defaultRoutable;
     defaultOOB = parent.defaultOOB;
-    // verbatim = new ArrayList(parent.verbatim); // О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+    // verbatim = new ArrayList(parent.verbatim); // Не копируется
     cvsId = new String(parent.cvsId);
     fields.putAll(parent.fields);
     fileName = new String(parent.fileName);
@@ -202,10 +186,10 @@ public class TplFile {
     }
   }
   
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫.
+  /** Конструктор для создания шаблона сообщения на лету.
    */
   public TplFile() {
-    // О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫-О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ ;)
+    // делать вобщем-то и нечего ;)
   }
   
   public int getType() {
@@ -220,8 +204,8 @@ public class TplFile {
     return true;
   }
   
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ .tpl О©╫О©╫О©╫О©╫О©╫
-   * @param tagLine О©╫О©╫О©╫О©╫О©╫О©╫ .tpl О©╫О©╫О©╫О©╫О©╫
+  /** Обработчик строки .tpl файла
+   * @param tagLine строка .tpl файла
    */
   private void parseTagLine(final String tagLine) {
     if (tagLine.startsWith("NAME")) {
@@ -273,7 +257,7 @@ public class TplFile {
     } else if (tagLine.startsWith("NOTIFY")) { 
       _getNotifyMessage().parseTagLine(new String(tagLine.substring(6).trim()));
     } else if (!tagLine.startsWith("#")) {
-      //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+      //комментарии пропускаем
       //TODO may be it's good to skip empty lines
       if (tagLine != "") {
         verbatim.add(tagLine);
@@ -315,8 +299,8 @@ public class TplFile {
   }
 
   
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫.
-   * @param name О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+  /** Получение записи о поле по имени.
+   * @param name имя поля
    */
   private FieldRecord getFieldRecordByName(final String name) {
     if (!fields.containsKey(name)) {

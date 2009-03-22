@@ -1,19 +1,3 @@
-/* ODISP -- Message Oriented Middleware
- * Copyright (C) 2003-2005 Valentin A. Alekseev
- * Copyright (C) 2003-2005 Andrew A. Porohin 
- * 
- * ODISP is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 2.1 of the License.
- * 
- * ODISP is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
- */
 package test.com.novel.tools;
 
 import java.util.HashMap;
@@ -24,8 +8,8 @@ import junit.framework.TestCase;
 import com.novel.tools.filter.Filter;
 import com.novel.tools.filter.FilteringMap;
 
-/** О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
- * @author <a href="mailto:valeks@valabs.spb.ru">О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫.</a>
+/** Тесты для фильтрующего словаря.
+ * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @version $Id: TestFilteringMap.java,v 1.1 2005/09/10 13:20:07 dron Exp $
  */
 public class TestFilteringMap extends TestCase {
@@ -51,38 +35,38 @@ public class TestFilteringMap extends TestCase {
 	}
 
 	public void testSize() {
-		// О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
+		// отфильтруем по ключу
 		assertEquals(new FilteringMap(backend, moreThan3).size(), 3);
-		// О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+		// по значению
 		assertEquals(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).size(), 3);
-		// О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+		// по ключу и значению
 		assertEquals(new FilteringMap(backend, moreThan3, moreThan3).size(), 0);
 	}
 
 	public void testContainsKey() {
-		// О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ 2
+		// отфильтруем по ключам и проверим 2
 		assertFalse(new FilteringMap(backend, moreThan3).containsKey("2"));
-		// О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ 4
+		// отфильтруем по значениям и проверим ключ 4
 		assertFalse(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).containsKey("4"));
 	}
 
 	public void testContainsValue() {
-		// О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+		// по ключам
 		assertTrue(new FilteringMap(backend, moreThan3).containsValue("5"));
-		// О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+		// по значениям
 		assertFalse(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).containsValue("2"));
 	}
 
 	public void testGet() {
-		// О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+		// по ключам
 		assertNull(new FilteringMap(backend, moreThan3).get("1"));
-		// О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+		// по значениям
 		assertNull(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).get("6"));
 	}
 
 	public void testPut() {
 		FilteringMap m = new FilteringMap(backend, moreThan3);
-		m.put("0", "10"); // О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ backend, О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+		m.put("0", "10"); // должно добавится в backend, но не пропускаться через фильтр
 		assertTrue(backend.containsKey("0"));
 		assertFalse(m.containsKey("0"));
 		backend.remove("0");

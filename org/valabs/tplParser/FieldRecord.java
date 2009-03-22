@@ -1,50 +1,34 @@
-/* ODISP -- Message Oriented Middleware
- * Copyright (C) 2003-2005 Valentin A. Alekseev
- * Copyright (C) 2003-2005 Andrew A. Porohin 
- * 
- * ODISP is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 2.1 of the License.
- * 
- * ODISP is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.valabs.tplParser;
 
 
 /**
- * О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+ * Класс содержащий параметры поля сообщения
  * 
- * @author <a href="boris@novel-il.ru">О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫. </a>
- * @author (C) 2004 О©╫О©╫О©╫ "О©╫О©╫О©╫О©╫О©╫-О©╫О©╫"
+ * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
+ * @author (C) 2004 НПП "Новел-ИЛ"
  * @version $Id: FieldRecord.java,v 1.4 2006/01/23 11:09:48 valeks Exp $
  */
 class FieldRecord {
 
   /**
-   * О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+   * Тип поля
    */
   private String type = "";
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+   * Функция проверки значения поля
    */
   private String check = "";
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+   * Описание поля
    */
   private String desc = "";
   
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫. */
+  /** Значение по-умолчанию. */
   private String defaultv = "";
   
-  /** О©╫О©╫О©╫ О©╫О©╫О©╫О©╫. */
+  /** Имя поля. */
   private final String name;
 
   public FieldRecord(String _name) {
@@ -56,54 +40,54 @@ class FieldRecord {
   }
   
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Получить функцию проверки поля сообщения
    * 
-   * @return О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * @return текст функции проверки поля сообщения
    */
   public String getCheck() {
     return check;
   }
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Установить функцию проверки поля сообщения
    * 
-   * @param check О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param check текст функции проверки поля сообщения.
    */
   public void setCheck(final String check) {
     this.check = check;
   }
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Получить описание поля сообщения
    * 
-   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @return описание поля сообщения.
    */
   public String getDesc() {
     return desc;
   }
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Установить описание поля сообщения
    * 
-   * @param desc О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param desc описание поля сообщения.
    */
   public void setDesc(final String desc) {
     this.desc = desc;
   }
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Получить тип поля сообщения
    * 
-   * @return О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @return тип поля сообщения.
    */
   public String getType() {
     return type;
   }
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Установить тип поля сообщения
    * 
-   * @param type О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param type тип поля сообщения.
    */
   public void setType(final String type) {
     this.type = type;

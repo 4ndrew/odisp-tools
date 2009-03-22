@@ -1,19 +1,3 @@
-/* ODISP -- Message Oriented Middleware
- * Copyright (C) 2003-2005 Valentin A. Alekseev
- * Copyright (C) 2003-2005 Andrew A. Porohin 
- * 
- * ODISP is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 2.1 of the License.
- * 
- * ODISP is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.valabs.tplParser;
 
 import java.io.IOException;
@@ -21,8 +5,8 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Locale;
 
-/** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ Java.
- * @author <a href="mailto:valeks@valabs.spb.ru">О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫.</a>
+/** Создание класса сообщения на языке Java.
+ * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
  * @version $Id: MessageFile_Java.java,v 1.9 2006/03/20 09:52:29 valeks Exp $
  */
 class MessageFile_Java implements MessageFile {
@@ -120,9 +104,9 @@ class MessageFile_Java implements MessageFile {
    */
   private void writeInitAll(final TplFile tplSource, final OutputStream out) throws IOException {
     Iterator it;
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @return О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫\n");
-    write(out, "   * @param m О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫\n");
+    write(out, "  /** Короткий способ заполнения всех полей сообщения сразу.\n");
+    write(out, "   * @return ссылку на сообщение\n");
+    write(out, "   * @param m сообщение для настройки\n");
 
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
@@ -155,17 +139,17 @@ class MessageFile_Java implements MessageFile {
    */
   private void writeMisc(TplFile tplSource, OutputStream out) throws IOException {
     Iterator it;
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @param msg О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @return true - О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, false - О©╫О©╫О©╫О©╫О©╫.\n");
+    write(out, "  /** Является ли экземпляр сообщением этого типа.\n");
+    write(out, "   * @param msg Сообщение.\n");
+    write(out, "   * @return true - если является, false - иначе.\n");
     write(out, "   */\n");
     write(out, "  public static boolean equals(final Message msg) {\n");
     write(out, "    return msg.getAction().equals(NAME);\n");
     write(out, "  }\n");
     if (tplSource.getFields().size() > 0) {
-      write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-      write(out, "  * @param dest О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-      write(out, "  * @param src О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+      write(out, "  /** Копирование полей из одного сообщения в другое.\n");
+      write(out, "  * @param dest Получатель.\n");
+      write(out, "  * @param src Источник.\n");
       write(out, "  */\n");
       write(out, "  public static void copyFrom(final Message dest, final Message src) {\n");
       it = tplSource.getFields().keySet().iterator();
@@ -175,16 +159,16 @@ class MessageFile_Java implements MessageFile {
       }
       write(out, "  }\n");
     }
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ hash-О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ 0.\n");
-    write(out, "   * @return hash-О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+    write(out, "  /** Генерирование уникального hash-кода сообщения.\n");
+    write(out, "   * Всегда равен 0.\n");
+    write(out, "   * @return hash-код сообщения.\n");
     write(out, "   */\n");
     write(out, "  public int hashCode() {\n");
     write(out, "    return 0;\n");
     write(out, "  }\n");
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Helper-О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @param msg О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫cО©╫О©╫О©╫ Helper.\n");
-    write(out, "   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ " + tplSource.getMessageName() + "Helper О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+    write(out, "  /** Получить Helper-класс для данного сообщения.\n");
+    write(out, "   * @param msg сообщение для которого создаётся Helper.\n");
+    write(out, "   * @return экземпляр класса " + tplSource.getMessageName() + "Helper настроенный на данное сообщение.\n");
     write(out, "   */\n");
     write(out, "  public static " + tplSource.getMessageName() + "Helper getHelper(Message msg) {\n");
     write(out, "    return new " + tplSource.getMessageName() + "Helper(msg);\n");
@@ -198,23 +182,23 @@ class MessageFile_Java implements MessageFile {
    */
   private void writeField(final TplFile tplSource, final OutputStream out, final String fieldName) throws IOException {
     final FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ " + fr.getName() + ".\n");
+    write(out, "  /** Установить " + fr.getName() + ".\n");
     if (fr.getDesc().length() > 0) {
       write(out, "   * " + fr.getDesc() + "\n");
     }
-    write(out, "   * @param msg О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @param newValue О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @return О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫\n");
+    write(out, "   * @param msg Сообщение над которым производится действие.\n");
+    write(out, "   * @param newValue Новое значение для поля.\n");
+    write(out, "   * @return ссылка на сообщение\n");
     write(out, "   */\n\n");
     write(out, "  public static Message set" + fr.getName() + "(final Message msg, final " + fr.getType() + " newValue) {\n");
     write(out, "    msg.addField(idx" + fr.getName().toUpperCase() + ", newValue);\n");
     write(out, "    checkMessage(msg);\n");
     write(out, "    return msg;\n");
     write(out, "  }\n");
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ " + fr.getName() + ".\n");
+    write(out, "  /** Получить " + fr.getName() + ".\n");
     write(out, "   *" + fr.getDesc() + "\n");
-    write(out, "   * @param msg О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫\n");
+    write(out, "   * @param msg Сообщение над которым производится действие.\n");
+    write(out, "   * @return значение поля\n");
     write(out, "   */\n");
     write(out, "  public static " + fr.getType() + " get" + fr.getName() + "(final Message msg) {\n");
     write(out, "    return " + (fr.getType().equals("Object") ? "" : "(" + fr.getType() + ")") + " msg.getField(idx" + fr.getName().toUpperCase() + ");\n");
@@ -226,21 +210,21 @@ class MessageFile_Java implements MessageFile {
    * @throws IOException
    */
   private void writeSetup(final TplFile tplSource, final OutputStream out) throws IOException {
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @param msg О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+    write(out, "  /** Инициализация основных свойств сообщения.\n");
+    write(out, "   * @param msg Сообщение.\n");
 
     if (tplSource.getDefaultDestination() == null) {
-      write(out, "   * @param destination О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+      write(out, "   * @param destination Точка назначения.\n");
     }
 
     if (tplSource.getDefaultOrigin() == null) {
-      write(out, "   * @param origin О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+      write(out, "   * @param origin Точка отправления.\n");
     }
 
     if (tplSource.getDefaultReplyTo() == null) {
-      write(out, "   * @param replyTo О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
+      write(out, "   * @param replyTo Идентификатор сообщения, на которое это является ответом.\n");
     }
-    write(out, "   * @return О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫\n");
+    write(out, "   * @return ссылка на инициализированное сообщение\n");
     write(out, "   */\n");
 
     write(out, "  public static Message setup(final Message msg\n");
@@ -294,8 +278,8 @@ class MessageFile_Java implements MessageFile {
    * @throws IOException
    */
   private void writeCheckMessage(final TplFile tplSource, final OutputStream out) throws IOException {
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.\n");
-    write(out, "   * @param msg О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫\n");
+    write(out, "  /** Проверка сообщения на корректность.\n");
+    write(out, "   * @param msg Сообщение\n");
     write(out, "   */\n");
     write(out, "  private static void checkMessage(final Message msg) {\n");
 
@@ -345,13 +329,13 @@ class MessageFile_Java implements MessageFile {
    */
   private void writeMessageConstants(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "public final class " + tplSource.getMessageName() + " {\n");
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫. */\n");
+    write(out, "  /** Строковое представление сообщения. */\n");
     write(out, "  public static final String NAME = \"" + tplSource.getActionName() + "\";\n");
 
     Iterator it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
       final String key = (String) it.next();
-      write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ " + key + ". */\n");
+      write(out, "  /** Индекс для поля " + key + ". */\n");
       write(out, "  public static final String idx" + key.toUpperCase(Locale.ENGLISH) + " = \"" + key.toLowerCase(Locale.ENGLISH) + "\";\n");
     }
 
@@ -360,13 +344,13 @@ class MessageFile_Java implements MessageFile {
       final String key = (String) it.next();
       FieldRecord fr = (FieldRecord) tplSource.getFields().get(key);
       if (!"".equals(fr.getDefault())) {
-        write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ " + key + ". */\n");
+        write(out, "  /** Значение по-умолчанию для поля " + key + ". */\n");
         write(out, "  public static final " + fr.getType() + " " + key.toUpperCase(Locale.ENGLISH) + "_DEFAULT = " + fr.getDefault() + ";\n");
       }
     }
     write(out, "\n");
-    write(out, "  /** О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫. */\n");
-    write(out, "  private " + tplSource.getMessageName() + "() { /* Single-model. О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. */ }\n");
+    write(out, "  /** Запрет на создание объекта. */\n");
+    write(out, "  private " + tplSource.getMessageName() + "() { /* Single-model. Не позволяется создавать объект. */ }\n");
   }
 
   /**
@@ -422,7 +406,7 @@ class MessageFile_Java implements MessageFile {
       writeHelperField(tplSource, out, fieldName);
     }
 
-    write(out, "    /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫. */\n");
+    write(out, "    /** Получить ссылку на обрабатываемое сообщение. */\n");
     write(out, "    public Message message() {\n");
     write(out, "      return msg;\n");
     write(out, "    }\n");
@@ -436,21 +420,21 @@ class MessageFile_Java implements MessageFile {
    */
   private void writeHelperField(final TplFile tplSource, final OutputStream out, final String fieldName) throws IOException {
     final FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
-    write(out, "    /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ " + fr.getName() + ".\n");
+    write(out, "    /** Установить " + fr.getName() + ".\n");
     if (fr.getDesc().length() > 0) {
       write(out, "     * " + fr.getDesc() + "\n");
     }
-    write(out, "     * @param newValue О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫.\n");
-    write(out, "     * @return О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫\n");
+    write(out, "     * @param newValue Новое значение для поля.\n");
+    write(out, "     * @return ссылка на сообщение\n");
     write(out, "     */\n\n");
     write(out, "    public " + tplSource.getMessageName() + "Helper set" + fr.getName() + "(final " + fr.getType() + " newValue) {\n");
     write(out, "      " + tplSource.getMessageName() + ".set" + fr.getName() + "(msg, newValue);\n");
     write(out, "      checkMessage(msg);\n");
     write(out, "      return this;\n");
     write(out, "    }\n");
-    write(out, "    /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ " + fr.getName() + ".\n");
+    write(out, "    /** Получить " + fr.getName() + ".\n");
     write(out, "     *" + fr.getDesc() + "\n");
-    write(out, "     * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫\n");
+    write(out, "     * @return значение поля\n");
     write(out, "     */\n");
     write(out, "    public " + fr.getType() + " get" + fr.getName() + "() {\n");
     if (!"".equals(fr.getDefault())) {

@@ -1,19 +1,3 @@
-/* ODISP -- Message Oriented Middleware
- * Copyright (C) 2003-2005 Valentin A. Alekseev
- * Copyright (C) 2003-2005 Andrew A. Porohin 
- * 
- * ODISP is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, version 2.1 of the License.
- * 
- * ODISP is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
- */
 package org.valabs.tplParser;
 
 import java.io.File;
@@ -26,34 +10,34 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-/** О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ ODISP О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
- * @author <a href="mailto:valeks@valabs.spb.ru">О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫.</a>
- * @author <a href="mailto:boris@novel-il.ru">О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫. </a>
+/** Утилита для генерации классов сообщений ODISP на основе шаблонов.
+ * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+ * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
  * @version $Id: TplParser.java,v 1.27 2006/01/23 11:12:39 valeks Exp $
  */
 
 public class TplParser {
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ java-О©╫О©╫О©╫О©╫О©╫О©╫. */
+  /** Используется для режима только удаления файлов java-файлов. */
   private final boolean cleanOnly;
   
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ Java. */
+  /** Создавать ли вывод на языке Java. */
   private boolean doJava = true;
-  /** О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ HTML. */
+  /** Создавать ли документацию на языке HTML. */
   private boolean doHTML = false;
 
-  /** О©╫чёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. */
+  /** Счётчик обработанных файлов. */
   private int countProcessed = 0;
-  /** О©╫чёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫ О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫ up-to-date. */
+  /** Счётчик пропущенных файлов из-за того, что он up-to-date. */
   private int countSkipped = 0;
-  /** О©╫чёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. */
+  /** Счётчик ошибок. */
   private int countError = 0;
   
   private List writers = new ArrayList();
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Главный класс парсера
    * 
-   * @param args О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+   * @param args параметры вызова
    */
   public static void main(String[] args) {
     boolean cleanOnly = false;
@@ -167,7 +151,7 @@ public class TplParser {
   }
 
   /**
-   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * @return статистика работы парсера
    */
   public String toString() {
   	String result = (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
@@ -180,9 +164,9 @@ public class TplParser {
   }
 
   /**
-   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * Рекурсивный поиск файлов по директориям
    * 
-   * @param dirToCheck О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+   * @param dirToCheck указатель на директорию где искать
    */
   private List listDir(final File dirToCheck) {
     final List result = new ArrayList();
