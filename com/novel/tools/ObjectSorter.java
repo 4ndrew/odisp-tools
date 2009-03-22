@@ -31,8 +31,8 @@ import java.util.List;
  * <li> ������� � ������������� � � 
  * </ul>
  * 
- * @author <a href="dron@novel-il.ru">������ �. �������</a>
- * @author (C) 2004 ��� "�����-��"
+ * @author <a href="andrew.porokhin@gmail.com">Andrew A. Porokhin</a>
+ * @author <a href="valentin.alekseev@gmail.com">Valentin A. Alekseev</a>
  * @version $Id: ObjectSorter.java,v 1.2 2005/07/22 15:04:32 dron Exp $
  */
 public class ObjectSorter {
