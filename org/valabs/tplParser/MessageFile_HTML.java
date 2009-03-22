@@ -1,3 +1,19 @@
+/* ODISP -- Message Oriented Middleware
+ * Copyright (C) 2003-2005 Valentin A. Alekseev
+ * Copyright (C) 2003-2005 Andrew A. Porohin 
+ * 
+ * ODISP is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1 of the License.
+ * 
+ * ODISP is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.valabs.tplParser;
 
 import java.io.IOException;
@@ -6,7 +22,7 @@ import java.util.Iterator;
 
 /**
  * @author valeks
- * @author (C) 2005 НПП "Новел-ИЛ"
+ * @author (C) 2005 О©╫О©╫О©╫ "О©╫О©╫О©╫О©╫О©╫-О©╫О©╫"
  * @version $Id: MessageFile_HTML.java,v 1.1 2005/07/01 09:17:29 valeks Exp $
  */
 public class MessageFile_HTML implements MessageFile {
@@ -27,7 +43,7 @@ public class MessageFile_HTML implements MessageFile {
 
 	    writeSetup(tplSource, out);
 
-	    write(out, "      <tr><td>Тип</td><td>Название</td><td>Описание</td></tr>\n");
+	    write(out, "      <tr><td>О©╫О©╫О©╫</td><td>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫</td><td>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫</td></tr>\n");
 	    final Iterator it = tplSource.getFields().keySet().iterator();
 	    while (it.hasNext()) {
 	      final String fieldName = (String) it.next();
@@ -63,7 +79,7 @@ public class MessageFile_HTML implements MessageFile {
 	 * @throws IOException
 	 */
 	private void writeVerbatim(TplFile tplSource, OutputStream out) throws IOException {
-		write(out, "      <tr><td><h3>Дополнительный код:</h3></td></tr>\n");
+		write(out, "      <tr><td><h3>О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫:</h3></td></tr>\n");
 		write(out, "      <tr><td><pre>\n");
 		Iterator it = tplSource.getVerbatim().iterator();
 		while (it.hasNext()) {

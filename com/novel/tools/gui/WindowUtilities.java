@@ -1,3 +1,19 @@
+/* ODISP -- Message Oriented Middleware
+ * Copyright (C) 2003-2005 Valentin A. Alekseev
+ * Copyright (C) 2003-2005 Andrew A. Porohin 
+ * 
+ * ODISP is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1 of the License.
+ * 
+ * ODISP is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.novel.tools.gui;
 
 import java.awt.Component;
@@ -14,24 +30,24 @@ import java.awt.geom.Rectangle2D;
 
 
 /**
- * Этот класс содержит ряд вспомогательных методов для работы с окнами
- * приложения, в основном с JFrame'ом.
+ * О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫
+ * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ JFrame'О©╫О©╫.
  * 
- * @author <a href="dron@novel-il.ru">Андрей А. Порохин</a>
- * @author (C) 2003-2006 НПП "Новел-ИЛ"
+ * @author <a href="dron@novel-il.ru">О©╫О©╫О©╫О©╫О©╫О©╫ О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫</a>
+ * @author (C) 2003-2006 О©╫О©╫О©╫ "О©╫О©╫О©╫О©╫О©╫-О©╫О©╫"
  * @version $Id$
  */
 public final class WindowUtilities {
 
-  /** Данный конструктор никогда не должен быть вызван, так как
-   * WindowUtilities - класс, который не должен иметь экземпляров, потому как
-   * все методы класса являются статическими.
+  /** О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫ О©╫О©╫О©╫
+   * WindowUtilities - О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫
+   * О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
    */
-  private WindowUtilities() { /* не используемый конструктор */ }
+  private WindowUtilities() { /* О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */ }
   
   /**
-   * Получение параметров графического девайса по-умолчанию (ведомого).
-   * @return Графические параметры.
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫).
+   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
    * @since 1.17
    */
   public static GraphicsConfiguration getDefaultGraphicsConfiguration() {
@@ -41,10 +57,10 @@ public final class WindowUtilities {
   }
 
   /**
-   * Изменяет координаты, перемещая окно на центр экрана. Начиная с 1.17 добавлена
-   * поддержка многомониторных конфигураций. 
-   * @param frame cсылка на окно (JFrame), которое необходимо переместить
-   * в центр экрана.
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫. О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ 1.17 О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫. 
+   * @param frame cО©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫ (JFrame), О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * О©╫ О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.
    * @since v1.1
    */
   public static void centerWindow(Window frame) {
@@ -61,15 +77,15 @@ public final class WindowUtilities {
   }
    
   /**
-   * Добавляет компонент в контейнер (обёртка для GridBagLayout) при этом
-   * указываются опции GridBagLayout (gridx, gridy, gridwidth).
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫бёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫ GridBagLayout) О©╫О©╫О©╫ О©╫О©╫О©╫О©╫
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫ GridBagLayout (gridx, gridy, gridwidth).
    *
-   * @param container Ссылка на контейнер.
-   * @param component Компонент, котрый вставляется.
-   * @param c Параметры GridBagLayout.
-   * @param gridx X-составляющая.
-   * @param gridy Y-составляющая.
-   * @param gridwidth Занимаемое место
+   * @param container О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param component О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param c О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ GridBagLayout.
+   * @param gridx X-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param gridy Y-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param gridwidth О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫
    */
   public static void addObjectToContainer(Container container,
           Component component, GridBagConstraints c, int gridx, int gridy,
@@ -81,14 +97,14 @@ public final class WindowUtilities {
   }
    
   /**
-   * Добавляет компонент в контейнер (обёртка для GridBagLayout) при этом указываются
-   * опции GridBagLayout (gridx, gridy, gridwidth = 1).
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ (О©╫бёО©╫О©╫О©╫О©╫ О©╫О©╫О©╫ GridBagLayout) О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+   * О©╫О©╫О©╫О©╫О©╫ GridBagLayout (gridx, gridy, gridwidth = 1).
    * 
-   * @param container Ссылка на контейнер.
-   * @param component Компонент, котрый вставляется.
-   * @param c Параметры GridBagLayout.
-   * @param gridx X-составляющая.
-   * @param gridy Y-составляющая.
+   * @param container О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param component О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param c О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ GridBagLayout.
+   * @param gridx X-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param gridy Y-О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
    */
   public static void addObjectToContainer(Container container,
           Component component, GridBagConstraints c, int gridx, int gridy) {
@@ -96,11 +112,11 @@ public final class WindowUtilities {
   }
   
   /**
-   * @param container Ссылка на контейнер.
-   * @param component Компонент, котрый вставляется.
-   * @param c Параметры GridBagLayout.
-   * @param gridwidth Ширина.
-   * @param gridheight Длинна.
+   * @param container О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param component О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫, О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param c О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ GridBagLayout.
+   * @param gridwidth О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param gridheight О©╫О©╫О©╫О©╫О©╫О©╫.
    */
   public static void addObjectToContainerRelative(Container container,
           Container component, GridBagConstraints c, int gridwidth,
@@ -111,11 +127,11 @@ public final class WindowUtilities {
   }
 
   /**
-   * Получение границ текста.
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.
    * 
-   * @param g Графический контекст.
-   * @param text Текст.
-   * @return Границы текста.
+   * @param g О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param text О©╫О©╫О©╫О©╫О©╫.
+   * @return О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.
    */
   public static Rectangle2D getTextBounds(Graphics g, String text) {
     FontMetrics fm = g.getFontMetrics();
@@ -123,11 +139,11 @@ public final class WindowUtilities {
   }
   
   /**
-   * Получение ширины текста.
+   * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫.
    * 
-   * @param g Графический контекст.
-   * @param text Текст.
-   * @return Ширина текста в пикселях.
+   * @param g О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
+   * @param text О©╫О©╫О©╫О©╫О©╫.
+   * @return О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫ О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.
    */
   public static int getTextWidth(Graphics g, String text) {
     Rectangle2D r = getTextBounds(g, text);
