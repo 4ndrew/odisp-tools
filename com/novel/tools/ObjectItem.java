@@ -18,8 +18,8 @@ package com.novel.tools;
 
 /** ����. =))))
  * 
- * @author <a href="andrew.porokhin@gmail.com">Andrew A. Porokhin</a>
- * @author <a href="valentin.alekseev@gmail.com">Valentin A. Alekseev</a>
+ * @author <a href="dron@novel-il.ru">������ �. �������</a>
+ * @author (C) 2004 ��� "�����-��"
  * @version $Id: ObjectItem.java,v 1.2 2004/11/01 11:04:19 dron Exp $
  */
 public class ObjectItem {
