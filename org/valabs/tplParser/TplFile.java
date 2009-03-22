@@ -1,9 +1,12 @@
 package org.valabs.tplParser;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,20 +17,25 @@ import java.util.TreeMap;
 
 /** Класс полностью описывающий шаблон сообщения.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: TplFile.java,v 1.7 2005/07/22 15:34:55 valeks Exp $
+ * @version $Id: TplFile.java,v 1.9 2006/02/26 14:26:01 dron Exp $
  * 
  * Пример шаблонов:
  * 
- * NAME [пакет] [имя класса] [название ODISP action] IMPORT [пакет] (*)
+ * NAME [пакет] [имя класса] [название ODISP action] 
+ * 
+ * IMPORT [пакет] (*)
  * 
  * AUTHOR [автор (для тега (a)author)] (*)
  * 
- * DESC [описание сообщения] (*) FIELD [имя поля (с заглавной буквы)] [тип поля]
+ * DESC [описание сообщения] (*) 
+ * 
+ * FIELD [имя поля (с заглавной буквы)] [тип поля]
  * 
  * FCHECK [имя поля] [выражение для проверки в boolean checkMessage()] (**)
  * 
- * FDESC [имя поля] [описание поля] (*) DEFORIGIN [точка отправления
- * по-умолчанию]
+ * FDESC [имя поля] [описание поля] (*) 
+ * 
+ * DEFORIGIN [точка отправления по-умолчанию]
  * 
  * DEFDEST [точка назначения по-умолчанию]
  *
@@ -51,7 +59,7 @@ import java.util.TreeMap;
  * Выключается повторным VERBATIM. Может встречаться несколько раз, но результат
  * будет выведен только в конце сообщения.
  */
-class TplFile {
+public class TplFile {
   private String packageName;
 
   private String messageName;
@@ -110,11 +118,27 @@ class TplFile {
     fileName = toParse.getPath();
     lastModified = toParse.lastModified();
     BufferedReader tplReader = new BufferedReader(new FileReader(toParse));
+    readTpl(tplReader);
+  }
+
+  private void readTpl(BufferedReader tplReader) throws IOException {
     String line;
     while ((line = tplReader.readLine()) != null) {
       parseTagLine(line);
     }
     System.out.print("TPL parsed: " + fileName);
+  }
+  
+  public TplFile(String _fileName, String source) throws IOException {
+    fileName = _fileName;
+    BufferedReader tplReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(source.getBytes())));
+    readTpl(tplReader);
+  }
+  
+  public TplFile(String _fileName, InputStream inps) throws IOException {
+    fileName = _fileName;
+    BufferedReader tplReader = new BufferedReader(new InputStreamReader(inps));
+    readTpl(tplReader);    
   }
   
   /** Создание класса по указанному родителю. 
@@ -171,12 +195,22 @@ class TplFile {
   public int getType() {
     return type;
   }
+  
+  private boolean checkArray(String source, Object arr[], int requiredFields) {
+    if (arr.length < requiredFields) {
+      System.err.println("Warning: parse error,  string = '" + source + "', fix this and restart tplParser.");
+      return false;
+    }
+    return true;
+  }
+  
   /** Обработчик строки .tpl файла
    * @param tagLine строка .tpl файла
    */
   private void parseTagLine(final String tagLine) {
     if (tagLine.startsWith("NAME")) {
       final String[] s = tagLine.split(" ");
+      checkArray(tagLine, s, 4);
       packageName = s[1];
       messageName = s[2];
       actionName = s[3];
@@ -192,13 +226,20 @@ class TplFile {
       description.add(tagLine.substring(5));
     } else if (tagLine.startsWith("FIELD")) {
       final String[] tokens = tagLine.split(" ");
+      checkArray(tagLine, tokens, 3);
       getFieldRecordByName(tokens[1]).setType(new String(tokens[2]));
     } else if (tagLine.startsWith("FCHECK")) {
       final String[] tokens = tagLine.split(" ");
+      checkArray(tagLine, tokens, 2);
       getFieldRecordByName(tokens[1]).setCheck(tagLine.substring(8 + tokens[1].length()));
     } else if (tagLine.startsWith("FDESC")) {
       final String[] tokens = tagLine.split(" ");
+      checkArray(tagLine, tokens, 2);
       getFieldRecordByName(tokens[1]).setDesc(tagLine.substring(7 + tokens[1].length()));
+    } else if (tagLine.startsWith("FDEF")) {
+      final String[] tokens = tagLine.split(" ");
+      checkArray(tagLine, tokens, 2);
+      getFieldRecordByName(tokens[1]).setDefault(tagLine.substring(5 + tokens[1].length()));
     } else if (tagLine.startsWith("DEFORIGIN")) {
       defaultOrigin = tagLine.split(" ")[1];
     } else if (tagLine.startsWith("DEFDEST")) {

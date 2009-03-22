@@ -6,7 +6,7 @@ package org.valabs.tplParser;
  * 
  * @author <a href="boris@novel-il.ru">Волковыский Борис В. </a>
  * @author (C) 2004 НПП "Новел-ИЛ"
- * @version $Id: FieldRecord.java,v 1.3 2005/04/27 09:25:40 valeks Exp $
+ * @version $Id: FieldRecord.java,v 1.4 2006/01/23 11:09:48 valeks Exp $
  */
 class FieldRecord {
 
@@ -24,6 +24,9 @@ class FieldRecord {
    * Описание поля
    */
   private String desc = "";
+  
+  /** Значение по-умолчанию. */
+  private String defaultv = "";
   
   /** Имя поля. */
   private final String name;
@@ -92,5 +95,13 @@ class FieldRecord {
   
   public String toString() {
     return type + " " + name  + " // " + desc;
+  }
+  
+  public String getDefault() {
+    return defaultv;
+  }
+  
+  public void setDefault(final String _defaultv) {
+    defaultv = _defaultv;
   }
 }

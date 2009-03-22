@@ -9,9 +9,9 @@ import java.util.List;
 /** Создание TPL файла по заданной структуре.
  * Набросок для tplclipse.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_TPL.java,v 1.2 2005/04/27 09:25:39 valeks Exp $
+ * @version $Id: MessageFile_TPL.java,v 1.3 2006/01/23 11:11:30 valeks Exp $
  */
-class MessageFile_TPL implements MessageFile {
+public class MessageFile_TPL implements MessageFile {
   public String getExtension() {
     return ".tpl";
   }

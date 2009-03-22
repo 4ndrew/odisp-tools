@@ -1,7 +1,7 @@
 <!-- ====================================================================== 
 	 Tools build system.
 	  
-	 $Id: build.xml,v 1.7 2005/09/10 13:24:19 dron Exp $
+	 $Id: build.xml,v 1.8 2006/01/24 15:21:15 dron Exp $
      ====================================================================== -->
 <project name="tplParser" default="all">
   
@@ -17,7 +17,7 @@
     
   <!-- Build all java sources. -->
   <target name="build-tplParser" depends="pre-build-make-folder">
-    <javac srcdir="org" destdir="build"/>
+    <javac debug="yes" srcdir="org" destdir="build"/>
   </target>
   
   <!-- Generate release JAR package. -->

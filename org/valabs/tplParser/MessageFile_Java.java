@@ -5,27 +5,28 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Locale;
 
-
 /** Создание класса сообщения на языке Java.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @version $Id: MessageFile_Java.java,v 1.5 2005/07/22 14:53:22 valeks Exp $
+ * @version $Id: MessageFile_Java.java,v 1.9 2006/03/20 09:52:29 valeks Exp $
  */
 class MessageFile_Java implements MessageFile {
-  
+
   private int countMain = 0;
+
   private int countReply = 0;
+
   private int countError = 0;
+
   private int countNotify = 0;
-  
+
   public String getExtension() {
     return ".java";
   }
-  
+
   public String toString() {
-    return "Java message output. Counters: " + countMain + " main, " + countReply + " replys, " + countError
-            + " error, " + countNotify + " notifys.";
+    return "Java message output. Counters: " + countMain + " main, " + countReply + " replys, " + countError + " error, " + countNotify + " notifys.";
   }
-  
+
   public void writeFile(final TplFile tplSource, final OutputStream out) throws IOException {
     writeJavaHeader(tplSource, out);
 
@@ -47,34 +48,36 @@ class MessageFile_Java implements MessageFile {
 
     writeInitAll(tplSource, out);
 
+    writeHelper(tplSource, out);
+
     writeVerbatim(tplSource, out);
-    
+
     writeJavaFooter(tplSource, out);
-    
+
     switch (tplSource.getType()) {
-      case TplFile.TYPE_PLAIN:
-        System.out.print(", main");
-        countMain++;
-        break;
-      case TplFile.TYPE_ERROR:
-        System.out.print(", error");
-        countError++;
-        break;
-      case TplFile.TYPE_REPLY:
-        System.out.print(", reply");
-        countReply++;
-        break;
-      case TplFile.TYPE_NOTIFY:
-        System.out.print(", notify");
-        countNotify++;
-        break;
-      default:
-      	throw new IOException("Unknown message type used");
+    case TplFile.TYPE_PLAIN:
+      System.out.print(", main");
+      countMain++;
+      break;
+    case TplFile.TYPE_ERROR:
+      System.out.print(", error");
+      countError++;
+      break;
+    case TplFile.TYPE_REPLY:
+      System.out.print(", reply");
+      countReply++;
+      break;
+    case TplFile.TYPE_NOTIFY:
+      System.out.print(", notify");
+      countNotify++;
+      break;
+    default:
+      throw new IOException("Unknown message type used");
     }
 
     System.out.print("(java)");
   }
-  
+
   /**
    * @param out
    * @throws IOException
@@ -104,12 +107,11 @@ class MessageFile_Java implements MessageFile {
     write(out, "  /** Короткий способ заполнения всех полей сообщения сразу.\n");
     write(out, "   * @return ссылку на сообщение\n");
     write(out, "   * @param m сообщение для настройки\n");
-    
+
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
       final String fieldName = (String) it.next();
-      write(out, "   * @param " + fieldName.toLowerCase(Locale.ENGLISH) + " "
-        + ((FieldRecord) tplSource.getFields().get(fieldName)).getDesc() + "\n");
+      write(out, "   * @param " + fieldName.toLowerCase(Locale.ENGLISH) + " " + ((FieldRecord) tplSource.getFields().get(fieldName)).getDesc() + "\n");
     }
 
     write(out, "  */\n");
@@ -118,8 +120,7 @@ class MessageFile_Java implements MessageFile {
     it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
       final String fieldName = (String) it.next();
-      write(out, (",\n                                final "
-        + ((FieldRecord) tplSource.getFields().get(fieldName)).getType() + " " + fieldName.toLowerCase(Locale.ENGLISH)));
+      write(out, (",\n                                final " + ((FieldRecord) tplSource.getFields().get(fieldName)).getType() + " " + fieldName.toLowerCase(Locale.ENGLISH)));
     }
     write(out, ") {\n");
 
@@ -165,6 +166,13 @@ class MessageFile_Java implements MessageFile {
     write(out, "  public int hashCode() {\n");
     write(out, "    return 0;\n");
     write(out, "  }\n");
+    write(out, "  /** Получить Helper-класс для данного сообщения.\n");
+    write(out, "   * @param msg сообщение для которого создаётся Helper.\n");
+    write(out, "   * @return экземпляр класса " + tplSource.getMessageName() + "Helper настроенный на данное сообщение.\n");
+    write(out, "   */\n");
+    write(out, "  public static " + tplSource.getMessageName() + "Helper getHelper(Message msg) {\n");
+    write(out, "    return new " + tplSource.getMessageName() + "Helper(msg);\n");
+    write(out, "  }\n");
   }
 
   /**
@@ -176,15 +184,13 @@ class MessageFile_Java implements MessageFile {
     final FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
     write(out, "  /** Установить " + fr.getName() + ".\n");
     if (fr.getDesc().length() > 0) {
-    	write(out, "   * " + fr.getDesc() + "\n");
+      write(out, "   * " + fr.getDesc() + "\n");
     }
     write(out, "   * @param msg Сообщение над которым производится действие.\n");
     write(out, "   * @param newValue Новое значение для поля.\n");
     write(out, "   * @return ссылка на сообщение\n");
     write(out, "   */\n\n");
-    write(out, "  public static Message set" + fr.getName()
-      + "(final Message msg, final "
-      + fr.getType() + " newValue) {\n");
+    write(out, "  public static Message set" + fr.getName() + "(final Message msg, final " + fr.getType() + " newValue) {\n");
     write(out, "    msg.addField(idx" + fr.getName().toUpperCase() + ", newValue);\n");
     write(out, "    checkMessage(msg);\n");
     write(out, "    return msg;\n");
@@ -194,10 +200,8 @@ class MessageFile_Java implements MessageFile {
     write(out, "   * @param msg Сообщение над которым производится действие.\n");
     write(out, "   * @return значение поля\n");
     write(out, "   */\n");
-    write(out, "  public static " + fr.getType()
-      + " get" + fr.getName() + "(final Message msg) {\n");
-    write(out, "    return " + (fr.getType().equals("Object") ? "" : "(" + fr.getType() + ")")
-            + "msg.getField(idx" + fr.getName().toUpperCase() + ");\n");
+    write(out, "  public static " + fr.getType() + " get" + fr.getName() + "(final Message msg) {\n");
+    write(out, "    return " + (fr.getType().equals("Object") ? "" : "(" + fr.getType() + ")") + " msg.getField(idx" + fr.getName().toUpperCase() + ");\n");
     write(out, "  }\n\n");
   }
 
@@ -282,38 +286,38 @@ class MessageFile_Java implements MessageFile {
     if (tplSource.getFields().isEmpty()) {
       write(out, "    msg.setCorrect(\n      true\n");
     } else {
-        write(out, "    try {\n");
-        Iterator it = tplSource.getFields().keySet().iterator();
-        while (it.hasNext()) {
-          String fieldName = (String) it.next();
-          String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
+      write(out, "    try {\n");
+      Iterator it = tplSource.getFields().keySet().iterator();
+      while (it.hasNext()) {
+        String fieldName = (String) it.next();
+        String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
 
-          if (fieldCheck.trim().length() == 0) {
-            fieldCheck = "get" + fieldName + "(msg) != null";
-          }
-          write(out, "      assert " + fieldCheck + " : \"Message has invalid field '" + fieldName + "'\";\n");
+        if (fieldCheck.trim().length() == 0) {
+          fieldCheck = "get" + fieldName + "(msg) != null";
         }
-        write(out, "    } catch (AssertionError e) {\n");
-        write(out, "      System.err.println(\"Message assertion :\" + e.toString());\n");
-        write(out, "      e.printStackTrace();\n    }\n");
-        write(out, "    msg.setCorrect(\n");
+        write(out, "      assert " + fieldCheck + " : \"Message has invalid field '" + fieldName + "'\";\n");
+      }
+      write(out, "    } catch (AssertionError e) {\n");
+      write(out, "      System.err.println(\"Message assertion :\" + e.toString());\n");
+      write(out, "      e.printStackTrace();\n    }\n");
+      write(out, "    msg.setCorrect(\n");
 
-        int flag = 0;
-        it = tplSource.getFields().keySet().iterator();
-        while (it.hasNext()) {
-          String fieldName = (String) it.next();
-          String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
+      int flag = 0;
+      it = tplSource.getFields().keySet().iterator();
+      while (it.hasNext()) {
+        String fieldName = (String) it.next();
+        String fieldCheck = ((FieldRecord) tplSource.getFields().get(fieldName)).getCheck();
 
-          if (fieldCheck.trim().length() == 0) {
-            fieldCheck = "get" + fieldName + "(msg) != null";
-          }
-          if (flag == 1) {
-            write(out, "      && " + fieldCheck + "\n");
-          } else {
-            write(out, "      " + fieldCheck + "\n");
-            flag = 1;
-          }
+        if (fieldCheck.trim().length() == 0) {
+          fieldCheck = "get" + fieldName + "(msg) != null";
         }
+        if (flag == 1) {
+          write(out, "      && " + fieldCheck + "\n");
+        } else {
+          write(out, "      " + fieldCheck + "\n");
+          flag = 1;
+        }
+      }
     }
     write(out, "    );\n");
     write(out, "  }\n");
@@ -328,11 +332,21 @@ class MessageFile_Java implements MessageFile {
     write(out, "  /** Строковое представление сообщения. */\n");
     write(out, "  public static final String NAME = \"" + tplSource.getActionName() + "\";\n");
 
-    final Iterator it = tplSource.getFields().keySet().iterator();
+    Iterator it = tplSource.getFields().keySet().iterator();
     while (it.hasNext()) {
       final String key = (String) it.next();
       write(out, "  /** Индекс для поля " + key + ". */\n");
-      write(out, "  private static String idx" + key.toUpperCase(Locale.ENGLISH) + " = \"" + key.toLowerCase(Locale.ENGLISH) + "\";\n");      
+      write(out, "  public static final String idx" + key.toUpperCase(Locale.ENGLISH) + " = \"" + key.toLowerCase(Locale.ENGLISH) + "\";\n");
+    }
+
+    it = tplSource.getFields().keySet().iterator();
+    while (it.hasNext()) {
+      final String key = (String) it.next();
+      FieldRecord fr = (FieldRecord) tplSource.getFields().get(key);
+      if (!"".equals(fr.getDefault())) {
+        write(out, "  /** Значение по-умолчанию для поля " + key + ". */\n");
+        write(out, "  public static final " + fr.getType() + " " + key.toUpperCase(Locale.ENGLISH) + "_DEFAULT = " + fr.getDefault() + ";\n");
+      }
     }
     write(out, "\n");
     write(out, "  /** Запрет на создание объекта. */\n");
@@ -345,13 +359,13 @@ class MessageFile_Java implements MessageFile {
    */
   private void writeClassJavadoc(final TplFile tplSource, final OutputStream out) throws IOException {
     write(out, "/** ");
-    Iterator it = tplSource.getDescription().iterator();    
+    Iterator it = tplSource.getDescription().iterator();
     while (it.hasNext()) {
       final String element = (String) it.next();
       write(out, element);
       write(out, "\n * ");
     }
-    it = tplSource.getAuthors().iterator();    
+    it = tplSource.getAuthors().iterator();
     while (it.hasNext()) {
       final String element = (String) it.next();
       write(out, "@author " + element);
@@ -378,6 +392,61 @@ class MessageFile_Java implements MessageFile {
       }
     }
     write(out, "\n");
+  }
+
+  private void writeHelper(final TplFile tplSource, final OutputStream out) throws IOException {
+    write(out, "  public static final class " + tplSource.getMessageName() + "Helper {\n");
+    write(out, "    private final Message msg;\n");
+    write(out, "    " + tplSource.getMessageName() + "Helper(final Message _msg) {\n");
+    write(out, "      msg = _msg;\n");
+    write(out, "    }\n");
+    final Iterator it = tplSource.getFields().keySet().iterator();
+    while (it.hasNext()) {
+      final String fieldName = (String) it.next();
+      writeHelperField(tplSource, out, fieldName);
+    }
+
+    write(out, "    /** Получить ссылку на обрабатываемое сообщение. */\n");
+    write(out, "    public Message message() {\n");
+    write(out, "      return msg;\n");
+    write(out, "    }\n");
+    write(out, "  }\n");
+  }
+
+  /**
+   * @param out
+   * @param fieldName
+   * @throws IOException
+   */
+  private void writeHelperField(final TplFile tplSource, final OutputStream out, final String fieldName) throws IOException {
+    final FieldRecord fr = (FieldRecord) tplSource.getFields().get(fieldName);
+    write(out, "    /** Установить " + fr.getName() + ".\n");
+    if (fr.getDesc().length() > 0) {
+      write(out, "     * " + fr.getDesc() + "\n");
+    }
+    write(out, "     * @param newValue Новое значение для поля.\n");
+    write(out, "     * @return ссылка на сообщение\n");
+    write(out, "     */\n\n");
+    write(out, "    public " + tplSource.getMessageName() + "Helper set" + fr.getName() + "(final " + fr.getType() + " newValue) {\n");
+    write(out, "      " + tplSource.getMessageName() + ".set" + fr.getName() + "(msg, newValue);\n");
+    write(out, "      checkMessage(msg);\n");
+    write(out, "      return this;\n");
+    write(out, "    }\n");
+    write(out, "    /** Получить " + fr.getName() + ".\n");
+    write(out, "     *" + fr.getDesc() + "\n");
+    write(out, "     * @return значение поля\n");
+    write(out, "     */\n");
+    write(out, "    public " + fr.getType() + " get" + fr.getName() + "() {\n");
+    if (!"".equals(fr.getDefault())) {
+      write(out, "      if (msg.getField(idx" + fr.getName().toUpperCase(Locale.ENGLISH) + ") == null) {\n");
+      write(out, "        return " + fr.getName().toUpperCase(Locale.ENGLISH) + "_DEFAULT;\n");
+      write(out, "      } else {\n");
+      write(out, "        return " + (fr.getType().equals("Object") ? "" : "(" + fr.getType() + ")") + " msg.getField(idx" + fr.getName().toUpperCase(Locale.ENGLISH) + ");\n");
+      write(out, "      }\n");
+    } else {
+      write(out, "      return " + (fr.getType().equals("Object") ? "" : "(" + fr.getType() + ")") + " msg.getField(idx" + fr.getName().toUpperCase(Locale.ENGLISH) + ");\n");
+    }
+    write(out, "    }\n\n");
   }
 
   private void write(final OutputStream out, final String line) throws IOException {
