@@ -25,8 +25,8 @@ import org.valabs.tools.filter.FilteringMap;
 import junit.framework.TestCase;
 
 
-/** Тесты для фильтрующего словаря.
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+/** п╒п╣я│я┌я▀ п╢п╩я▐ я└п╦п╩я▄я┌я─я┐я▌я┴п╣пЁп╬ я│п╩п╬п╡п╟я─я▐.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
  * @version $Id: TestFilteringMap.java,v 1.1 2005/09/10 13:20:07 dron Exp $
  */
 public class TestFilteringMap extends TestCase {
@@ -52,38 +52,38 @@ public class TestFilteringMap extends TestCase {
 	}
 
 	public void testSize() {
-		// отфильтруем по ключу
+		// п╬я┌я└п╦п╩я▄я┌я─я┐п╣п╪ п©п╬ п╨п╩я▌я┤я┐
 		assertEquals(new FilteringMap(backend, moreThan3).size(), 3);
-		// по значению
+		// п©п╬ п╥п╫п╟я┤п╣п╫п╦я▌
 		assertEquals(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).size(), 3);
-		// по ключу и значению
+		// п©п╬ п╨п╩я▌я┤я┐ п╦ п╥п╫п╟я┤п╣п╫п╦я▌
 		assertEquals(new FilteringMap(backend, moreThan3, moreThan3).size(), 0);
 	}
 
 	public void testContainsKey() {
-		// отфильтруем по ключам и проверим 2
+		// п╬я┌я└п╦п╩я▄я┌я─я┐п╣п╪ п©п╬ п╨п╩я▌я┤п╟п╪ п╦ п©я─п╬п╡п╣я─п╦п╪ 2
 		assertFalse(new FilteringMap(backend, moreThan3).containsKey("2"));
-		// отфильтруем по значениям и проверим ключ 4
+		// п╬я┌я└п╦п╩я▄я┌я─я┐п╣п╪ п©п╬ п╥п╫п╟я┤п╣п╫п╦я▐п╪ п╦ п©я─п╬п╡п╣я─п╦п╪ п╨п╩я▌я┤ 4
 		assertFalse(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).containsKey("4"));
 	}
 
 	public void testContainsValue() {
-		// по ключам
+		// п©п╬ п╨п╩я▌я┤п╟п╪
 		assertTrue(new FilteringMap(backend, moreThan3).containsValue("5"));
-		// по значениям
+		// п©п╬ п╥п╫п╟я┤п╣п╫п╦я▐п╪
 		assertFalse(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).containsValue("2"));
 	}
 
 	public void testGet() {
-		// по ключам
+		// п©п╬ п╨п╩я▌я┤п╟п╪
 		assertNull(new FilteringMap(backend, moreThan3).get("1"));
-		// по значениям
+		// п©п╬ п╥п╫п╟я┤п╣п╫п╦я▐п╪
 		assertNull(new FilteringMap(backend, Filter.ALWAYS_TRUE, moreThan3).get("6"));
 	}
 
 	public void testPut() {
 		FilteringMap m = new FilteringMap(backend, moreThan3);
-		m.put("0", "10"); // должно добавится в backend, но не пропускаться через фильтр
+		m.put("0", "10"); // п╢п╬п╩п╤п╫п╬ п╢п╬п╠п╟п╡п╦я┌я│я▐ п╡ backend, п╫п╬ п╫п╣ п©я─п╬п©я┐я│п╨п╟я┌я▄я│я▐ я┤п╣я─п╣п╥ я└п╦п╩я▄я┌я─
 		assertTrue(backend.containsKey("0"));
 		assertFalse(m.containsKey("0"));
 		backend.remove("0");

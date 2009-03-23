@@ -20,7 +20,7 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-/** Форматирование сообщения в одну строку
+/** п╓п╬я─п╪п╟я┌п╦я─п╬п╡п╟п╫п╦п╣ я│п╬п╬п╠я┴п╣п╫п╦я▐ п╡ п╬п╢п╫я┐ я│я┌я─п╬п╨я┐
  * @author <a href="mailto:valeks@novel-il.ru">Valentin A. Alekseev</a>
  * @version $Id: OneLineFormatter.java,v 1.6 2005/04/27 09:25:40 valeks Exp $
  */
@@ -33,10 +33,10 @@ public class OneLineFormatter extends Formatter {
   static final int FINER = 400;
   static final int FINEST = 300;
 
-  /** Выполнить форматирование записи. Выходная строка в виде:
+  /** п▓я▀п©п╬п╩п╫п╦я┌я▄ я└п╬я─п╪п╟я┌п╦я─п╬п╡п╟п╫п╦п╣ п╥п╟п©п╦я│п╦. п▓я▀я┘п╬п╢п╫п╟я▐ я│я┌я─п╬п╨п╟ п╡ п╡п╦п╢п╣:
    * HH:MM:SS LOGLEVEL CLASSNAME.METHOD: MESSAGE. PARAMETERS+
-   * @param record запись для анализа
-   * @return отформатированная строка
+   * @param record п╥п╟п©п╦я│я▄ п╢п╩я▐ п╟п╫п╟п╩п╦п╥п╟
+   * @return п╬я┌я└п╬я─п╪п╟я┌п╦я─п╬п╡п╟п╫п╫п╟я▐ я│я┌я─п╬п╨п╟
    */
   private static int recordidx = 0;
   public final String format(final LogRecord record) {

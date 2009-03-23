@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-/** Ê…Ãÿ‘“’¿›…  Set.
+/** –§–∏–ª—å—Ç—Ä—É—é—â–∏–π Set.
  * @author valeks
  * @version $Id: FilteringSet.java,v 1.1 2005/04/27 14:01:34 valeks Exp $
  */

@@ -24,8 +24,8 @@ import org.valabs.tools.multimap.MultiMapElement;
 
 import junit.framework.TestCase;
 
-/** Набор тестов для MultiMap.
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+/** п²п╟п╠п╬я─ я┌п╣я│я┌п╬п╡ п╢п╩я▐ MultiMap.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
  * @version $Id: TestMultiMap.java,v 1.1 2005/09/10 13:20:07 dron Exp $
  */
 public class TestMultiMap extends TestCase {

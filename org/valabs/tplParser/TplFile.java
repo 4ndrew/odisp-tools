@@ -31,49 +31,49 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
-/** Класс полностью описывающий шаблон сообщения.
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+/** п п╩п╟я│я│ п©п╬п╩п╫п╬я│я┌я▄я▌ п╬п©п╦я│я▀п╡п╟я▌я┴п╦п╧ я┬п╟п╠п╩п╬п╫ я│п╬п╬п╠я┴п╣п╫п╦я▐.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
  * @version $Id: TplFile.java,v 1.9 2006/02/26 14:26:01 dron Exp $
  * 
- * Пример шаблонов:
+ * п÷я─п╦п╪п╣я─ я┬п╟п╠п╩п╬п╫п╬п╡:
  * 
- * NAME [пакет] [имя класса] [название ODISP action] 
+ * NAME [п©п╟п╨п╣я┌] [п╦п╪я▐ п╨п╩п╟я│я│п╟] [п╫п╟п╥п╡п╟п╫п╦п╣ ODISP action] 
  * 
- * IMPORT [пакет] (*)
+ * IMPORT [п©п╟п╨п╣я┌] (*)
  * 
- * AUTHOR [автор (для тега (a)author)] (*)
+ * AUTHOR [п╟п╡я┌п╬я─ (п╢п╩я▐ я┌п╣пЁп╟ (a)author)] (*)
  * 
- * DESC [описание сообщения] (*) 
+ * DESC [п╬п©п╦я│п╟п╫п╦п╣ я│п╬п╬п╠я┴п╣п╫п╦я▐] (*) 
  * 
- * FIELD [имя поля (с заглавной буквы)] [тип поля]
+ * FIELD [п╦п╪я▐ п©п╬п╩я▐ (я│ п╥п╟пЁп╩п╟п╡п╫п╬п╧ п╠я┐п╨п╡я▀)] [я┌п╦п© п©п╬п╩я▐]
  * 
- * FCHECK [имя поля] [выражение для проверки в boolean checkMessage()] (**)
+ * FCHECK [п╦п╪я▐ п©п╬п╩я▐] [п╡я▀я─п╟п╤п╣п╫п╦п╣ п╢п╩я▐ п©я─п╬п╡п╣я─п╨п╦ п╡ boolean checkMessage()] (**)
  * 
- * FDESC [имя поля] [описание поля] (*) 
+ * FDESC [п╦п╪я▐ п©п╬п╩я▐] [п╬п©п╦я│п╟п╫п╦п╣ п©п╬п╩я▐] (*) 
  * 
- * DEFORIGIN [точка отправления по-умолчанию]
+ * DEFORIGIN [я┌п╬я┤п╨п╟ п╬я┌п©я─п╟п╡п╩п╣п╫п╦я▐ п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌]
  * 
- * DEFDEST [точка назначения по-умолчанию]
+ * DEFDEST [я┌п╬я┤п╨п╟ п╫п╟п╥п╫п╟я┤п╣п╫п╦я▐ п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌]
  *
- * DEFROUTABLE [Routable по-умолчанию]
+ * DEFROUTABLE [Routable п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌]
  * 
- * DEFREPLTO [номер сообщения на которое производится ответ по умолчанию]
+ * DEFREPLTO [п╫п╬п╪п╣я─ я│п╬п╬п╠я┴п╣п╫п╦я▐ п╫п╟ п╨п╬я┌п╬я─п╬п╣ п©я─п╬п╦п╥п╡п╬п╢п╦я┌я│я▐ п╬я┌п╡п╣я┌ п©п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌]
  * 
- * DEFOOB [OOB по-умолчанию]
+ * DEFOOB [OOB п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌]
  * 
  * VERBATIM (***)
  * 
- * Версия для тега (a)version берется из CVS-тега Id.
+ * п▓п╣я─я│п╦я▐ п╢п╩я▐ я┌п╣пЁп╟ (a)version п╠п╣я─п╣я┌я│я▐ п╦п╥ CVS-я┌п╣пЁп╟ Id.
  * 
- * (*) Поддерживаются multiline comments, все поля комментариев, должны
- * начинаться с нового ключевого слова. Например: AUTHOR 1 строка AUTHOR 2
- * строка
+ * (*) п÷п╬п╢п╢п╣я─п╤п╦п╡п╟я▌я┌я│я▐ multiline comments, п╡я│п╣ п©п╬п╩я▐ п╨п╬п╪п╪п╣п╫я┌п╟я─п╦п╣п╡, п╢п╬п╩п╤п╫я▀
+ * п╫п╟я┤п╦п╫п╟я┌я▄я│я▐ я│ п╫п╬п╡п╬пЁп╬ п╨п╩я▌я┤п╣п╡п╬пЁп╬ я│п╩п╬п╡п╟. п²п╟п©я─п╦п╪п╣я─: AUTHOR 1 я│я┌я─п╬п╨п╟ AUTHOR 2
+ * я│я┌я─п╬п╨п╟
  * 
- * (**) Значение по-умолчанию get[имя поля](msg) != null
+ * (**) п≈п╫п╟я┤п╣п╫п╦п╣ п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌ get[п╦п╪я▐ п©п╬п╩я▐](msg) != null
  * 
- * (***) VERBATIM включает режим переноса текста в результирующее сообщение.
- * Выключается повторным VERBATIM. Может встречаться несколько раз, но результат
- * будет выведен только в конце сообщения.
+ * (***) VERBATIM п╡п╨п╩я▌я┤п╟п╣я┌ я─п╣п╤п╦п╪ п©п╣я─п╣п╫п╬я│п╟ я┌п╣п╨я│я┌п╟ п╡ я─п╣п╥я┐п╩я▄я┌п╦я─я┐я▌я┴п╣п╣ я│п╬п╬п╠я┴п╣п╫п╦п╣.
+ * п▓я▀п╨п╩я▌я┤п╟п╣я┌я│я▐ п©п╬п╡я┌п╬я─п╫я▀п╪ VERBATIM. п°п╬п╤п╣я┌ п╡я│я┌я─п╣я┤п╟я┌я▄я│я▐ п╫п╣я│п╨п╬п╩я▄п╨п╬ я─п╟п╥, п╫п╬ я─п╣п╥я┐п╩я▄я┌п╟я┌
+ * п╠я┐п╢п╣я┌ п╡я▀п╡п╣п╢п╣п╫ я┌п╬п╩я▄п╨п╬ п╡ п╨п╬п╫я├п╣ я│п╬п╬п╠я┴п╣п╫п╦я▐.
  */
 public class TplFile {
   private String packageName;
@@ -126,9 +126,9 @@ public class TplFile {
   
   private TplFile notifyMessage;
 
-  /** Инициализация класса и разбор указанного файла.
-   * @param toParse файл для разбора
-   * @throws IOException в случае возникновения ошибок при работе с файлом
+  /** п≤п╫п╦я├п╦п╟п╩п╦п╥п╟я├п╦я▐ п╨п╩п╟я│я│п╟ п╦ я─п╟п╥п╠п╬я─ я┐п╨п╟п╥п╟п╫п╫п╬пЁп╬ я└п╟п╧п╩п╟.
+   * @param toParse я└п╟п╧п╩ п╢п╩я▐ я─п╟п╥п╠п╬я─п╟
+   * @throws IOException п╡ я│п╩я┐я┤п╟п╣ п╡п╬п╥п╫п╦п╨п╫п╬п╡п╣п╫п╦я▐ п╬я┬п╦п╠п╬п╨ п©я─п╦ я─п╟п╠п╬я┌п╣ я│ я└п╟п╧п╩п╬п╪
    */
   public TplFile(File toParse) throws IOException {
     fileName = toParse.getPath();
@@ -157,9 +157,9 @@ public class TplFile {
     readTpl(tplReader);    
   }
   
-  /** Создание класса по указанному родителю. 
-   * @param parent родительское сообщение
-   * @param _type тип сообщения, которое создаётся
+  /** п║п╬п╥п╢п╟п╫п╦п╣ п╨п╩п╟я│я│п╟ п©п╬ я┐п╨п╟п╥п╟п╫п╫п╬п╪я┐ я─п╬п╢п╦я┌п╣п╩я▌. 
+   * @param parent я─п╬п╢п╦я┌п╣п╩я▄я│п╨п╬п╣ я│п╬п╬п╠я┴п╣п╫п╦п╣
+   * @param _type я┌п╦п© я│п╬п╬п╠я┴п╣п╫п╦я▐, п╨п╬я┌п╬я─п╬п╣ я│п╬п╥п╢п╟я▒я┌я│я▐
    */
   public TplFile(final TplFile parent, final int _type) {
     packageName = new String(parent.packageName);
@@ -176,7 +176,7 @@ public class TplFile {
     }
     defaultRoutable = parent.defaultRoutable;
     defaultOOB = parent.defaultOOB;
-    // verbatim = new ArrayList(parent.verbatim); // Не копируется
+    // verbatim = new ArrayList(parent.verbatim); // п²п╣ п╨п╬п©п╦я─я┐п╣я┌я│я▐
     cvsId = new String(parent.cvsId);
     fields.putAll(parent.fields);
     fileName = new String(parent.fileName);
@@ -202,10 +202,10 @@ public class TplFile {
     }
   }
   
-  /** Конструктор для создания шаблона сообщения на лету.
+  /** п п╬п╫я│я┌я─я┐п╨я┌п╬я─ п╢п╩я▐ я│п╬п╥п╢п╟п╫п╦я▐ я┬п╟п╠п╩п╬п╫п╟ я│п╬п╬п╠я┴п╣п╫п╦я▐ п╫п╟ п╩п╣я┌я┐.
    */
   public TplFile() {
-    // делать вобщем-то и нечего ;)
+    // п╢п╣п╩п╟я┌я▄ п╡п╬п╠я┴п╣п╪-я┌п╬ п╦ п╫п╣я┤п╣пЁп╬ ;)
   }
   
   public int getType() {
@@ -220,8 +220,8 @@ public class TplFile {
     return true;
   }
   
-  /** Обработчик строки .tpl файла
-   * @param tagLine строка .tpl файла
+  /** п·п╠я─п╟п╠п╬я┌я┤п╦п╨ я│я┌я─п╬п╨п╦ .tpl я└п╟п╧п╩п╟
+   * @param tagLine я│я┌я─п╬п╨п╟ .tpl я└п╟п╧п╩п╟
    */
   private void parseTagLine(final String tagLine) {
     if (tagLine.startsWith("NAME")) {
@@ -273,7 +273,7 @@ public class TplFile {
     } else if (tagLine.startsWith("NOTIFY")) { 
       _getNotifyMessage().parseTagLine(new String(tagLine.substring(6).trim()));
     } else if (!tagLine.startsWith("#")) {
-      //комментарии пропускаем
+      //п╨п╬п╪п╪п╣п╫я┌п╟я─п╦п╦ п©я─п╬п©я┐я│п╨п╟п╣п╪
       //TODO may be it's good to skip empty lines
       if (tagLine != "") {
         verbatim.add(tagLine);
@@ -315,8 +315,8 @@ public class TplFile {
   }
 
   
-  /** Получение записи о поле по имени.
-   * @param name имя поля
+  /** п÷п╬п╩я┐я┤п╣п╫п╦п╣ п╥п╟п©п╦я│п╦ п╬ п©п╬п╩п╣ п©п╬ п╦п╪п╣п╫п╦.
+   * @param name п╦п╪я▐ п©п╬п╩я▐
    */
   private FieldRecord getFieldRecordByName(final String name) {
     if (!fields.containsKey(name)) {

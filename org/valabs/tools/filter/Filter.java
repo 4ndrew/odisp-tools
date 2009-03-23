@@ -16,8 +16,8 @@
  */
 package org.valabs.tools.filter;
 
-/** Интерфейс классов реализующих фильтрацию.
- * @author <a href="mailto:valeks@valabs.spb.ru">Валентин А. Алексеев</a>
+/** п≤п╫я┌п╣я─я└п╣п╧я│ п╨п╩п╟я│я│п╬п╡ я─п╣п╟п╩п╦п╥я┐я▌я┴п╦я┘ я└п╦п╩я▄я┌я─п╟я├п╦я▌.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п▓п╟п╩п╣п╫я┌п╦п╫ п░. п░п╩п╣п╨я│п╣п╣п╡</a>
  * @version $Id: Filter.java,v 1.1 2005/04/27 14:01:34 valeks Exp $
  */
 public interface Filter {

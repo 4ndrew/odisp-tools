@@ -18,23 +18,23 @@ package org.valabs.tools.filter;
 
 import java.util.Iterator;
 
-/** Итератор с фильтрацией значений.
- * Реализация "жадная". При создании и после каждой операции производится поиск
- * следующего значения подпадающего под фильтр значения.
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+/** п≤я┌п╣я─п╟я┌п╬я─ я│ я└п╦п╩я▄я┌я─п╟я├п╦п╣п╧ п╥п╫п╟я┤п╣п╫п╦п╧.
+ * п═п╣п╟п╩п╦п╥п╟я├п╦я▐ "п╤п╟п╢п╫п╟я▐". п÷я─п╦ я│п╬п╥п╢п╟п╫п╦п╦ п╦ п©п╬я│п╩п╣ п╨п╟п╤п╢п╬п╧ п╬п©п╣я─п╟я├п╦п╦ п©я─п╬п╦п╥п╡п╬п╢п╦я┌я│я▐ п©п╬п╦я│п╨
+ * я│п╩п╣п╢я┐я▌я┴п╣пЁп╬ п╥п╫п╟я┤п╣п╫п╦я▐ п©п╬п╢п©п╟п╢п╟я▌я┴п╣пЁп╬ п©п╬п╢ я└п╦п╩я▄я┌я─ п╥п╫п╟я┤п╣п╫п╦я▐.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
  * @version $Id: FilteringIterator.java,v 1.2 2005/10/20 13:02:46 valeks Exp $
  */
 public class FilteringIterator implements Iterator {
-  /** Текущее значение. */
+  /** п╒п╣п╨я┐я┴п╣п╣ п╥п╫п╟я┤п╣п╫п╦п╣. */
   private Object currentValue;
-  /** Реальный итератор. */
+  /** п═п╣п╟п╩я▄п╫я▀п╧ п╦я┌п╣я─п╟я┌п╬я─. */
 	private Iterator realIt;
-  /** Фильтр. */
+  /** п╓п╦п╩я▄я┌я─. */
   private Filter filter;
 	
-  /** Создать фильтрующий итератор для заданного базового на основе данного фильтра.
-   * @param _realIt базовый итератор
-   * @param _filter фильтр
+  /** п║п╬п╥п╢п╟я┌я▄ я└п╦п╩я▄я┌я─я┐я▌я┴п╦п╧ п╦я┌п╣я─п╟я┌п╬я─ п╢п╩я▐ п╥п╟п╢п╟п╫п╫п╬пЁп╬ п╠п╟п╥п╬п╡п╬пЁп╬ п╫п╟ п╬я│п╫п╬п╡п╣ п╢п╟п╫п╫п╬пЁп╬ я└п╦п╩я▄я┌я─п╟.
+   * @param _realIt п╠п╟п╥п╬п╡я▀п╧ п╦я┌п╣я─п╟я┌п╬я─
+   * @param _filter я└п╦п╩я▄я┌я─
    */
 	public FilteringIterator(final Iterator _realIt, final Filter _filter) {
     filter = _filter;
@@ -42,21 +42,21 @@ public class FilteringIterator implements Iterator {
 	  findNextValue();
   }
   
-  /** Поиск следующего значения. */
+  /** п÷п╬п╦я│п╨ я│п╩п╣п╢я┐я▌я┴п╣пЁп╬ п╥п╫п╟я┤п╣п╫п╦я▐. */
   private void findNextValue() {
     do {
     currentValue = realIt.next();
     } while (!filter.accept(currentValue) && realIt.hasNext());
   }
   
-	/** Проверка существования следующего значения.
+	/** п÷я─п╬п╡п╣я─п╨п╟ я│я┐я┴п╣я│я┌п╡п╬п╡п╟п╫п╦я▐ я│п╩п╣п╢я┐я▌я┴п╣пЁп╬ п╥п╫п╟я┤п╣п╫п╦я▐.
 	 * @see java.util.Iterator#hasNext()
 	 */
 	public boolean hasNext() {
 	  return currentValue != null && filter.accept(currentValue);
 	}
 
-	/** Получение следующего значения из итератора.
+	/** п÷п╬п╩я┐я┤п╣п╫п╦п╣ я│п╩п╣п╢я┐я▌я┴п╣пЁп╬ п╥п╫п╟я┤п╣п╫п╦я▐ п╦п╥ п╦я┌п╣я─п╟я┌п╬я─п╟.
 	 * @see java.util.Iterator#next()
 	 */
 	public Object next() {
@@ -65,7 +65,7 @@ public class FilteringIterator implements Iterator {
     return oldCurrentValue;
 	}
 
-	/** Удаление текущего значения из итератора.
+	/** пёп╢п╟п╩п╣п╫п╦п╣ я┌п╣п╨я┐я┴п╣пЁп╬ п╥п╫п╟я┤п╣п╫п╦я▐ п╦п╥ п╦я┌п╣я─п╟я┌п╬я─п╟.
 	 * @see java.util.Iterator#remove()
 	 */
 	public void remove() {

@@ -22,7 +22,7 @@ import java.util.Iterator;
 
 /**
  * @author valeks
- * @author (C) 2005 НПП "Новел-ИЛ"
+ * @author (C) 2005 п²п÷п÷ "п²п╬п╡п╣п╩-п≤п⌡"
  * @version $Id: MessageFile_HTML.java,v 1.1 2005/07/01 09:17:29 valeks Exp $
  */
 public class MessageFile_HTML implements MessageFile {
@@ -43,7 +43,7 @@ public class MessageFile_HTML implements MessageFile {
 
 	    writeSetup(tplSource, out);
 
-	    write(out, "      <tr><td>Тип</td><td>Название</td><td>Описание</td></tr>\n");
+	    write(out, "      <tr><td>п╒п╦п©</td><td>п²п╟п╥п╡п╟п╫п╦п╣</td><td>п·п©п╦я│п╟п╫п╦п╣</td></tr>\n");
 	    final Iterator it = tplSource.getFields().keySet().iterator();
 	    while (it.hasNext()) {
 	      final String fieldName = (String) it.next();
@@ -79,7 +79,7 @@ public class MessageFile_HTML implements MessageFile {
 	 * @throws IOException
 	 */
 	private void writeVerbatim(TplFile tplSource, OutputStream out) throws IOException {
-		write(out, "      <tr><td><h3>Дополнительный код:</h3></td></tr>\n");
+		write(out, "      <tr><td><h3>п■п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╧ п╨п╬п╢:</h3></td></tr>\n");
 		write(out, "      <tr><td><pre>\n");
 		Iterator it = tplSource.getVerbatim().iterator();
 		while (it.hasNext()) {

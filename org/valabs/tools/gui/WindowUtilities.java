@@ -30,24 +30,24 @@ import java.awt.geom.Rectangle2D;
 
 
 /**
- * Этот класс содержит ряд вспомогательных методов для работы с окнами
- * приложения, в основном с JFrame'ом.
+ * п╜я┌п╬я┌ п╨п╩п╟я│я│ я│п╬п╢п╣я─п╤п╦я┌ я─я▐п╢ п╡я│п©п╬п╪п╬пЁп╟я┌п╣п╩я▄п╫я▀я┘ п╪п╣я┌п╬п╢п╬п╡ п╢п╩я▐ я─п╟п╠п╬я┌я▀ я│ п╬п╨п╫п╟п╪п╦
+ * п©я─п╦п╩п╬п╤п╣п╫п╦я▐, п╡ п╬я│п╫п╬п╡п╫п╬п╪ я│ JFrame'п╬п╪.
  * 
- * @author <a href="dron@novel-il.ru">Андрей А. Порохин</a>
- * @author (C) 2003-2006 НПП "Новел-ИЛ"
+ * @author <a href="dron@novel-il.ru">п░п╫п╢я─п╣п╧ п░. п÷п╬я─п╬я┘п╦п╫</a>
+ * @author (C) 2003-2006 п²п÷п÷ "п²п╬п╡п╣п╩-п≤п⌡"
  * @version $Id$
  */
 public final class WindowUtilities {
 
-  /** Данный конструктор никогда не должен быть вызван, так как
-   * WindowUtilities - класс, который не должен иметь экземпляров, потому как
-   * все методы класса являются статическими.
+  /** п■п╟п╫п╫я▀п╧ п╨п╬п╫я│я┌я─я┐п╨я┌п╬я─ п╫п╦п╨п╬пЁп╢п╟ п╫п╣ п╢п╬п╩п╤п╣п╫ п╠я▀я┌я▄ п╡я▀п╥п╡п╟п╫, я┌п╟п╨ п╨п╟п╨
+   * WindowUtilities - п╨п╩п╟я│я│, п╨п╬я┌п╬я─я▀п╧ п╫п╣ п╢п╬п╩п╤п╣п╫ п╦п╪п╣я┌я▄ я█п╨п╥п╣п╪п©п╩я▐я─п╬п╡, п©п╬я┌п╬п╪я┐ п╨п╟п╨
+   * п╡я│п╣ п╪п╣я┌п╬п╢я▀ п╨п╩п╟я│я│п╟ я▐п╡п╩я▐я▌я┌я│я▐ я│я┌п╟я┌п╦я┤п╣я│п╨п╦п╪п╦.
    */
-  private WindowUtilities() { /* не используемый конструктор */ }
+  private WindowUtilities() { /* п╫п╣ п╦я│п©п╬п╩я▄п╥я┐п╣п╪я▀п╧ п╨п╬п╫я│я┌я─я┐п╨я┌п╬я─ */ }
   
   /**
-   * Получение параметров графического девайса по-умолчанию (ведомого).
-   * @return Графические параметры.
+   * п÷п╬п╩я┐я┤п╣п╫п╦п╣ п©п╟я─п╟п╪п╣я┌я─п╬п╡ пЁя─п╟я└п╦я┤п╣я│п╨п╬пЁп╬ п╢п╣п╡п╟п╧я│п╟ п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌ (п╡п╣п╢п╬п╪п╬пЁп╬).
+   * @return п⌠я─п╟я└п╦я┤п╣я│п╨п╦п╣ п©п╟я─п╟п╪п╣я┌я─я▀.
    * @since 1.17
    */
   public static GraphicsConfiguration getDefaultGraphicsConfiguration() {
@@ -57,10 +57,10 @@ public final class WindowUtilities {
   }
 
   /**
-   * Изменяет координаты, перемещая окно на центр экрана. Начиная с 1.17 добавлена
-   * поддержка многомониторных конфигураций. 
-   * @param frame cсылка на окно (JFrame), которое необходимо переместить
-   * в центр экрана.
+   * п≤п╥п╪п╣п╫я▐п╣я┌ п╨п╬п╬я─п╢п╦п╫п╟я┌я▀, п©п╣я─п╣п╪п╣я┴п╟я▐ п╬п╨п╫п╬ п╫п╟ я├п╣п╫я┌я─ я█п╨я─п╟п╫п╟. п²п╟я┤п╦п╫п╟я▐ я│ 1.17 п╢п╬п╠п╟п╡п╩п╣п╫п╟
+   * п©п╬п╢п╢п╣я─п╤п╨п╟ п╪п╫п╬пЁп╬п╪п╬п╫п╦я┌п╬я─п╫я▀я┘ п╨п╬п╫я└п╦пЁя┐я─п╟я├п╦п╧. 
+   * @param frame cя│я▀п╩п╨п╟ п╫п╟ п╬п╨п╫п╬ (JFrame), п╨п╬я┌п╬я─п╬п╣ п╫п╣п╬п╠я┘п╬п╢п╦п╪п╬ п©п╣я─п╣п╪п╣я│я┌п╦я┌я▄
+   * п╡ я├п╣п╫я┌я─ я█п╨я─п╟п╫п╟.
    * @since v1.1
    */
   public static void centerWindow(Window frame) {
@@ -77,15 +77,15 @@ public final class WindowUtilities {
   }
    
   /**
-   * Добавляет компонент в контейнер (обёртка для GridBagLayout) при этом
-   * указываются опции GridBagLayout (gridx, gridy, gridwidth).
+   * п■п╬п╠п╟п╡п╩я▐п╣я┌ п╨п╬п╪п©п╬п╫п╣п╫я┌ п╡ п╨п╬п╫я┌п╣п╧п╫п╣я─ (п╬п╠я▒я─я┌п╨п╟ п╢п╩я▐ GridBagLayout) п©я─п╦ я█я┌п╬п╪
+   * я┐п╨п╟п╥я▀п╡п╟я▌я┌я│я▐ п╬п©я├п╦п╦ GridBagLayout (gridx, gridy, gridwidth).
    *
-   * @param container Ссылка на контейнер.
-   * @param component Компонент, котрый вставляется.
-   * @param c Параметры GridBagLayout.
-   * @param gridx X-составляющая.
-   * @param gridy Y-составляющая.
-   * @param gridwidth Занимаемое место
+   * @param container п║я│я▀п╩п╨п╟ п╫п╟ п╨п╬п╫я┌п╣п╧п╫п╣я─.
+   * @param component п п╬п╪п©п╬п╫п╣п╫я┌, п╨п╬я┌я─я▀п╧ п╡я│я┌п╟п╡п╩я▐п╣я┌я│я▐.
+   * @param c п÷п╟я─п╟п╪п╣я┌я─я▀ GridBagLayout.
+   * @param gridx X-я│п╬я│я┌п╟п╡п╩я▐я▌я┴п╟я▐.
+   * @param gridy Y-я│п╬я│я┌п╟п╡п╩я▐я▌я┴п╟я▐.
+   * @param gridwidth п≈п╟п╫п╦п╪п╟п╣п╪п╬п╣ п╪п╣я│я┌п╬
    */
   public static void addObjectToContainer(Container container,
           Component component, GridBagConstraints c, int gridx, int gridy,
@@ -97,14 +97,14 @@ public final class WindowUtilities {
   }
    
   /**
-   * Добавляет компонент в контейнер (обёртка для GridBagLayout) при этом указываются
-   * опции GridBagLayout (gridx, gridy, gridwidth = 1).
+   * п■п╬п╠п╟п╡п╩я▐п╣я┌ п╨п╬п╪п©п╬п╫п╣п╫я┌ п╡ п╨п╬п╫я┌п╣п╧п╫п╣я─ (п╬п╠я▒я─я┌п╨п╟ п╢п╩я▐ GridBagLayout) п©я─п╦ я█я┌п╬п╪ я┐п╨п╟п╥я▀п╡п╟я▌я┌я│я▐
+   * п╬п©я├п╦п╦ GridBagLayout (gridx, gridy, gridwidth = 1).
    * 
-   * @param container Ссылка на контейнер.
-   * @param component Компонент, котрый вставляется.
-   * @param c Параметры GridBagLayout.
-   * @param gridx X-составляющая.
-   * @param gridy Y-составляющая.
+   * @param container п║я│я▀п╩п╨п╟ п╫п╟ п╨п╬п╫я┌п╣п╧п╫п╣я─.
+   * @param component п п╬п╪п©п╬п╫п╣п╫я┌, п╨п╬я┌я─я▀п╧ п╡я│я┌п╟п╡п╩я▐п╣я┌я│я▐.
+   * @param c п÷п╟я─п╟п╪п╣я┌я─я▀ GridBagLayout.
+   * @param gridx X-я│п╬я│я┌п╟п╡п╩я▐я▌я┴п╟я▐.
+   * @param gridy Y-я│п╬я│я┌п╟п╡п╩я▐я▌я┴п╟я▐.
    */
   public static void addObjectToContainer(Container container,
           Component component, GridBagConstraints c, int gridx, int gridy) {
@@ -112,11 +112,11 @@ public final class WindowUtilities {
   }
   
   /**
-   * @param container Ссылка на контейнер.
-   * @param component Компонент, котрый вставляется.
-   * @param c Параметры GridBagLayout.
-   * @param gridwidth Ширина.
-   * @param gridheight Длинна.
+   * @param container п║я│я▀п╩п╨п╟ п╫п╟ п╨п╬п╫я┌п╣п╧п╫п╣я─.
+   * @param component п п╬п╪п©п╬п╫п╣п╫я┌, п╨п╬я┌я─я▀п╧ п╡я│я┌п╟п╡п╩я▐п╣я┌я│я▐.
+   * @param c п÷п╟я─п╟п╪п╣я┌я─я▀ GridBagLayout.
+   * @param gridwidth п╗п╦я─п╦п╫п╟.
+   * @param gridheight п■п╩п╦п╫п╫п╟.
    */
   public static void addObjectToContainerRelative(Container container,
           Container component, GridBagConstraints c, int gridwidth,
@@ -127,11 +127,11 @@ public final class WindowUtilities {
   }
 
   /**
-   * Получение границ текста.
+   * п÷п╬п╩я┐я┤п╣п╫п╦п╣ пЁя─п╟п╫п╦я├ я┌п╣п╨я│я┌п╟.
    * 
-   * @param g Графический контекст.
-   * @param text Текст.
-   * @return Границы текста.
+   * @param g п⌠я─п╟я└п╦я┤п╣я│п╨п╦п╧ п╨п╬п╫я┌п╣п╨я│я┌.
+   * @param text п╒п╣п╨я│я┌.
+   * @return п⌠я─п╟п╫п╦я├я▀ я┌п╣п╨я│я┌п╟.
    */
   public static Rectangle2D getTextBounds(Graphics g, String text) {
     FontMetrics fm = g.getFontMetrics();
@@ -139,11 +139,11 @@ public final class WindowUtilities {
   }
   
   /**
-   * Получение ширины текста.
+   * п÷п╬п╩я┐я┤п╣п╫п╦п╣ я┬п╦я─п╦п╫я▀ я┌п╣п╨я│я┌п╟.
    * 
-   * @param g Графический контекст.
-   * @param text Текст.
-   * @return Ширина текста в пикселях.
+   * @param g п⌠я─п╟я└п╦я┤п╣я│п╨п╦п╧ п╨п╬п╫я┌п╣п╨я│я┌.
+   * @param text п╒п╣п╨я│я┌.
+   * @return п╗п╦я─п╦п╫п╟ я┌п╣п╨я│я┌п╟ п╡ п©п╦п╨я│п╣п╩я▐я┘.
    */
   public static int getTextWidth(Graphics g, String text) {
     Rectangle2D r = getTextBounds(g, text);

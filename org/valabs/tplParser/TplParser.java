@@ -26,34 +26,34 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-/** Утилита для генерации классов сообщений ODISP на основе шаблонов.
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
- * @author <a href="mailto:boris@novel-il.ru">Волковыский Борис В. </a>
+/** пёя┌п╦п╩п╦я┌п╟ п╢п╩я▐ пЁп╣п╫п╣я─п╟я├п╦п╦ п╨п╩п╟я│я│п╬п╡ я│п╬п╬п╠я┴п╣п╫п╦п╧ ODISP п╫п╟ п╬я│п╫п╬п╡п╣ я┬п╟п╠п╩п╬п╫п╬п╡.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
+ * @author <a href="mailto:boris@novel-il.ru">п▓п╬п╩п╨п╬п╡я▀я│п╨п╦п╧ п▒п╬я─п╦я│ п▓. </a>
  * @version $Id: TplParser.java,v 1.27 2006/01/23 11:12:39 valeks Exp $
  */
 
 public class TplParser {
-  /** Используется для режима только удаления файлов java-файлов. */
+  /** п≤я│п©п╬п╩я▄п╥я┐п╣я┌я│я▐ п╢п╩я▐ я─п╣п╤п╦п╪п╟ я┌п╬п╩я▄п╨п╬ я┐п╢п╟п╩п╣п╫п╦я▐ я└п╟п╧п╩п╬п╡ java-я└п╟п╧п╩п╬п╡. */
   private final boolean cleanOnly;
   
-  /** Создавать ли вывод на языке Java. */
+  /** п║п╬п╥п╢п╟п╡п╟я┌я▄ п╩п╦ п╡я▀п╡п╬п╢ п╫п╟ я▐п╥я▀п╨п╣ Java. */
   private boolean doJava = true;
-  /** Создавать ли документацию на языке HTML. */
+  /** п║п╬п╥п╢п╟п╡п╟я┌я▄ п╩п╦ п╢п╬п╨я┐п╪п╣п╫я┌п╟я├п╦я▌ п╫п╟ я▐п╥я▀п╨п╣ HTML. */
   private boolean doHTML = false;
 
-  /** Счётчик обработанных файлов. */
+  /** п║я┤я▒я┌я┤п╦п╨ п╬п╠я─п╟п╠п╬я┌п╟п╫п╫я▀я┘ я└п╟п╧п╩п╬п╡. */
   private int countProcessed = 0;
-  /** Счётчик пропущенных файлов из-за того, что он up-to-date. */
+  /** п║я┤я▒я┌я┤п╦п╨ п©я─п╬п©я┐я┴п╣п╫п╫я▀я┘ я└п╟п╧п╩п╬п╡ п╦п╥-п╥п╟ я┌п╬пЁп╬, я┤я┌п╬ п╬п╫ up-to-date. */
   private int countSkipped = 0;
-  /** Счётчик ошибок. */
+  /** п║я┤я▒я┌я┤п╦п╨ п╬я┬п╦п╠п╬п╨. */
   private int countError = 0;
   
   private List writers = new ArrayList();
 
   /**
-   * Главный класс парсера
+   * п⌠п╩п╟п╡п╫я▀п╧ п╨п╩п╟я│я│ п©п╟я─я│п╣я─п╟
    * 
-   * @param args параметры вызова
+   * @param args п©п╟я─п╟п╪п╣я┌я─я▀ п╡я▀п╥п╬п╡п╟
    */
   public static void main(String[] args) {
     boolean cleanOnly = false;
@@ -167,7 +167,7 @@ public class TplParser {
   }
 
   /**
-   * @return статистика работы парсера
+   * @return я│я┌п╟я┌п╦я│я┌п╦п╨п╟ я─п╟п╠п╬я┌я▀ п©п╟я─я│п╣я─п╟
    */
   public String toString() {
   	String result = (countProcessed + countSkipped + countError) + " parsed, " + countProcessed
@@ -180,9 +180,9 @@ public class TplParser {
   }
 
   /**
-   * Рекурсивный поиск файлов по директориям
+   * п═п╣п╨я┐я─я│п╦п╡п╫я▀п╧ п©п╬п╦я│п╨ я└п╟п╧п╩п╬п╡ п©п╬ п╢п╦я─п╣п╨я┌п╬я─п╦я▐п╪
    * 
-   * @param dirToCheck указатель на директорию где искать
+   * @param dirToCheck я┐п╨п╟п╥п╟я┌п╣п╩я▄ п╫п╟ п╢п╦я─п╣п╨я┌п╬я─п╦я▌ пЁп╢п╣ п╦я│п╨п╟я┌я▄
    */
   private List listDir(final File dirToCheck) {
     final List result = new ArrayList();

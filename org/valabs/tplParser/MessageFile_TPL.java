@@ -22,9 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 
 
-/** Создание TPL файла по заданной структуре.
- * Набросок для tplclipse.
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+/** п║п╬п╥п╢п╟п╫п╦п╣ TPL я└п╟п╧п╩п╟ п©п╬ п╥п╟п╢п╟п╫п╫п╬п╧ я│я┌я─я┐п╨я┌я┐я─п╣.
+ * п²п╟п╠я─п╬я│п╬п╨ п╢п╩я▐ tplclipse.
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
  * @version $Id: MessageFile_TPL.java,v 1.3 2006/01/23 11:11:30 valeks Exp $
  */
 public class MessageFile_TPL implements MessageFile {
@@ -47,7 +47,7 @@ public class MessageFile_TPL implements MessageFile {
     }
   }
   
-  /** Вывод списка с заданным префиксом.
+  /** п▓я▀п╡п╬п╢ я│п©п╦я│п╨п╟ я│ п╥п╟п╢п╟п╫п╫я▀п╪ п©я─п╣я└п╦п╨я│п╬п╪.
    * @param toPrint
    * @param prefix
    * @param out

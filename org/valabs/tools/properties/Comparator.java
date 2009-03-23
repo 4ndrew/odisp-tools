@@ -21,11 +21,11 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.Properties;
 
-/** Сравнение файлов языковой поддержки на предмет полноты набора ключей
- * перевода.
+/** п║я─п╟п╡п╫п╣п╫п╦п╣ я└п╟п╧п╩п╬п╡ я▐п╥я▀п╨п╬п╡п╬п╧ п©п╬п╢п╢п╣я─п╤п╨п╦ п╫п╟ п©я─п╣п╢п╪п╣я┌ п©п╬п╩п╫п╬я┌я▀ п╫п╟п╠п╬я─п╟ п╨п╩я▌я┤п╣п╧
+ * п©п╣я─п╣п╡п╬п╢п╟.
  * 
  * @author <a href="dron@novel-il.ru">Your_Realname</a>
- * @author (C) 2004 НПП "Новел-ИЛ"
+ * @author (C) 2004 п²п÷п÷ "п²п╬п╡п╣п╩-п≤п⌡"
  * @version $Id: Comparator.java,v 1.3 2004/11/01 11:04:19 dron Exp $
  */
 public class Comparator {

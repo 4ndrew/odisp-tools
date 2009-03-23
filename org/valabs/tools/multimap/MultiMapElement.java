@@ -20,32 +20,32 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/** Элемент таблицы MultiMap. 
- * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>
+/** п╜п╩п╣п╪п╣п╫я┌ я┌п╟п╠п╩п╦я├я▀ MultiMap. 
+ * @author <a href="mailto:valeks@valabs.spb.ru">п░п╩п╣п╨я│п╣п╣п╡ п▓п╟п╩п╣п╫я┌п╦п╫ п░.</a>
  * @version $Id: MultiMapElement.java,v 1.3 2005/07/22 15:34:33 valeks Exp $
  */
 public class MultiMapElement extends ArrayList {
-	/** Конструктор по-умолчанию. */
+	/** п п╬п╫я│я┌я─я┐п╨я┌п╬я─ п©п╬-я┐п╪п╬п╩я┤п╟п╫п╦я▌. */
 	public MultiMapElement() {
 		super();
 	}
 	
-	/** Конструктор для заданного минимального кол-ва элементов.
-	 * @param cols минимальное кол-во элементов 
+	/** п п╬п╫я│я┌я─я┐п╨я┌п╬я─ п╢п╩я▐ п╥п╟п╢п╟п╫п╫п╬пЁп╬ п╪п╦п╫п╦п╪п╟п╩я▄п╫п╬пЁп╬ п╨п╬п╩-п╡п╟ я█п╩п╣п╪п╣п╫я┌п╬п╡.
+	 * @param cols п╪п╦п╫п╦п╪п╟п╩я▄п╫п╬п╣ п╨п╬п╩-п╡п╬ я█п╩п╣п╪п╣п╫я┌п╬п╡ 
 	 */
 	public MultiMapElement(int cols) {
 		super(cols);
 	}
 	
-	/** Создание строки на основе списка значений.
-	 * @param elements список значений
+	/** п║п╬п╥п╢п╟п╫п╦п╣ я│я┌я─п╬п╨п╦ п╫п╟ п╬я│п╫п╬п╡п╣ я│п©п╦я│п╨п╟ п╥п╫п╟я┤п╣п╫п╦п╧.
+	 * @param elements я│п©п╦я│п╬п╨ п╥п╫п╟я┤п╣п╫п╦п╧
 	 */
 	public MultiMapElement(Collection elements) {
 		addAll(elements);
 	}
 	
-	/** Создание строки на основе массива значение.
-	 * @param elements массив элементов
+	/** п║п╬п╥п╢п╟п╫п╦п╣ я│я┌я─п╬п╨п╦ п╫п╟ п╬я│п╫п╬п╡п╣ п╪п╟я│я│п╦п╡п╟ п╥п╫п╟я┤п╣п╫п╦п╣.
+	 * @param elements п╪п╟я│я│п╦п╡ я█п╩п╣п╪п╣п╫я┌п╬п╡
 	 */
 	public MultiMapElement(Object[] elements) {
 		for (int i = 0; i < elements.length; i++) {
@@ -53,30 +53,30 @@ public class MultiMapElement extends ArrayList {
 		}
 	}
 	
-	/** Задание значение на указанном столбце.
-	 * @param column номер столбца
-	 * @param value значение на столбце
+	/** п≈п╟п╢п╟п╫п╦п╣ п╥п╫п╟я┤п╣п╫п╦п╣ п╫п╟ я┐п╨п╟п╥п╟п╫п╫п╬п╪ я│я┌п╬п╩п╠я├п╣.
+	 * @param column п╫п╬п╪п╣я─ я│я┌п╬п╩п╠я├п╟
+	 * @param value п╥п╫п╟я┤п╣п╫п╦п╣ п╫п╟ я│я┌п╬п╩п╠я├п╣
 	 * @see List#add(int, java.lang.Object)
-	 * @return ссылка на изменённый элемент
+	 * @return я│я│я▀п╩п╨п╟ п╫п╟ п╦п╥п╪п╣п╫я▒п╫п╫я▀п╧ я█п╩п╣п╪п╣п╫я┌
 	 */
 	public MultiMapElement c(int column, Object value) {
 		add(column, value);
 		return this;
 	}
 	
-	/** Задание значение на следующем по порядку столбце.
-	 * @param value значение на столбце
+	/** п≈п╟п╢п╟п╫п╦п╣ п╥п╫п╟я┤п╣п╫п╦п╣ п╫п╟ я│п╩п╣п╢я┐я▌я┴п╣п╪ п©п╬ п©п╬я─я▐п╢п╨я┐ я│я┌п╬п╩п╠я├п╣.
+	 * @param value п╥п╫п╟я┤п╣п╫п╦п╣ п╫п╟ я│я┌п╬п╩п╠я├п╣
 	 * @see List#add(java.lang.Object)
-	 * @return ссылка на изменённый элемент
+	 * @return я│я│я▀п╩п╨п╟ п╫п╟ п╦п╥п╪п╣п╫я▒п╫п╫я▀п╧ я█п╩п╣п╪п╣п╫я┌
 	 */
 	public MultiMapElement c(Object value) {
 		add(value);
 		return this;
 	}
 	
-	/** Добавление элементов из массива.
-	 * @param values массив значений
-	 * @return ссылка на текущую строку
+	/** п■п╬п╠п╟п╡п╩п╣п╫п╦п╣ я█п╩п╣п╪п╣п╫я┌п╬п╡ п╦п╥ п╪п╟я│я│п╦п╡п╟.
+	 * @param values п╪п╟я│я│п╦п╡ п╥п╫п╟я┤п╣п╫п╦п╧
+	 * @return я│я│я▀п╩п╨п╟ п╫п╟ я┌п╣п╨я┐я┴я┐я▌ я│я┌я─п╬п╨я┐
 	 */
 	public MultiMapElement c(Object[] values) {
 		for (int i = 0; i < values.length; i++) {
@@ -85,10 +85,10 @@ public class MultiMapElement extends ArrayList {
 		return this;
 	}
 
-	/** Добавление элементов из массива.
-	 * @param values массив значений
+	/** п■п╬п╠п╟п╡п╩п╣п╫п╦п╣ я█п╩п╣п╪п╣п╫я┌п╬п╡ п╦п╥ п╪п╟я│я│п╦п╡п╟.
+	 * @param values п╪п╟я│я│п╦п╡ п╥п╫п╟я┤п╣п╫п╦п╧
 	 * @see List#addAll(java.util.Collection)
-	 * @return ссылка на текущую строку
+	 * @return я│я│я▀п╩п╨п╟ п╫п╟ я┌п╣п╨я┐я┴я┐я▌ я│я┌я─п╬п╨я┐
 	 */
 	public MultiMapElement c(Collection values) {
 		addAll(values);

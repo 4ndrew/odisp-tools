@@ -17,25 +17,25 @@
 package org.valabs.tools.version;
 
 /**
- * Автоматическое получение версии класса из данных $Revision: 1.1 $ CVS
- * (ну или чего еще захочется). 
+ * п░п╡я┌п╬п╪п╟я┌п╦я┤п╣я│п╨п╬п╣ п©п╬п╩я┐я┤п╣п╫п╦п╣ п╡п╣я─я│п╦п╦ п╨п╩п╟я│я│п╟ п╦п╥ п╢п╟п╫п╫я▀я┘ $Revision: 1.1 $ CVS
+ * (п╫я┐ п╦п╩п╦ я┤п╣пЁп╬ п╣я┴п╣ п╥п╟я┘п╬я┤п╣я┌я│я▐). 
  * 
- * Пример использования:
+ * п÷я─п╦п╪п╣я─ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦я▐:
  * <code>
  * public static final String VERSION = CVSVersion.getCVSRevisionVersion("$Revision: 1.1 $");
  * </code>
  * 
- * @author <a href="boris@novel-il.ru">Борис В. Волковыский</a>
- * @author (C) 2004-2005 НПП "Новел-ИЛ"
+ * @author <a href="boris@novel-il.ru">п▒п╬я─п╦я│ п▓. п▓п╬п╩п╨п╬п╡я▀я│п╨п╦п╧</a>
+ * @author (C) 2004-2005 п²п÷п÷ "п²п╬п╡п╣п╩-п≤п⌡"
  * @version $Id: CVSVersion.java,v 1.1 2005/11/25 14:45:18 dron Exp $
  */
 public final class CVSVersion {
 
   /**
-   * Получение версии из CVS $Revision: 1.1 $
+   * п÷п╬п╩я┐я┤п╣п╫п╦п╣ п╡п╣я─я│п╦п╦ п╦п╥ CVS $Revision: 1.1 $
    * 
-   * @param revision должен быть "$Revision: 1.1 $"
-   * @return версия
+   * @param revision п╢п╬п╩п╤п╣п╫ п╠я▀я┌я▄ "$Revision: 1.1 $"
+   * @return п╡п╣я─я│п╦я▐
    */
   public static String getCVSRevisionVersion(String revision) {
     String[] version = revision.split(" ");
