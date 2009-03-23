@@ -1,12 +1,29 @@
-package test.com.novel.tools;
+/* ODISP -- Message Oriented Middleware
+ * Copyright (C) 2003-2005 Valentin A. Alekseev
+ * Copyright (C) 2003-2005 Andrew A. Porohin 
+ * 
+ * ODISP is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1 of the License.
+ * 
+ * ODISP is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package test.org.valabs.tools;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.valabs.tools.filter.Filter;
+import org.valabs.tools.filter.FilteringMap;
+
 import junit.framework.TestCase;
 
-import com.novel.tools.filter.Filter;
-import com.novel.tools.filter.FilteringMap;
 
 /** Тесты для фильтрующего словаря.
  * @author <a href="mailto:valeks@valabs.spb.ru">Алексеев Валентин А.</a>

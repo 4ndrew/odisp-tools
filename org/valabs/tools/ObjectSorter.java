@@ -1,4 +1,4 @@
-package com.novel.tools;
+package org.valabs.tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
  * <li> Объекты с зависемостями и с 
  * </ul>
  * 
- * @author <a href="dron@novel-il.ru">Андрей А. Порохин</a>
- * @author (C) 2004 НПП "Новел-ИЛ"
+ * @author <a href="mailto:andrew.porokhin@gmail.com">Andrew A. Porokhin</a>
+ * @author <a href="mailto:valeks@valabs.spb.ru">Valentin A. Alekseev</a>
  * @version $Id: ObjectSorter.java,v 1.2 2005/07/22 15:04:32 dron Exp $
  */
 public class ObjectSorter {

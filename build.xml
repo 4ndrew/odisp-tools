@@ -3,6 +3,22 @@
 	  
 	 $Id: build.xml,v 1.8 2006/01/24 15:21:15 dron Exp $
      ====================================================================== -->
+<!-- ODISP - Message Oriented Middleware
+ * Copyright (C) 2003-2005 Valentin A. Alekseev
+ * Copyright (C) 2003-2005 Andrew A. Porohin 
+ * 
+ * ODISP is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1 of the License.
+ * 
+ * ODISP is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <project name="tplParser" default="all">
   
   <!-- Cleaning up output location. -->
@@ -17,12 +33,12 @@
     
   <!-- Build all java sources. -->
   <target name="build-tplParser" depends="pre-build-make-folder">
-    <javac debug="yes" srcdir="org" destdir="build"/>
+    <javac debug="yes" srcdir="org/valabs/tplParser" destdir="build" source="1.4"/>
   </target>
   
   <!-- Generate release JAR package. -->
   <target name="jar-tplParser" depends="build-tplParser">
-    <jar basedir="build" destfile="tplParser.jar" includes="org/**/*class" excludes="**/*html">
+    <jar basedir="build" destfile="tplParser.jar" includes="org/valabs/tplParser/**/*class" excludes="**/*html">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="org.valabs.tplParser.TplParser"/>
@@ -31,12 +47,12 @@
   </target>
   
   <!-- Build all java sources. -->
-  <target name="build-novel-tools" depends="pre-build-make-folder">
-    <javac srcdir="com" destdir="build" source="1.4"/>
+  <target name="build-tools" depends="pre-build-make-folder">
+    <javac srcdir="org/valabs/tools" destdir="build" source="1.4"/>
   </target>
     
-  <target name="jar-novel-tools" depends="build-novel-tools">
-    <jar basedir="build" destfile="novel-tools.jar" includes="com/**/*class" excludes="**/*html">
+  <target name="jar-tools" depends="build-tools">
+    <jar basedir="build" destfile="tools.jar" includes="org/valabs/tools/**/*class" excludes="**/*html">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
       </manifest>
@@ -44,5 +60,5 @@
   </target>
     
   <!-- Default target: build jar file. -->
-  <target name="all" depends="jar-tplParser, jar-novel-tools"/>
+  <target name="all" depends="jar-tplParser, jar-tools"/>
 </project>
