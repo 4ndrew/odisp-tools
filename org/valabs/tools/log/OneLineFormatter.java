@@ -16,6 +16,8 @@
  */
 package org.valabs.tools.log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -40,30 +42,42 @@ public class OneLineFormatter extends Formatter {
    */
   private static int recordidx = 0;
   public final String format(final LogRecord record) {
-    String result = "";
-    //    result+=sdf.format(new Date(record.getMillis()))+" ";
+    StringBuffer result = new StringBuffer(180);
     recordidx++;
-    result += logLevelToOneChar(record.getLevel().intValue())
-      + ":" + recordidx + " ";
-    result += record.getSourceClassName().substring(
-        record.getSourceClassName().lastIndexOf(".") + 1) + ".";
-    result += record.getSourceMethodName() + ": ";
-    result += record.getMessage() + ".";
+    result.append(logLevelToOneChar(record.getLevel().intValue()))
+      .append("(").append(record.getThreadID()).append("):").append(recordidx).append(" ");
+    
+    result.append(record.getSourceClassName().substring(record.getSourceClassName().lastIndexOf(".") + 1)).append(".");
+    
+    result.append(record.getSourceMethodName()).append(": ");
+    result.append(record.getMessage()).append(".");
     if (record.getParameters() != null 
       && record.getParameters().length > 0) {
       final Object[] params = record.getParameters();
       for (int i = 0; i < params.length - 1; i++) {
-        result += params[i].toString() + ", ";
+        result.append(params[i].toString()).append(", ");
       }
-      result += params[params.length].toString();
+      result.append(params[params.length].toString());
     }
-    result += "\n";
+    result.append("\n");
+    
+    // Print stack trace if available
+    if (record.getThrown() != null) {
+      try {
+          StringWriter sw = new StringWriter();
+          PrintWriter pw = new PrintWriter(sw);
+          record.getThrown().printStackTrace(pw);
+          pw.close();
+          result.append(sw.toString());
+      } catch (Exception ex) {
+      }
+    }
     
     if (record.getLevel() == Level.SEVERE) {
       System.out.print("\007");
     }
     
-    return result;
+    return result.toString();
   }
 
   private final String logLevelToOneChar(final int logLevel) {
@@ -74,8 +88,8 @@ public class OneLineFormatter extends Formatter {
       case WARNING: result ="W"; break;
       case CONFIG: result ="C"; break;
       case INFO: result ="I"; break;
-      case FINE: result ="f"; break;
-      case FINER: result ="F"; break;
+      case FINE: result ="F"; break;
+      case FINER: result ="f"; break;
       case FINEST: result ="d"; break;
       case Integer.MIN_VALUE: result ="a"; break;
       default: result = "~";
