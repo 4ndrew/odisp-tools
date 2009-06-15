@@ -72,26 +72,20 @@ class MessageFile_Java implements MessageFile {
 
     switch (tplSource.getType()) {
     case TplFile.TYPE_PLAIN:
-      System.out.print(", main");
       countMain++;
       break;
     case TplFile.TYPE_ERROR:
-      System.out.print(", error");
       countError++;
       break;
     case TplFile.TYPE_REPLY:
-      System.out.print(", reply");
       countReply++;
       break;
     case TplFile.TYPE_NOTIFY:
-      System.out.print(", notify");
       countNotify++;
       break;
     default:
       throw new IOException("Unknown message type used");
     }
-
-    System.out.print("(java)");
   }
 
   /**

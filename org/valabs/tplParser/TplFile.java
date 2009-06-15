@@ -142,7 +142,6 @@ public class TplFile {
     while ((line = tplReader.readLine()) != null) {
       parseTagLine(line);
     }
-    System.out.print("TPL parsed: " + fileName);
   }
   
   public TplFile(String _fileName, String source) throws IOException {

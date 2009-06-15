@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     14 June 2009
+	 
+	 ODISP tools
+	 (C) 2009 Andrew Porokhin <andrew.porokhin@gmail.com>
+     ====================================================================== -->
+<project name="tpl parser task" basedir=".">
+   <property name="dir.tools" value="."/>
+   <taskdef name="tpl" classname="org.valabs.tplParser.TplParserAntTask">
+       <classpath path="${dir.tools}/tplParser.jar"/>
+   </taskdef>
+</project>

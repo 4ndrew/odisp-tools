@@ -127,6 +127,7 @@ public class TplParser {
     final Iterator it = writers.iterator();
     while (it.hasNext()) {
       final MessageFile writer = (MessageFile) it.next();
+      final String extension = "(" + writer.getExtension() + ")";
       final String outputFileName = source.getFileName().replaceAll(".tpl$", writer.getExtension());
       final File javaFile = new File(outputFileName);
       if (cleanOnly) {
@@ -148,16 +149,22 @@ public class TplParser {
         countProcessed++;
       } else if (javaFile.lastModified() <= source.lastModified()) {
         countProcessed++;
+        
+        StringBuffer l = new StringBuffer("TPL parsed: ").append(source.getFileName()).append("main").append(extension);
         writer.writeFile(source, new FileOutputStream(outputFileName));
-        if (source.getErrorMessage() != null) {
-          writer.writeFile(source.getErrorMessage(), new FileOutputStream(source.getErrorMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
-        }
         if (source.getReplyMessage() != null) {
+          l.append("reply").append(extension);
           writer.writeFile(source.getReplyMessage(), new FileOutputStream(source.getReplyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
         }
+        if (source.getErrorMessage() != null) {
+          l.append("error").append(extension);
+          writer.writeFile(source.getErrorMessage(), new FileOutputStream(source.getErrorMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
+        }
         if (source.getNotifyMessage() != null) {
+          l.append("notify").append(extension);
           writer.writeFile(source.getNotifyMessage(), new FileOutputStream(source.getNotifyMessage().getFileName().replaceAll(".tpl$", writer.getExtension())));
         }
+        System.out.println(l.toString());
         System.out.println();
       } else {
         System.out.println();
