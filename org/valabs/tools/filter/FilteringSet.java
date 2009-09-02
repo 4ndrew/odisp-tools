@@ -20,8 +20,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-/** Фильтрующий Set.
- * @author valeks
+/**
+ * Filtered Set.
+ * 
+ * @author Copyright (C) 2003-2005 <a href="valentin.alekseev@gmail.com">Valentin A. Alekseev</a>
+ * @author Copyright (C) 2003-2009 <a href="andrew.porokhin@gmail.com">Andrew A. Porohin</a> 
  * @version $Id: FilteringSet.java,v 1.1 2005/04/27 14:01:34 valeks Exp $
  */
 public class FilteringSet implements Set {
@@ -32,6 +35,7 @@ public class FilteringSet implements Set {
 	public FilteringSet(final Set _backend, final Filter _filter) {
 		backend = _backend;
 		filter = _filter;
+		setupSize();
 	}
 	
 	private void setupSize() {

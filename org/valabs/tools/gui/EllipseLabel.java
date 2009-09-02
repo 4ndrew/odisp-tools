@@ -1,6 +1,7 @@
 /* ODISP -- Message Oriented Middleware
  * Copyright (C) 2003-2005 Valentin A. Alekseev
  * Copyright (C) 2003-2005 Andrew A. Porohin 
+ * Copyright (C) 2006 Kirill Likhodedov
  * 
  * ODISP is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -32,11 +33,12 @@ import javax.swing.JTextField;
  * path файла с использованием эллипса, т.е. таким образом, чтобы 
  * последняя папка в адресе отображается полностью, а предыдущие
  * заменяются многоточиями, если JLabel не помещается полностью.
- * @author <a href="loki@novel-il.ru">Кирилл Лиходедов</a>
- * @author (C) 2003-2004 НПП "Новел-ИЛ"
+ * 
+ * @author (C) 2006 <a href="mailto:kirill.likhodedov@gmail.com>Kirill Likhodedov</a>
  * @version $Id: EllipseLabel.java,v 1.4 2006/07/28 09:44:36 loki Exp $
  */
 public class EllipseLabel extends JTextField {
+  private static final long serialVersionUID = 5117507495944531570L;
   private String realText;
   private int width; //in pixels
   

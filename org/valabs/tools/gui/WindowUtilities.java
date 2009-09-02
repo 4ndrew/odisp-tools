@@ -18,6 +18,7 @@ package org.valabs.tools.gui;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -27,27 +28,27 @@ import java.awt.GridBagConstraints;
 import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.geom.Rectangle2D;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Этот класс содержит ряд вспомогательных методов для работы с окнами
- * приложения, в основном с JFrame'ом.
+ * This is util class to help with Window locationing and filling.
  * 
- * @author <a href="dron@novel-il.ru">Андрей А. Порохин</a>
- * @author (C) 2003-2006 НПП "Новел-ИЛ"
- * @version $Id$
+ * @author (C) 2003-2009 <a href="mailto:andrew.porokhin@gmail.com">Andrew Porokhin</a>
+ * @version 1.19
  */
 public final class WindowUtilities {
+  /** Logging capabilities */
+  private final static Logger log = Logger.getLogger(WindowUtilities.class.getName());
 
-  /** Данный конструктор никогда не должен быть вызван, так как
-   * WindowUtilities - класс, который не должен иметь экземпляров, потому как
-   * все методы класса являются статическими.
+  /** 
+   * Util class, there is no constructor available.
    */
-  private WindowUtilities() { /* не используемый конструктор */ }
+  private WindowUtilities() { /* Creation of this object is prohibited. */ }
   
   /**
-   * Получение параметров графического девайса по-умолчанию (ведомого).
-   * @return Графические параметры.
+   * Returns default graphics device configuration.
+   * @return Graphics configuration for default device.
    * @since 1.17
    */
   public static GraphicsConfiguration getDefaultGraphicsConfiguration() {
@@ -57,15 +58,22 @@ public final class WindowUtilities {
   }
 
   /**
-   * Изменяет координаты, перемещая окно на центр экрана. Начиная с 1.17 добавлена
-   * поддержка многомониторных конфигураций. 
-   * @param frame cсылка на окно (JFrame), которое необходимо переместить
-   * в центр экрана.
-   * @since v1.1
+   * Center window relative to default graphics device. Since 1.17 added support
+   * for multi-monitor configuration. 
+   * 
+   * @param frame Window that should be positioned.
+   * @since 1.1
    */
   public static void centerWindow(Window frame) {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice[] gs = ge.getScreenDevices();
+    
+    log.log(Level.INFO, "GS: {0}", gs);
+    log.log(Level.INFO, "Graphics devices: {0}", new Integer(gs.length));
+    
+    // TODO: As I remember that was a bug -- on one-monitor configuration
+    // GraphicsEnvironment.getDefaultScreenDevice works incorrectly. We should
+    // check this on all supported platforms.
     if (gs.length > 1) {
       Rectangle screenSize = getDefaultGraphicsConfiguration().getBounds();
       frame.setLocation(
@@ -74,6 +82,64 @@ public final class WindowUtilities {
     } else {
       frame.setLocationRelativeTo(null);
     }
+  }
+  
+  /**
+   * Center window relative to specified graphics device.
+   * 
+   * @param frame 
+   * @param device
+   * @since 1.19
+   */
+  public static void centerWindow(Window frame, GraphicsDevice device) {
+    Rectangle screenSize = device.getDefaultConfiguration().getBounds();
+    frame.setLocation(
+        screenSize.width / 2 - frame.getWidth() / 2,
+        screenSize.height / 2 - frame.getHeight() / 2);
+  }
+  
+  /**
+   * Set window size relative to screen size.
+   * 
+   * TODO: check this on dual-monitor configuration.
+   * 
+   * @param frame
+   * @param widthRatio
+   * @param heightRatio
+   * @since 1.19
+   */
+  public static void setWindowRelativeSize(Window frame, float widthRatio, float heightRatio) {
+    Rectangle screenSize = getDefaultGraphicsConfiguration().getBounds();
+    Dimension newSize = new Dimension(
+      Math.round(screenSize.width * widthRatio),
+      Math.round(screenSize.height * heightRatio));
+    log.log(Level.FINEST, "Setting up size to {0}", newSize);
+    frame.setSize(newSize);
+  }
+  
+  /**
+   * Set window size relative to screen size. Ignore widthRatio if width/height greater
+   * than maxWHRatio. 
+   * 
+   * @param frame Target window.
+   * @param widthRatio Width ratio.
+   * @param heightRatio Height ratio.
+   * @param maxWHRatio Maximum width/height ratio.
+   */
+  public static void setWindowRelativeSize(Window frame, float widthRatio, float heightRatio, float maxWHRatio) {
+    Rectangle screenSize = getDefaultGraphicsConfiguration().getBounds();
+    int newWidth = Math.round(screenSize.width * widthRatio);
+    int newHeight = Math.round(screenSize.height * heightRatio);
+    
+    if ((newWidth / newHeight) > maxWHRatio) {
+      newWidth = (int) (newHeight * maxWHRatio);
+    }
+    
+    Dimension newSize = new Dimension(
+      newWidth,
+      newHeight);
+    log.log(Level.FINEST, "Setting up size to {0}", newSize);
+    frame.setSize(newSize);
   }
    
   /**
@@ -127,11 +193,11 @@ public final class WindowUtilities {
   }
 
   /**
-   * Получение границ текста.
+   * Returns text bounds for specified graphics context.
    * 
-   * @param g Графический контекст.
-   * @param text Текст.
-   * @return Границы текста.
+   * @param g Graphics context.
+   * @param text Text to be drawn.
+   * @return Bounds of the text.
    */
   public static Rectangle2D getTextBounds(Graphics g, String text) {
     FontMetrics fm = g.getFontMetrics();
@@ -139,11 +205,11 @@ public final class WindowUtilities {
   }
   
   /**
-   * Получение ширины текста.
+   * Returns width of the text.
    * 
-   * @param g Графический контекст.
-   * @param text Текст.
-   * @return Ширина текста в пикселях.
+   * @param g Graphics context.
+   * @param text Text to be drawn.
+   * @return Width of the text in the pixels.
    */
   public static int getTextWidth(Graphics g, String text) {
     Rectangle2D r = getTextBounds(g, text);

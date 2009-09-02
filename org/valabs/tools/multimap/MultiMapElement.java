@@ -25,7 +25,9 @@ import java.util.List;
  * @version $Id: MultiMapElement.java,v 1.3 2005/07/22 15:34:33 valeks Exp $
  */
 public class MultiMapElement extends ArrayList {
-	/** Конструктор по-умолчанию. */
+  private static final long serialVersionUID = -41285914256284609L;
+
+  /** Конструктор по-умолчанию. */
 	public MultiMapElement() {
 		super();
 	}

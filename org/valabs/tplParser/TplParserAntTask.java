@@ -17,7 +17,6 @@
 package org.valabs.tplParser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -160,12 +159,10 @@ public class TplParserAntTask extends MatchingTask {
   }
   
   public void setSrc(File src) {
-    System.out.println("setSrc");
     this.srcDir = src;
   }
   
   public void setDest(File dest) {
-    System.out.println("setDest");
     this.destDir = dest;
   }
   
