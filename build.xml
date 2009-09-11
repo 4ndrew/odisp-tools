@@ -34,7 +34,20 @@
     
   <!-- Build all java sources. -->
   <target name="build-tplParser" depends="pre-build-make-folder">
-    <javac debug="yes" srcdir="org/valabs/tplParser" destdir="build" source="1.4"/>
+    <javac debug="yes" srcdir="src/org/valabs/tplParser" destdir="build" source="1.4"/>
+  </target>
+  
+  <!-- Build all java sources. -->
+  <target name="build-tools" depends="pre-build-make-folder">
+    <javac srcdir="src/org/valabs/tools" destdir="build" source="1.4"/>
+  </target>
+    
+  <target name="jar-tools" depends="build-tools">
+    <jar basedir="build" destfile="tools.jar" includes="org/valabs/tools/**/*class" excludes="**/*html">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+      </manifest>
+    </jar>
   </target>
   
   <!-- Generate release JAR package. -->
@@ -43,19 +56,6 @@
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Main-Class" value="org.valabs.tplParser.TplParser"/>
-      </manifest>
-    </jar>
-  </target>
-  
-  <!-- Build all java sources. -->
-  <target name="build-tools" depends="pre-build-make-folder">
-    <javac srcdir="org/valabs/tools" destdir="build" source="1.4"/>
-  </target>
-    
-  <target name="jar-tools" depends="build-tools">
-    <jar basedir="build" destfile="tools.jar" includes="org/valabs/tools/**/*class" excludes="**/*html">
-      <manifest>
-        <attribute name="Built-By" value="${user.name}"/>
       </manifest>
     </jar>
   </target>
