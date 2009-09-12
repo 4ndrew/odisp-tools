@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ODISP.  If not, see <http://www.gnu.org/licenses/>.
  */
-package test.org.valabs.tools;
+package org.valabs.tools;
 
 import java.util.ArrayList;
 import java.util.List;
